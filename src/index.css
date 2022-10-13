@@ -56,7 +56,7 @@ code {
 }
 
 #loginContainer {
-  background-color: var(--blue-3);
+  background-color: var(--blue-4);
   border-radius: 3px;
   font-size: 14px;
   margin: 2px;
@@ -78,4 +78,45 @@ code {
 
 .loginBoxField *:last-child {
   flex: 2;
+}
+
+#pageMenu {
+  display: flex;
+  justify-content: space-between;
+  margin: 2px 2px 0px 2px;
+}
+
+.pageMenuItem {
+  background-color: var(--blue-5);
+  flex: 1;
+  text-align: center;
+}
+
+.pageMenuItem.selected {
+  background-color: var(--blue-4);
+}
+
+.pageMenuItem:first-child {
+  border-top-left-radius: 3px;
+}
+
+.pageMenuItem:not(:first-child) {
+  border-left: 1px solid white;
+}
+
+.pageMenuItem:last-child {
+  border-top-right-radius: 3px;
+}
+
+.pageMenuItem:not(:last-child) {
+  border-right: 1px solid white;
+}
+
+.page {
+  background-color: var(--blue-4);
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  font-size: 14px;
+  margin: 0px 2px 2px 2px;
+  padding: 5px;
 }
