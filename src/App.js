@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import Container from './components/Container'
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(true)
   return (
     <div className="App">
-      <Container title="Container" />
+      <Container loggedIn={loggedIn} />
     </div>
   );
 }

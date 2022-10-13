@@ -1,14 +1,12 @@
-import PropTypes from 'prop-types'
+import Header from './Header'
 import React from 'react'
 
-const Container = (props) => {
+const Container = ({ loggedIn }) => {
   return (
-    <div>{props.title}</div>
+    <div id="container">
+      <Header loggedIn={loggedIn} />
+    </div>
   )
-}
-
-Container.propTypes = {
-    title: PropTypes.string.isRequired
 }
 
 export default Container
