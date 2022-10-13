@@ -24,16 +24,21 @@ code {
 #container {
   border: 1px solid var(--blue-0);
   border-radius: 5px;
+  margin: 5px;
   padding: 5px;
 }
 
 #header {
+  align-items: center;
   background-color: var(--blue-1);
-  border-radius: 2px;
+  border-radius: 3px;
   color: white;
   display: flex;
+  font-size: 18px;
+  height: 50px;
   justify-content: space-between;
-  padding: 5px;
+  margin: 2px;
+  padding: 5px 10px;
 }
 
 #logOutButton {
@@ -41,4 +46,35 @@ code {
   border: none;
   border-radius: 4px;
   color: white;
+  padding: 5px;
+}
+
+#logOutButton:hover {
+  background-color: var(--blue-4);
+  cursor: pointer;
+}
+
+#main {
+  background-color: var(--blue-3);
+  border-radius: 3px;
+  font-size: 14px;
+  margin: 2px;
+  padding: 5px;
+}
+
+#loginBox {
+  margin: 10px;
+}
+
+.loginBoxField {
+  display: flex;
+  margin: 2px;
+}
+
+.loginBoxField *:first-child {
+  flex: 1;
+}
+
+.loginBoxField *:last-child {
+  flex: 2;
 }
