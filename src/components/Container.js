@@ -1,12 +1,18 @@
 import Header from './Header'
 import React from 'react'
-import Main from './Main'
+import LoginContainer from './LoginContainer'
+import HomeContainer from './HomeContainer'
 
-const Container = ({ loggedIn, onLogin }) => {
+const Container = ({ loggedIn, onLogin, onLogout }) => {
   return (
     <div id="container">
-      <Header loggedIn={loggedIn} />
-      <Main onLogin={onLogin} />
+      <Header loggedIn={loggedIn} onLogout={onLogout} />
+      {
+        loggedIn ?
+        <HomeContainer /> :
+        <LoginContainer onLogin={onLogin} />
+      }
+      
     </div>
   )
 }

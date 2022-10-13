@@ -1,12 +1,12 @@
 import React from 'react'
 import LoginBox from './LoginBox'
 
-const Main = ({ onLogin }) => {
+const LoginContainer = ({ onLogin }) => {
   return (
-    <div id="main">
+    <div id="loginContainer">
       <LoginBox onLogin={onLogin} />
     </div>
   )
 }
 
-export default Main
+export default LoginContainer

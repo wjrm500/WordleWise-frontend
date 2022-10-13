@@ -1,12 +1,12 @@
-import LogOutButton from './LogOutButton'
+import LogoutButton from './LogoutButton'
 import PropTypes from 'prop-types'
 import React from 'react'
 
-const Header = ({ loggedIn }) => {
+const Header = ({ loggedIn, onLogout }) => {
   return (
     <div id="header">
         <div>Welcome to <b>Wordle Tracker</b></div>
-        { loggedIn ? <LogOutButton /> : '' }
+        { loggedIn ? <LogoutButton onLogout={onLogout} /> : '' }
     </div>
   )
 }

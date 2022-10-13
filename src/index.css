@@ -25,6 +25,7 @@ code {
   border: 1px solid var(--blue-0);
   border-radius: 5px;
   margin: 5px;
+  max-width: 500px;
   padding: 5px;
 }
 
@@ -41,7 +42,7 @@ code {
   padding: 5px 10px;
 }
 
-#logOutButton {
+#logoutButton {
   background-color: var(--blue-3);
   border: none;
   border-radius: 4px;
@@ -49,12 +50,12 @@ code {
   padding: 5px;
 }
 
-#logOutButton:hover {
+#logoutButton:hover {
   background-color: var(--blue-4);
   cursor: pointer;
 }
 
-#main {
+#loginContainer {
   background-color: var(--blue-3);
   border-radius: 3px;
   font-size: 14px;

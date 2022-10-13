@@ -1,9 +1,11 @@
 import React from 'react'
 
-const LogOutButton = () => {
+const LogoutButton = ({ onLogout }) => {
   return (
-    <button id="logOutButton">Log out</button>
+    <button id="logoutButton" onClick={onLogout}>
+        Log out
+    </button>
   )
 }
 
-export default LogOutButton
+export default LogoutButton
