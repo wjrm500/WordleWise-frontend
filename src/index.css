@@ -135,8 +135,22 @@ code {
   justify-content: space-between;
 }
 
+.arrow {
+  align-items: center;
+  color: var(--blue-1);
+  display: flex;
+  flex: 1;
+  justify-content: center;
+}
+
+.arrow:not(.active) {
+  color: var(--blue-5)
+}
+
 #scoreTable {
   border: 1px solid black;
+  flex: 5;
+  max-width: 250px;
   text-align: center;
   width: 75%;
 }

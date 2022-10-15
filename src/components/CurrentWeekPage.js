@@ -3,14 +3,16 @@ import React from 'react'
 import ScoreTable from './ScoreTable'
 
 const CurrentWeekPage = ({ cwData, cwIndex, setCwIndex }) => {
+  const leftArrowActive = cwIndex > 0
+  const rightArrowActive = cwIndex < cwData.length - 1
   return (
     <div id="currentWeekPage" className="page">
-      <div id="leftArrow" className="arrow">
-        <FaArrowLeft onClick={() => setCwIndex(cwIndex - 1)} />
+      <div id="leftArrow" className={leftArrowActive ? 'arrow active' : 'arrow'}>
+        <FaArrowLeft onClick={() => leftArrowActive ? setCwIndex(cwIndex - 1) : ''} />
       </div>
       <ScoreTable cwData={cwData} cwIndex={cwIndex} />
-      <div id="leftArrow" className="arrow">
-        <FaArrowRight onClick={() => setCwIndex(cwIndex + 1)} />
+      <div id="rightArrow" className={rightArrowActive ? 'arrow active' : 'arrow'}>
+        <FaArrowRight onClick={() => rightArrowActive ? setCwIndex(cwIndex + 1): ''} />
       </div>
     </div>
   )
