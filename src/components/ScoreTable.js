@@ -16,7 +16,7 @@ const ScoreTable = ({ cwData, cwIndex }) => {
       <tbody>
         {
           cwData[cwIndex].map(day => (
-            <tr key={day.Date} style={{fontFamily: "monospace"}}>
+            <tr key={day.Date}>
               <td>
                 {
                   new Date(
@@ -37,27 +37,19 @@ const ScoreTable = ({ cwData, cwIndex }) => {
             </tr>
           ))
         }
-
-
-        {/* {
-          currentWeek.map(x => (
-            <tr style={{fontFamily: "monospace"}}>
-              <td>
-              {
-                x.toLocaleString(
-                  undefined, {
-                    weekday: 'short',
-                    month: 'short',
-                    day: 'numeric'
-                  }
-                )
-              }
-              </td>
-              <td></td>
-              <td></td>
-            </tr>
-          ))
-        } */}
+        <tr>
+          <td></td>
+          <td>
+            {
+              cwData[cwIndex].reduce((score, day) => score + day.Kate, 0)
+            }
+          </td>
+          <td>
+            {
+              cwData[cwIndex].reduce((score, day) => score + day.Will, 0)
+            }
+          </td>
+        </tr>
       </tbody>
     </table>
   )

@@ -158,6 +158,7 @@ code {
 #scoreTable {
   border: 1px solid black;
   flex: 5;
+  font-family: monospace;
   max-width: 250px;
   text-align: center;
   width: 75%;
@@ -177,4 +178,8 @@ code {
 
 #scoreTable td:not(:first-child) {
   width: 25%
+}
+
+#scoreTable tr:last-child {
+  font-weight: bold;
 }
