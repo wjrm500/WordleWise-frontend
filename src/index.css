@@ -135,16 +135,24 @@ code {
   justify-content: space-between;
 }
 
-.arrow {
+.arrowContainer {
   align-items: center;
-  color: var(--blue-1);
   display: flex;
   flex: 1;
   justify-content: center;
 }
 
+.arrow {
+  color: var(--blue-1);
+}
+
 .arrow:not(.active) {
-  color: var(--blue-5)
+  color: var(--blue-5);
+}
+
+.arrow.active:hover {
+  cursor: pointer;
+  font-size: 1.3em;
 }
 
 #scoreTable {
