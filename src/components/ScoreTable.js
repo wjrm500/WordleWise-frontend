@@ -1,29 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-const ScoreTable = ({ cwData }) => {
-  // const sundayDayIndex = 0
-  // const mondayDayIndex = 1
-  // const currentDayIndex = new Date().getDay()
-  // const subtractor = currentDayIndex == sundayDayIndex ? 6 : currentDayIndex - mondayDayIndex
-  // let monday = new Date()
-  // monday.setDate(monday.getDate() - subtractor)
-  // let newDate = new Date()
-  // newDate.setDate(monday.getDate())
-  // const currentWeek = []
-  // for (let i = 0; i < 7; i++) {
-  //   let newDate = new Date()
-  //   newDate.setDate(monday.getDate() + i)
-  //   currentWeek.push(newDate)
-  // }
-  // console.log(currentWeek)
-  const numWeeks = cwData.length
-  let currentWeekIndex = numWeeks - 1
-  console.log(cwData[currentWeekIndex])
+const ScoreTable = ({ cwData, cwIndex }) => {
   return (
     <table id="scoreTable" cellSpacing={0}>
       <thead>
         <tr>
-          <th colSpan="3">Week 1</th>
+          <th colSpan="3">Week {cwIndex + 1}</th>
         </tr>
         <tr>
           <th>Day</th>
@@ -33,8 +15,8 @@ const ScoreTable = ({ cwData }) => {
       </thead>
       <tbody>
         {
-          cwData[currentWeekIndex].map(day => (
-            <tr style={{fontFamily: "monospace"}}>
+          cwData[cwIndex].map(day => (
+            <tr key={day.Date} style={{fontFamily: "monospace"}}>
               <td>
                 {
                   new Date(

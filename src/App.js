@@ -3,20 +3,22 @@ import Container from './components/Container'
 
 function App() {
   const [cwData, setCwData] = useState({})
+  const [cwIndex, setCwIndex] = useState(0)
   useEffect(() => {
     fetch("http://localhost:5000/currentWeekData")
       .then((resp) => resp.json())
       .then((json) => {
-        console.log(json)
         setCwData(json)
+        setCwIndex(cwData.length - 1)
       })
-  }, [])
+  }, [cwData.length])
+  
   const [loggedIn, setLoggedIn] = useState(false)
   const onLogin = () => setLoggedIn(true)
   const onLogout = () => setLoggedIn(false)
   return (
     <div className="App">
-      <Container loggedIn={loggedIn} onLogin={onLogin} onLogout={onLogout} cwData={cwData} />
+      <Container loggedIn={loggedIn} onLogin={onLogin} onLogout={onLogout} cwData={cwData} cwIndex={cwIndex} setCwIndex={setCwIndex} />
     </div>
   );
 }

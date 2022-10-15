@@ -138,6 +138,7 @@ code {
 #scoreTable {
   border: 1px solid black;
   text-align: center;
+  width: 75%;
 }
 
 #scoreTable tr:nth-child(odd) {
@@ -146,4 +147,12 @@ code {
 
 #scoreTable th, #scoreTable td {
   padding: 0px 5px;
+}
+
+#scoreTable td:first-child {
+  width: 50%
+}
+
+#scoreTable td:not(:first-child) {
+  width: 25%
 }
