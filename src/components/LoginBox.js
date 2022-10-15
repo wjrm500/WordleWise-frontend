@@ -19,7 +19,7 @@ const LoginBox = ({ onLogin }) => {
             </div>
             <div className="loginBoxField">
                 <label>Password</label>
-                <input type="password" onChange={(e) => setPassword(e.target.value)} />
+                <input type="password" onChange={(e) => setPassword(e.target.value)} onKeyPress={(e) => e.key == 'Enter' ? onSubmit() : ''} />
             </div>
             <input type="submit" value="Submit" onClick={onSubmit} />
         </div>

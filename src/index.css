@@ -92,9 +92,18 @@ code {
   text-align: center;
 }
 
+.pageMenuItem:hover {
+  cursor: pointer;
+  font-weight: bold;
+}
+
 .pageMenuItem.selected {
   background-color: var(--blue-4);
 }
+
+.pageMenuItem:not(.selected) {
+  margin-bottom: 2px;
+} 
 
 .pageMenuItem:first-child {
   border-top-left-radius: 3px;
@@ -119,4 +128,22 @@ code {
   font-size: 14px;
   margin: 0px 2px 2px 2px;
   padding: 5px;
+}
+
+#currentWeekPage {
+  display: flex;
+  justify-content: space-between;
+}
+
+#scoreTable {
+  border: 1px solid black;
+  text-align: center;
+}
+
+#scoreTable tr:nth-child(odd) {
+  background-color: var(--blue-5);
+}
+
+#scoreTable th, #scoreTable td {
+  padding: 0px 5px;
 }

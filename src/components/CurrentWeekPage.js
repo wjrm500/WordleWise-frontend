@@ -1,9 +1,17 @@
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
 import React from 'react'
+import ScoreTable from './ScoreTable'
 
-const CurrentWeekPage = () => {
+const CurrentWeekPage = ({ cwData }) => {
   return (
-    <div className="page">
-      CurrentWeekPage
+    <div id="currentWeekPage" className="page">
+      <div id="leftArrow" className="arrow">
+        <FaArrowLeft />
+      </div>
+      <ScoreTable cwData={cwData} />
+      <div id="leftArrow" className="arrow">
+        <FaArrowRight />
+      </div>
     </div>
   )
 }
