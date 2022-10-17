@@ -5,7 +5,7 @@ function App() {
   const [cwData, setCwData] = useState({})
   const [cwIndex, setCwIndex] = useState(0)
   useEffect(() => {
-    fetch("http://localhost:5000/currentWeekData")
+    fetch("http://localhost:5000/getData")
       .then((resp) => resp.json())
       .then((json) => {
         setCwData(json)

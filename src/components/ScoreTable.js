@@ -21,8 +21,8 @@ const ScoreTable = ({ cwData, cwIndex }) => {
                 {
                   new Date(
                     day.Date.slice(0, 4),
-                    day.Date.slice(4, 6) - 1,
-                    day.Date.slice(6, 8)
+                    day.Date.slice(5, 7) - 1,
+                    day.Date.slice(8, 10)
                   ).toLocaleString(
                     undefined, {
                       weekday: 'short',
