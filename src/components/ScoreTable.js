@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
+import AddScoreButton from './AddScoreButton'
 
-const ScoreTable = ({ cwData, cwIndex }) => {
+const ScoreTable = ({ loggedInUser, cwData, cwIndex }) => {
   return (
     <table id="scoreTable" cellSpacing={0}>
       <thead>
@@ -15,27 +16,50 @@ const ScoreTable = ({ cwData, cwIndex }) => {
       </thead>
       <tbody>
         {
-          cwData[cwIndex].map(day => (
-            <tr key={day.Date}>
-              <td>
-                {
-                  new Date(
-                    day.Date.slice(0, 4),
-                    day.Date.slice(5, 7) - 1,
-                    day.Date.slice(8, 10)
-                  ).toLocaleString(
-                    undefined, {
-                      weekday: 'short',
-                      month: 'short',
-                      day: 'numeric'
-                    }
-                  )
-                }
-              </td>
-              <td>{day.Kate}</td>
-              <td>{day.Will}</td>
-            </tr>
-          ))
+          cwData[cwIndex].map(day => {
+            let date = new Date(
+              day.Date.slice(0, 4),
+              day.Date.slice(5, 7) - 1,
+              day.Date.slice(8, 10)
+            )
+            let dateToday = new Date()
+            let dateIsToday = date.getFullYear() == dateToday.getFullYear()
+              && date.getMonth() == dateToday.getMonth()
+              && date.getDate() == dateToday.getDate()
+            return (
+              <tr key={day.Date}>
+                <td>
+                  {
+                    new Date(
+                      day.Date.slice(0, 4),
+                      day.Date.slice(5, 7) - 1,
+                      day.Date.slice(8, 10)
+                    ).toLocaleString(
+                      undefined, {
+                        weekday: 'short',
+                        month: 'short',
+                        day: 'numeric'
+                      }
+                    )
+                  }
+                </td>
+                <td>
+                  {
+                    dateIsToday && loggedInUser == 'Kate'
+                    ? <AddScoreButton />
+                    : day.Kate
+                  }
+                </td>
+                <td>
+                  {
+                    dateIsToday && loggedInUser == 'Will'
+                    ? <AddScoreButton />
+                    : day.Will
+                  }
+                </td>
+              </tr>
+            )
+          })
         }
         <tr>
           <td></td>

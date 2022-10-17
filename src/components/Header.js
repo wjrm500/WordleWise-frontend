@@ -2,17 +2,17 @@ import LogoutButton from './LogoutButton'
 import PropTypes from 'prop-types'
 import React from 'react'
 
-const Header = ({ loggedIn, onLogout }) => {
+const Header = ({ loggedInUser, onLogout }) => {
   return (
     <div id="header">
         <div>Welcome to <b>Wordle Tracker</b></div>
-        { loggedIn ? <LogoutButton onLogout={onLogout} /> : '' }
+        { loggedInUser ? <LogoutButton onLogout={onLogout} /> : '' }
     </div>
   )
 }
 
-Header.propTypes = {
-    loggedIn: PropTypes.bool.isRequired
-}
+// Header.propTypes = {
+//   loggedInUser: PropTypes.string.isRequired
+// }
 
 export default Header

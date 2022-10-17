@@ -188,3 +188,7 @@ code {
 #scoreTable tr:last-child {
   font-weight: bold;
 }
+
+.addScoreButton {
+  background-color: green;
+}

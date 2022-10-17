@@ -9,7 +9,7 @@ const LoginBox = ({ onLogin }) => {
             alert('No!')
             return
         }
-        onLogin()
+        onLogin(username)
     }
     return (
         <div id="loginBox">

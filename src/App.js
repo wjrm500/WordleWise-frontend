@@ -13,12 +13,12 @@ function App() {
       })
   }, [cwData.length])
   
-  const [loggedIn, setLoggedIn] = useState(false)
-  const onLogin = () => setLoggedIn(true)
-  const onLogout = () => setLoggedIn(false)
+  const [loggedInUser, setLoggedInUser] = useState(null)
+  const onLogin = (username) => setLoggedInUser(username)
+  const onLogout = () => setLoggedInUser(null)
   return (
     <div className="App">
-      <Container loggedIn={loggedIn} onLogin={onLogin} onLogout={onLogout} cwData={cwData} cwIndex={cwIndex} setCwIndex={setCwIndex} />
+      <Container loggedInUser={loggedInUser} onLogin={onLogin} onLogout={onLogout} cwData={cwData} cwIndex={cwIndex} setCwIndex={setCwIndex} />
     </div>
   );
 }

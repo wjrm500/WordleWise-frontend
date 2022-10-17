@@ -3,13 +3,13 @@ import React from 'react'
 import LoginContainer from './LoginContainer'
 import HomeContainer from './HomeContainer'
 
-const Container = ({ loggedIn, onLogin, onLogout, cwData, cwIndex, setCwIndex }) => {
+const Container = ({ loggedInUser, onLogin, onLogout, cwData, cwIndex, setCwIndex }) => {
   return (
     <div id="container">
-      <Header loggedIn={loggedIn} onLogout={onLogout} />
+      <Header loggedInUser={loggedInUser} onLogout={onLogout} />
       {
-        loggedIn ?
-        <HomeContainer cwData={cwData} cwIndex={cwIndex} setCwIndex={setCwIndex} /> :
+        loggedInUser ?
+        <HomeContainer loggedInUser={loggedInUser} cwData={cwData} cwIndex={cwIndex} setCwIndex={setCwIndex} /> :
         <LoginContainer onLogin={onLogin} />
       }
       
