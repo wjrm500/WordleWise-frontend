@@ -191,4 +191,6 @@ code {
 
 .addScoreButton {
   background-color: green;
+  border: none;
+  color: white;
 }
