@@ -194,3 +194,32 @@ code {
   border: none;
   color: white;
 }
+
+#addScoreOverlay {
+  background-color: rgba(255, 255, 255, 0.8);
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+#addScoreModal {
+  align-items: center;
+  background-color: var(--blue-0);
+  color: white;
+  display: flex;
+  font-size: 1.2em;
+  font-weight: bold;
+  left: 50%;
+  padding: 10px;
+  position: fixed;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+#addScoreModal * {
+  padding: 2px;
+}
