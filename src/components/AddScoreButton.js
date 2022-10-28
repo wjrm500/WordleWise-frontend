@@ -1,8 +1,8 @@
 import React from 'react'
 
-const AddScoreButton = () => {
+const AddScoreButton = ({ onAddScoreButtonClick }) => {
   return (
-    <button className="addScoreButton">
+    <button className="addScoreButton" onClick={onAddScoreButtonClick}>
         Add
     </button>
   )

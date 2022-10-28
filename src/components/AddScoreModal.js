@@ -1,11 +1,12 @@
 import React from 'react'
 
-const AddScoreModal = () => {
+const AddScoreModal = ({ addScore }) => {
+  const onChange = () => addScore("2022-10-29", "Kate", 2)
   return (
     <div id="addScoreModal">
       <div>Add your score</div>
       <form>
-        <select name="score">
+        <select name="score" onChange={onChange}>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import AddScoreButton from './AddScoreButton'
 
-const ScoreTable = ({ loggedInUser, cwData, cwIndex }) => {
+const ScoreTable = ({ loggedInUser, cwData, cwIndex, onAddScoreButtonClick }) => {
   return (
     <table id="scoreTable" cellSpacing={0}>
       <thead>
@@ -45,15 +45,15 @@ const ScoreTable = ({ loggedInUser, cwData, cwIndex }) => {
                 </td>
                 <td>
                   {
-                    dateIsToday && loggedInUser == 'Kate'
-                    ? <AddScoreButton />
+                    dateIsToday && loggedInUser == 'Kate' && day.Kate == null
+                    ? <AddScoreButton onAddScoreButtonClick={onAddScoreButtonClick} />
                     : day.Kate
                   }
                 </td>
                 <td>
                   {
-                    dateIsToday && loggedInUser == 'Will'
-                    ? <AddScoreButton />
+                    dateIsToday && loggedInUser == 'Will' && day.Will == null
+                    ? <AddScoreButton onAddScoreButtonClick={onAddScoreButtonClick} />
                     : day.Will
                   }
                 </td>

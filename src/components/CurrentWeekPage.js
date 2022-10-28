@@ -1,22 +1,30 @@
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
-import React from 'react'
+import React, { useState } from 'react'
 import ScoreTable from './ScoreTable'
 import AddScoreModal from './AddScoreModal'
 import AddScoreOverlay from './AddScoreOverlay'
 
-const CurrentWeekPage = ({ loggedInUser, cwData, cwIndex, setCwIndex }) => {
+const CurrentWeekPage = ({ loggedInUser, addScore, cwData, cwIndex, setCwIndex }) => {
   const leftArrowActive = cwIndex > 0
   const rightArrowActive = cwIndex < cwData.length - 1
+  const [showAddScoreModal, setShowAddScoreModal] = useState(false)
+  const onAddScoreButtonClick = () => {
+    setShowAddScoreModal(true)
+  }
   return (
     <div id="currentWeekPage" className="page">
-      <AddScoreOverlay></AddScoreOverlay>
-      <AddScoreModal></AddScoreModal> 
+      {
+        showAddScoreModal ? <AddScoreOverlay /> : ""
+      }
+      {
+        showAddScoreModal ? <AddScoreModal addScore={addScore} /> : ""
+      }
       <div className="arrowContainer">
         <div id="leftArrow" className={leftArrowActive ? 'arrow active' : 'arrow'}>
           <FaArrowLeft onClick={() => leftArrowActive ? setCwIndex(cwIndex - 1) : ''} />
         </div>
       </div>
-      <ScoreTable loggedInUser={loggedInUser} cwData={cwData} cwIndex={cwIndex} />
+      <ScoreTable loggedInUser={loggedInUser} cwData={cwData} cwIndex={cwIndex} onAddScoreButtonClick={onAddScoreButtonClick} />
       <div className="arrowContainer">
         <div id="rightArrow" className={rightArrowActive ? 'arrow active' : 'arrow'}>
           <FaArrowRight onClick={() => rightArrowActive ? setCwIndex(cwIndex + 1): ''} />
