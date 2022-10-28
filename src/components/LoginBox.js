@@ -15,7 +15,7 @@ const LoginBox = ({ onLogin }) => {
         <div id="loginBox">
             <div className="loginBoxField">
                 <label>Username</label>
-                <input type="text" onChange={(e) => setUsername(e.target.value)} />
+                <input type="text" onChange={(e) => setUsername(e.target.value)} onKeyPress={(e) => e.key == 'Enter' ? onSubmit() : ''} />
             </div>
             <div className="loginBoxField">
                 <label>Password</label>
