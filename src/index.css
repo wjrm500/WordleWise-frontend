@@ -22,11 +22,22 @@ code {
 }
 
 #container {
-  border: 1px solid var(--blue-0);
-  border-radius: 5px;
   margin: 5px;
   max-width: 500px;
   padding: 5px;
+}
+
+@media (min-width:450px) {
+  .App {
+    align-items: center;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+  }
+
+  #container {
+    width: 400px;
+  }
 }
 
 #header {
@@ -51,7 +62,7 @@ code {
 }
 
 #logoutButton:hover {
-  background-color: var(--blue-4);
+  color: black;
   cursor: pointer;
 }
 
@@ -67,8 +78,13 @@ code {
   margin: 10px;
 }
 
+#loginBox input[type="submit"] {
+  margin: 2px;
+}
+
 .loginBoxField {
   display: flex;
+  flex-direction: column;
   margin: 2px;
 }
 
@@ -94,7 +110,7 @@ code {
 
 .pageMenuItem:hover {
   cursor: pointer;
-  font-weight: bold;
+  color: white;
 }
 
 .pageMenuItem.selected {
