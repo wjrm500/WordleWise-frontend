@@ -34,6 +34,7 @@ function App() {
           alert(json.error)
         }
       })
+      .catch(() => alert('Something went wrong. Is the server running?'))
   }
   const onLogout = () => setLoggedInUser(null)
   const addScore = (date, user, score) => {
