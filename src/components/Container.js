@@ -12,7 +12,6 @@ const Container = ({ loggedInUser, onLogin, onLogout, addScore, cwData, cwIndex,
         <HomeContainer loggedInUser={loggedInUser} addScore={addScore} cwData={cwData} cwIndex={cwIndex} setCwIndex={setCwIndex} /> :
         <LoginContainer onLogin={onLogin} />
       }
-      
     </div>
   )
 }

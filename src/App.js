@@ -2,8 +2,12 @@ import { useEffect, useState } from 'react';
 import Container from './components/Container'
 
 function App() {
+  /* Use states */
   const [cwData, setCwData] = useState({})
   const [cwIndex, setCwIndex] = useState(0)
+  const [loggedInUser, setLoggedInUser] = useState(null)
+
+  /* Functions */
   const getData = () => {
     fetch("http://localhost:5000/getData")
       .then((resp) => resp.json())
@@ -13,8 +17,6 @@ function App() {
         console.log(cwData)
       })
   }
-  useEffect(getData, [cwData.length])
-  const [loggedInUser, setLoggedInUser] = useState(null)
   const onLogin = (username) => setLoggedInUser(username)
   const onLogout = () => setLoggedInUser(null)
   const addScore = (date, user, score) => {
@@ -28,11 +30,12 @@ function App() {
       type: "cors",
       body: JSON.stringify({date, user, score})
     })
-      .then((resp) => resp.json())
-      .then((json) => {
-        getData()
-      })
+      .then(getData)
   }
+
+  /* Use effects */
+  useEffect(getData, [cwData.length])
+  
   return (
     <div className="App">
       <Container loggedInUser={loggedInUser} onLogin={onLogin} onLogout={onLogout} addScore={addScore} cwData={cwData} cwIndex={cwIndex} setCwIndex={setCwIndex} />
