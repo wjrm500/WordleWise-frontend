@@ -6,10 +6,10 @@ const LoginBox = ({ onLogin }) => {
     const [password, setPassword] = useState('')
     const onSubmit = () => {
         if (username == '' || password == '') {
-            alert('No!')
+            alert('Please enter both a username and a password')
             return
         }
-        onLogin(username)
+        onLogin(username, password)
     }
     return (
         <div id="loginBox">

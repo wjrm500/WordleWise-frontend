@@ -14,13 +14,29 @@ function App() {
       .then((json) => {
         setCwData(json)
         setCwIndex(cwData.length - 1)
-        console.log(cwData)
       })
   }
-  const onLogin = (username) => setLoggedInUser(username)
+  const onLogin = (username, password) => {
+    fetch("http://localhost:5000/login", {
+      method: "POST",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json"
+      },
+      type: "cors",
+      body: JSON.stringify({username, password})
+    })
+      .then((resp) => resp.json())
+      .then((json) => {
+        if (json.success) {
+          setLoggedInUser(username)
+        } else {
+          alert(json.error)
+        }
+      })
+  }
   const onLogout = () => setLoggedInUser(null)
   const addScore = (date, user, score) => {
-    console.log({date, user, score})
     fetch("http://localhost:5000/addScore", {
       method: "POST",
       headers: {

@@ -45,14 +45,14 @@ const ScoreTable = ({ loggedInUser, cwData, cwIndex, onAddScoreButtonClick }) =>
                 </td>
                 <td>
                   {
-                    dateIsToday && loggedInUser == 'Kate' && day.Kate == null
+                    dateIsToday && loggedInUser == 'kjem500' && day.Kate == null
                     ? <AddScoreButton onAddScoreButtonClick={onAddScoreButtonClick} />
                     : day.Kate
                   }
                 </td>
                 <td>
                   {
-                    dateIsToday && loggedInUser == 'Will' && day.Will == null
+                    dateIsToday && loggedInUser == 'wjrm500' && day.Will == null
                     ? <AddScoreButton onAddScoreButtonClick={onAddScoreButtonClick} />
                     : day.Will
                   }
