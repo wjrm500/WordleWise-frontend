@@ -1,12 +1,17 @@
 import React from 'react'
 
-const AddScoreModal = ({ addScore }) => {
-  const onChange = () => addScore("2022-10-29", "Kate", 2)
+const AddScoreModal = ({ loggedInUser, addScore, setShowAddScoreModal }) => {
+  const onChange = (event) => {
+    const dateToday = new Date().toLocaleDateString("en-GB", {timeZone: "Asia/Singapore"}).split("/").reverse().join("-")
+    addScore(dateToday, loggedInUser, event.target.value)
+    setShowAddScoreModal(false)
+  }
   return (
     <div id="addScoreModal">
       <div>Add your score</div>
       <form>
         <select name="score" onChange={onChange}>
+          <option value="" selected disabled>Select</option>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>

@@ -17,7 +17,7 @@ const CurrentWeekPage = ({ loggedInUser, addScore, cwData, cwIndex, setCwIndex }
         showAddScoreModal ? <AddScoreOverlay /> : ""
       }
       {
-        showAddScoreModal ? <AddScoreModal addScore={addScore} /> : ""
+        showAddScoreModal ? <AddScoreModal loggedInUser={loggedInUser} addScore={addScore} setShowAddScoreModal={setShowAddScoreModal} /> : ""
       }
       <div className="arrowContainer">
         <div id="leftArrow" className={leftArrowActive ? 'arrow active' : 'arrow'}>
