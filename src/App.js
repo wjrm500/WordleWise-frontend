@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import Container from './components/Container'
 
 function App() {
+  const SERVER_ADDR = "https://wordle-tracker-72t5.onrender.com"
+  // const SERVER_ADDR = "http://localhost:5000"
+
   /* Use states */
   const [cwData, setCwData] = useState({})
   const [cwIndex, setCwIndex] = useState(0)
@@ -9,7 +12,7 @@ function App() {
 
   /* Functions */
   const getData = () => {
-    fetch("http://localhost:5000/getData")
+    fetch(SERVER_ADDR + "/getData")
       .then((resp) => resp.json())
       .then((json) => {
         setCwData(json)
@@ -17,7 +20,7 @@ function App() {
       })
   }
   const onLogin = (username, password) => {
-    fetch("http://localhost:5000/login", {
+    fetch(SERVER_ADDR + "/login", {
       method: "POST",
       headers: {
         "Access-Control-Allow-Origin": "*",
@@ -38,7 +41,7 @@ function App() {
   }
   const onLogout = () => setLoggedInUser(null)
   const addScore = (date, user, score) => {
-    fetch("http://localhost:5000/addScore", {
+    fetch(SERVER_ADDR + "/addScore", {
       method: "POST",
       headers: {
         "Access-Control-Allow-Origin": "*",
