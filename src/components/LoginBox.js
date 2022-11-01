@@ -4,12 +4,15 @@ import React, { useState } from 'react'
 const LoginBox = ({ onLogin }) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [loginIsLoading, setLoginIsLoading] = useState(false)
+    const spinningLoader = require('../images/spinner-cropped.gif')
     const onSubmit = () => {
         if (username == '' || password == '') {
             alert('Please enter both a username and a password')
             return
         }
-        onLogin(username, password)
+        setLoginIsLoading(true)
+        onLogin(username, password, setLoginIsLoading)
     }
     return (
         <div id="loginBox">
@@ -21,7 +24,13 @@ const LoginBox = ({ onLogin }) => {
                 <label>Password</label>
                 <input type="password" onChange={(e) => setPassword(e.target.value)} onKeyPress={(e) => e.key == 'Enter' ? onSubmit() : ''} />
             </div>
-            <input type="submit" value="Submit" onClick={onSubmit} />
+            <button id="loginButton">
+                {
+                    loginIsLoading
+                    ? <img id="spinningLoader" src={spinningLoader} />
+                    : <input type="submit" value="Submit" onClick={onSubmit} />
+                }
+            </button>
         </div>
     )
 }

@@ -78,10 +78,6 @@ code {
   margin: 10px;
 }
 
-#loginBox input[type="submit"] {
-  margin: 2px;
-}
-
 .loginBoxField {
   display: flex;
   flex-direction: column;
@@ -94,6 +90,19 @@ code {
 
 .loginBoxField *:last-child {
   flex: 2;
+}
+
+#loginButton {
+  margin: 2px;
+}
+
+#loginButton input[type="submit"] {
+  border: none;
+  padding: 0px;
+}
+
+#loginButton #spinningLoader {
+  height: 12px;
 }
 
 #pageMenu {

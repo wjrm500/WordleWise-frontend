@@ -19,7 +19,7 @@ function App() {
         setCwIndex(cwData.length - 1)
       })
   }
-  const onLogin = (username, password) => {
+  const onLogin = (username, password, setLoginIsLoading) => {
     fetch(SERVER_ADDR + "/login", {
       method: "POST",
       headers: {
@@ -34,10 +34,14 @@ function App() {
         if (json.success) {
           setLoggedInUser(username)
         } else {
+          setLoginIsLoading(false)
           alert(json.error)
         }
       })
-      .catch(() => alert('Something went wrong. Is the server running?'))
+      .catch(() => {
+        setLoginIsLoading(false)
+        alert('Something went wrong. Is the server running?')
+      })
   }
   const onLogout = () => setLoggedInUser(null)
   const addScore = (date, user, score) => {
