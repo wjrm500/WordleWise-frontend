@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Container from './components/Container'
 
 function App() {
@@ -32,6 +32,7 @@ function App() {
       .then((json) => {
         if (json.success) {
           setLoggedInUser(username)
+          getData()
         } else {
           setLoginIsLoading(false)
           alert(json.error)
@@ -55,9 +56,6 @@ function App() {
     })
       .then(getData)
   }
-
-  /* Use effects */
-  useEffect(getData, [data.length])
   
   return (
     <div className="App">
