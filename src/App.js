@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import Container from './components/Container'
 
 function App() {
-  const SERVER_ADDR = "https://wordle-tracker-72t5.onrender.com"
-  // const SERVER_ADDR = "http://localhost:5000"
+  alert(process.env.REACT_APP_API_URL)
+  const SERVER_ADDR = process.env.REACT_APP_API_URL
 
   /* Use states */
   const [cwData, setCwData] = useState({})
