@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import Container from './components/Container'
 
 function App() {
-  alert(process.env.REACT_APP_API_URL)
   const SERVER_ADDR = process.env.REACT_APP_API_URL
 
   /* Use states */
