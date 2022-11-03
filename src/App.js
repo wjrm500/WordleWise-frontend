@@ -5,8 +5,8 @@ function App() {
   const SERVER_ADDR = process.env.REACT_APP_API_URL
 
   /* Use states */
-  const [cwData, setCwData] = useState({})
-  const [cwIndex, setCwIndex] = useState(0)
+  const [data, setData] = useState({})
+  const [maxIndex, setMaxIndex] = useState(0)
   const [loggedInUser, setLoggedInUser] = useState(null)
 
   /* Functions */
@@ -14,8 +14,8 @@ function App() {
     fetch(SERVER_ADDR + "/getData")
       .then((resp) => resp.json())
       .then((json) => {
-        setCwData(json)
-        setCwIndex(cwData.length - 1)
+        setData(json)
+        setMaxIndex(json.length - 1)
       })
   }
   const onLogin = (username, password, setLoginIsLoading) => {
@@ -57,11 +57,11 @@ function App() {
   }
 
   /* Use effects */
-  useEffect(getData, [cwData.length])
+  useEffect(getData, [data.length])
   
   return (
     <div className="App">
-      <Container loggedInUser={loggedInUser} onLogin={onLogin} onLogout={onLogout} addScore={addScore} cwData={cwData} cwIndex={cwIndex} setCwIndex={setCwIndex} />
+      <Container loggedInUser={loggedInUser} onLogin={onLogin} onLogout={onLogout} addScore={addScore} data={data} maxIndex={maxIndex} setMaxIndex={setMaxIndex} />
     </div>
   );
 }

@@ -2,7 +2,7 @@ import CurrentWeekPage from './CurrentWeekPage'
 import HistoryPage from './HistoryPage'
 import React, { useState } from 'react'
 
-const HomeContainer = ({ loggedInUser, addScore, cwData, cwIndex, setCwIndex }) => {
+const HomeContainer = ({ loggedInUser, addScore, data, maxIndex, setMaxIndex }) => {
   const CURRENT_WEEK_PAGE = 'cwp'
   const HISTORY_PAGE = 'hp'
   const [page, setPage] = useState(CURRENT_WEEK_PAGE)
@@ -21,7 +21,7 @@ const HomeContainer = ({ loggedInUser, addScore, cwData, cwIndex, setCwIndex }) 
       <div id="homeContainerPage">
         {
           page == CURRENT_WEEK_PAGE ?
-          <CurrentWeekPage loggedInUser={loggedInUser} addScore={addScore} cwData={cwData} cwIndex={cwIndex} setCwIndex={setCwIndex} /> :
+          <CurrentWeekPage loggedInUser={loggedInUser} addScore={addScore} data={data} maxIndex={maxIndex} setMaxIndex={setMaxIndex} /> :
           <HistoryPage />
         }
       </div>

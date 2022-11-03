@@ -101,10 +101,6 @@ code {
   padding: 0px;
 }
 
-#loginButton #spinningLoader {
-  height: 12px;
-}
-
 #pageMenu {
   display: flex;
   justify-content: space-between;

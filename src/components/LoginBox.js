@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
+import SpinningLoader from './SpinningLoader'
 
 const LoginBox = ({ onLogin }) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [loginIsLoading, setLoginIsLoading] = useState(false)
-    const spinningLoader = require('../images/spinner-cropped.gif')
     const onSubmit = () => {
         if (username == '' || password == '') {
             alert('Please enter both a username and a password')
@@ -27,7 +27,7 @@ const LoginBox = ({ onLogin }) => {
             <button id="loginButton">
                 {
                     loginIsLoading
-                    ? <img id="spinningLoader" src={spinningLoader} />
+                    ? <SpinningLoader />
                     : <input type="submit" value="Submit" onClick={onSubmit} />
                 }
             </button>
