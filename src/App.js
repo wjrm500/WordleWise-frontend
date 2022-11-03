@@ -6,7 +6,7 @@ function App() {
 
   /* Use states */
   const [data, setData] = useState({})
-  const [maxIndex, setMaxIndex] = useState(0)
+  const [maxIndex, setMaxIndex] = useState(-1)
   const [loggedInUser, setLoggedInUser] = useState(null)
 
   /* Functions */

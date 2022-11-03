@@ -26,7 +26,7 @@ const CurrentWeekPage = ({ loggedInUser, addScore, data, maxIndex, setMaxIndex }
         </div>
       </div>
       {
-        maxIndex
+        maxIndex >= 0
         ? <ScoreTable loggedInUser={loggedInUser} data={data} maxIndex={maxIndex} onAddScoreButtonClick={onAddScoreButtonClick} />
         : <SpinningLoader />
       }
