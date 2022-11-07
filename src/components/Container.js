@@ -8,7 +8,7 @@ const Container = ({ loggedInUser, onLogin, onLogout, addScore, data, maxIndex, 
     <div id="container">
       <Header loggedInUser={loggedInUser} onLogout={onLogout} />
       {
-        loggedInUser ?
+        sessionStorage.getItem('token') ?
         <HomeContainer loggedInUser={loggedInUser} addScore={addScore} data={data} maxIndex={maxIndex} setMaxIndex={setMaxIndex} /> :
         <LoginContainer onLogin={onLogin} />
       }

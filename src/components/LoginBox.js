@@ -6,8 +6,7 @@ const LoginBox = ({ onLogin }) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [loginIsLoading, setLoginIsLoading] = useState(false)
-    const onSubmit = (e) => {
-        e.preventDefault()
+    const onSubmit = () => {
         if (username == '' || password == '') {
             alert('Please enter both a username and a password')
             return
@@ -17,7 +16,7 @@ const LoginBox = ({ onLogin }) => {
     }
     return (
         <div id="loginBox">
-            <form method="post" onSubmit={onSubmit}>
+            <form method="post" onSubmit={(e) => e.preventDefault()}>
                 <div className="loginBoxField">
                     <label>Username</label>
                     <input type="text" onChange={(e) => setUsername(e.target.value)} onKeyPress={(e) => e.key == 'Enter' ? onSubmit() : ''} />
@@ -30,7 +29,7 @@ const LoginBox = ({ onLogin }) => {
                     {
                         loginIsLoading
                         ? <SpinningLoader />
-                        : <input type="submit" value="Submit" />
+                        : <input type="submit" value="Submit" onClick={onSubmit} />
                     }
                 </button>
             </form>
