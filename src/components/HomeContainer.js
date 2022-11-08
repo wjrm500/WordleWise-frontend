@@ -1,8 +1,8 @@
-import CurrentWeekPage from './CurrentWeekPage'
-import HistoryPage from './HistoryPage'
+import DayAggPage from './DayAggPage'
+import WeekAggPage from './WeekAggPage'
 import React, { useState } from 'react'
 
-const HomeContainer = ({ loggedInUser, addScore, data, maxIndex, setMaxIndex }) => {
+const HomeContainer = ({ loggedInUser, addScore, dayData, dayMaxIndex, setDayMaxIndex, weekData, weekMaxIndex, setWeekMaxIndex }) => {
   const CURRENT_WEEK_PAGE = 'cwp'
   const HISTORY_PAGE = 'hp'
   const [page, setPage] = useState(CURRENT_WEEK_PAGE)
@@ -12,17 +12,17 @@ const HomeContainer = ({ loggedInUser, addScore, data, maxIndex, setMaxIndex }) 
       <div id="pageMenu">
         {/* Would be good to dynamically iterate through pages */}
         <div className={"pageMenuItem " + (page == CURRENT_WEEK_PAGE ? 'selected' : '')} onClick={() => onClick(CURRENT_WEEK_PAGE)}>
-          Current Week
+          Daily
         </div>
         <div className={"pageMenuItem " + (page == HISTORY_PAGE ? 'selected' : '')} onClick={() => onClick(HISTORY_PAGE)}>
-          History
+          Weekly
         </div>
       </div>
       <div id="homeContainerPage">
         {
           page == CURRENT_WEEK_PAGE ?
-          <CurrentWeekPage loggedInUser={loggedInUser} addScore={addScore} data={data} maxIndex={maxIndex} setMaxIndex={setMaxIndex} /> :
-          <HistoryPage />
+          <DayAggPage loggedInUser={loggedInUser} addScore={addScore} dayData={dayData} dayMaxIndex={dayMaxIndex} setDayMaxIndex={setDayMaxIndex} /> :
+          <WeekAggPage weekData={weekData} weekMaxIndex={weekMaxIndex} setWeekMaxIndex={setWeekMaxIndex} />
         }
       </div>
     </div>

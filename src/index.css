@@ -146,14 +146,11 @@ code {
   background-color: var(--blue-4);
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
+  display: flex;
   font-size: 14px;
+  justify-content: space-between;
   margin: 0px 2px 2px 2px;
   padding: 5px;
-}
-
-#currentWeekPage {
-  display: flex;
-  justify-content: space-between;
 }
 
 .arrowContainer {
@@ -176,7 +173,7 @@ code {
   font-size: 1.3em;
 }
 
-#scoreTable {
+.scoreTable {
   background-color: var(--blue-5);
   border: 1px solid white;
   flex: 5;
@@ -186,27 +183,27 @@ code {
   width: 75%;
 }
 
-#scoreTable tr:nth-child(odd) {
+.scoreTable tbody tr:nth-child(odd) {
   background-color: white;
 }
 
-#scoreTable td {
+.scoreTable td {
   font-family: monospace;
 }
 
-#scoreTable th, #scoreTable td {
+.scoreTable th, .scoreTable td {
   padding: 2px 5px;
 }
 
-#scoreTable td:first-child {
+.scoreTable td:first-child {
   width: 50%
 }
 
-#scoreTable td:not(:first-child) {
+.scoreTable td:not(:first-child) {
   width: 25%
 }
 
-#scoreTable tr:last-child {
+.scoreTable tr:last-child {
   font-weight: bold;
 }
 

@@ -1,12 +1,12 @@
 import React from 'react'
 import AddScoreButton from './AddScoreButton'
 
-const ScoreTable = ({ loggedInUser, data, maxIndex, onAddScoreButtonClick }) => {
+const DayScoreTable = ({ loggedInUser, dayData, dayMaxIndex, onAddScoreButtonClick }) => {
   return (
-    <table id="scoreTable" cellSpacing={0}>
+    <table id="dayScoreTable" className="scoreTable" cellSpacing={0}>
       <thead>
         <tr>
-          <th colSpan="3">Week {maxIndex + 1}</th>
+          <th colSpan="3">Week {dayMaxIndex + 1}</th>
         </tr>
         <tr>
           <th>Day</th>
@@ -16,7 +16,7 @@ const ScoreTable = ({ loggedInUser, data, maxIndex, onAddScoreButtonClick }) => 
       </thead>
       <tbody>
         {
-          data[maxIndex].map(day => {
+          dayData[dayMaxIndex].map(day => {
             let date = new Date(
               day.Date.slice(0, 4),
               day.Date.slice(5, 7) - 1,
@@ -38,7 +38,7 @@ const ScoreTable = ({ loggedInUser, data, maxIndex, onAddScoreButtonClick }) => 
                       undefined, {
                         weekday: 'short',
                         month: 'short',
-                        day: 'numeric'
+                        day: '2-digit'
                       }
                     )
                   }
@@ -65,12 +65,12 @@ const ScoreTable = ({ loggedInUser, data, maxIndex, onAddScoreButtonClick }) => 
           <td></td>
           <td>
             {
-              data[maxIndex].reduce((score, day) => score + day.Kate, 0)
+              dayData[dayMaxIndex].reduce((score, day) => score + day.Kate, 0)
             }
           </td>
           <td>
             {
-              data[maxIndex].reduce((score, day) => score + day.Will, 0)
+              dayData[dayMaxIndex].reduce((score, day) => score + day.Will, 0)
             }
           </td>
         </tr>
@@ -79,4 +79,4 @@ const ScoreTable = ({ loggedInUser, data, maxIndex, onAddScoreButtonClick }) => 
   )
 }
 
-export default ScoreTable
+export default DayScoreTable

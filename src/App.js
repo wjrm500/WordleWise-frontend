@@ -2,14 +2,24 @@ import { useEffect, useState } from 'react';
 import Container from './components/Container'
 
 function App() {
+  const array_chunks = (array, chunk_size) => Array(Math.ceil(array.length / chunk_size)).fill().map((_, index) => index * chunk_size).map(begin => array.slice(begin, begin + chunk_size));
   const SERVER_ADDR = process.env.REACT_APP_API_URL
 
   /* Use states */
-  const [data, setData] = useState({})
-  const [maxIndex, setMaxIndex] = useState(-1)
+  const [dayData, setDayData] = useState({})
+  const [weekData, setWeekData] = useState({})
+  const [dayMaxIndex, setDayMaxIndex] = useState(-1)
+  const [weekMaxIndex, setWeekMaxIndex] = useState(-1)
   const [loggedInUser, setLoggedInUser] = useState(sessionStorage.getItem('loggedInUser'))
 
   /* Functions */
+  const consolidateWeek = (weekData) => {
+    return {
+      StartDate: weekData[0].Date,
+      KateTotal: weekData.reduce((sum, obj) => sum + obj.Kate, 0),
+      WillTotal: weekData.reduce((sum, obj) => sum + obj.Will, 0)
+    }
+  }
   const getData = () => {
     fetch(SERVER_ADDR + "/getData", {
       headers: {
@@ -18,9 +28,14 @@ function App() {
     })
       .then(async (resp) => {
         if (resp.status == 200) {
-          const unwrappedJson = await resp.json()
-          setData(unwrappedJson)
-          setMaxIndex(unwrappedJson.length - 1)
+          const data = await resp.json()
+          setDayData(data)
+          setDayMaxIndex(data.length - 1)
+          let weekAggregatedData = data.map(consolidateWeek)
+          weekAggregatedData = array_chunks(weekAggregatedData, 7)
+          setWeekData(weekAggregatedData)
+          setWeekMaxIndex(weekAggregatedData.length - 1)
+          
         } else if (resp.status == 401) {
           onLogout()
         }
@@ -73,11 +88,11 @@ function App() {
       .then(getData)
   }
 
-  useEffect(getData, [data.length])
+  useEffect(getData, [dayData.length])
   
   return (
     <div className="App">
-      <Container loggedInUser={loggedInUser} onLogin={onLogin} onLogout={onLogout} addScore={addScore} data={data} maxIndex={maxIndex} setMaxIndex={setMaxIndex} />
+      <Container loggedInUser={loggedInUser} onLogin={onLogin} onLogout={onLogout} addScore={addScore} dayData={dayData} dayMaxIndex={dayMaxIndex} setDayMaxIndex={setDayMaxIndex} weekData={weekData} weekMaxIndex={weekMaxIndex} setWeekMaxIndex={setWeekMaxIndex} />
     </div>
   );
 }
