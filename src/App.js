@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import Container from './components/Container'
 
 function App() {
-  const array_chunks = (array, chunk_size) => Array(Math.ceil(array.length / chunk_size)).fill().map((_, index) => index * chunk_size).map(begin => array.slice(begin, begin + chunk_size));
   const SERVER_ADDR = process.env.REACT_APP_API_URL
 
   /* Use states */
@@ -13,6 +12,12 @@ function App() {
   const [loggedInUser, setLoggedInUser] = useState(sessionStorage.getItem('loggedInUser'))
 
   /* Functions */
+  const array_chunks = (array, chunk_size) => {
+    return Array(Math.ceil(array.length / chunk_size))
+      .fill()
+      .map((_, index) => index * chunk_size)
+      .map(begin => array.slice(begin, begin + chunk_size))
+  }
   const consolidateWeek = (weekData) => {
     return {
       StartDate: weekData[0].Date,
