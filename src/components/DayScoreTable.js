@@ -9,7 +9,7 @@ const DayScoreTable = ({ loggedInUser, dayData, dayMaxIndex, onAddScoreButtonCli
           <th colSpan="3">Week {dayMaxIndex + 1}</th>
         </tr>
         <tr>
-          <th>Day</th>
+          <th>Date</th>
           <th>Kate</th>
           <th>Will</th>
         </tr>
