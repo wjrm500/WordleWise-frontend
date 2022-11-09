@@ -8,7 +8,7 @@ function App() {
         <Container />
       </div>
     </ServerAddrContext.Provider>
-  );
+  )
 }
 
-export default App;
+export default App

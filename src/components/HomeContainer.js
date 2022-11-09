@@ -6,10 +6,16 @@ import ServerAddrContext from '../contexts/ServerAddrContext';
 import SpinningLoader from './SpinningLoader';
 
 const HomeContainer = ({ loggedInUser }) => {
-  const SERVER_ADDR = useContext(ServerAddrContext)
+  const DAILY_PAGE = 'daily'
+  const WEEKLY_PAGE = 'weekly'
 
+  /* Hooks */
+  const SERVER_ADDR = useContext(ServerAddrContext)
   const [appData, setAppData] = useState({})
   const [dataLoaded, setDataLoaded] = useState(false)
+  const [page, setPage] = useState(DAILY_PAGE)
+  
+  /* Functions */
   const getData = () => {
     axios.get(SERVER_ADDR + "/getData", {
       headers: {
@@ -20,7 +26,6 @@ const HomeContainer = ({ loggedInUser }) => {
       setDataLoaded(true)
     })
   }
-  useEffect(getData, [appData.length])
   const addScore = (date, user, score) => {
     axios.post(
       SERVER_ADDR + "/addScore",
@@ -35,11 +40,12 @@ const HomeContainer = ({ loggedInUser }) => {
       }
     ).then(getData)
   }
-
-  const DAILY_PAGE = 'daily'
-  const WEEKLY_PAGE = 'weekly'
-  const [page, setPage] = useState(DAILY_PAGE)
   const onClick = (page) => setPage(page)
+
+  /* Get data */
+  useEffect(getData, [appData.length])
+  
+  /* Render */
   return (
     <div id="homeContainer">
       <div id="pageMenu">

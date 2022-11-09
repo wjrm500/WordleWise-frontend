@@ -3,34 +3,32 @@ import React, { useContext, useState } from 'react'
 import LoginContainer from './LoginContainer'
 import HomeContainer from './HomeContainer'
 import ServerAddrContext from '../contexts/ServerAddrContext'
+import axios from 'axios'
 
 const Container = () => {
+  /* Hooks */
   const SERVER_ADDR = useContext(ServerAddrContext)
-
-  /* Use states */
   const [loggedInUser, setLoggedInUser] = useState(sessionStorage.getItem('loggedInUser'))
 
   /* Functions */
   const onLogin = (username, password, setLoginIsLoading) => {
-    console.log(SERVER_ADDR)
-    fetch(SERVER_ADDR + "/login", {
-      method: "POST",
+    axios.post(
+      SERVER_ADDR + "/login",
+      {username, password},
+      {
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json"
       },
       type: "cors",
-      body: JSON.stringify({username, password})
-    })
-      .then((resp) => resp.json())
-      .then((json) => {
-        if (json.success) {
-          sessionStorage.setItem('token', json.access_token)
+    }).then(({ data }) => {
+        if (data.success) {
+          sessionStorage.setItem('token', data.access_token)
           sessionStorage.setItem('loggedInUser', username)
           setLoggedInUser(username)
         } else {
           setLoginIsLoading(false)
-          alert(json.error)
+          alert(data.error)
         }
       })
       .catch(() => {
@@ -43,6 +41,8 @@ const Container = () => {
     sessionStorage.removeItem('loggedInUser')
     setLoggedInUser(null)
   }
+
+  /* Render */
   return (
     <div id="container">
       <Header loggedInUser={loggedInUser} onLogout={onLogout} />
