@@ -148,7 +148,7 @@ code {
   border-bottom-right-radius: 3px;
   display: flex;
   font-size: 14px;
-  justify-content: space-between;
+  justify-content: center;
   margin: 0px 2px 2px 2px;
   padding: 5px;
 }

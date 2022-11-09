@@ -1,6 +1,6 @@
 import React from 'react'
 
-const WeekScoreTable = ({ weekData, weekMaxIndex }) => {
+const WeekScoreTable = ({ weekData, weekIndex }) => {
   return (
     <table id="weekScoreTable" className="scoreTable" cellSpacing={0}>
       <thead>
@@ -12,7 +12,7 @@ const WeekScoreTable = ({ weekData, weekMaxIndex }) => {
       </thead>
       <tbody>
         {
-          weekData[weekMaxIndex].map(week => {
+          weekData[weekIndex].map(week => {
             return (
               <tr key={week.StartDate}>
                 <td>
@@ -44,12 +44,12 @@ const WeekScoreTable = ({ weekData, weekMaxIndex }) => {
           <td></td>
           <td>
             {
-              weekData[weekMaxIndex].reduce((score, week) => score + week.KateTotal, 0)
+              weekData[weekIndex].reduce((score, week) => score + week.KateTotal, 0)
             }
           </td>
           <td>
             {
-              weekData[weekMaxIndex].reduce((score, week) => score + week.WillTotal, 0)
+              weekData[weekIndex].reduce((score, week) => score + week.WillTotal, 0)
             }
           </td>
         </tr>

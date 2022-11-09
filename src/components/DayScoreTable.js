@@ -1,12 +1,12 @@
 import React from 'react'
 import AddScoreButton from './AddScoreButton'
 
-const DayScoreTable = ({ loggedInUser, dayData, dayMaxIndex, onAddScoreButtonClick }) => {
+const DayScoreTable = ({ loggedInUser, dayData, dayIndex, onAddScoreButtonClick }) => {
   return (
     <table id="dayScoreTable" className="scoreTable" cellSpacing={0}>
       <thead>
         <tr>
-          <th colSpan="3">Week {dayMaxIndex + 1}</th>
+          <th colSpan="3">Week {dayIndex + 1}</th>
         </tr>
         <tr>
           <th>Date</th>
@@ -16,7 +16,7 @@ const DayScoreTable = ({ loggedInUser, dayData, dayMaxIndex, onAddScoreButtonCli
       </thead>
       <tbody>
         {
-          dayData[dayMaxIndex].map(day => {
+          dayData[dayIndex].map(day => {
             let date = new Date(
               day.Date.slice(0, 4),
               day.Date.slice(5, 7) - 1,
@@ -65,12 +65,12 @@ const DayScoreTable = ({ loggedInUser, dayData, dayMaxIndex, onAddScoreButtonCli
           <td></td>
           <td>
             {
-              dayData[dayMaxIndex].reduce((score, day) => score + day.Kate, 0)
+              dayData[dayIndex].reduce((score, day) => score + day.Kate, 0)
             }
           </td>
           <td>
             {
-              dayData[dayMaxIndex].reduce((score, day) => score + day.Will, 0)
+              dayData[dayIndex].reduce((score, day) => score + day.Will, 0)
             }
           </td>
         </tr>

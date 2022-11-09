@@ -3,11 +3,11 @@ import React, { useState } from 'react'
 import DayScoreTable from './DayScoreTable'
 import AddScoreModal from './AddScoreModal'
 import AddScoreOverlay from './AddScoreOverlay'
-import SpinningLoader from './SpinningLoader'
 
-const DayAggPage = ({ loggedInUser, addScore, dayData, dayMaxIndex, setDayMaxIndex }) => {
-  const leftArrowActive = dayMaxIndex > 0
-  const rightArrowActive = dayMaxIndex < dayData.length - 1
+const DayAggPage = ({ loggedInUser, addScore, data }) => {
+  const [dayIndex, setDayIndex] = useState(data.length - 1)
+  const leftArrowActive = dayIndex > 0
+  const rightArrowActive = dayIndex < data.length - 1
   const [showAddScoreModal, setShowAddScoreModal] = useState(false)
   const onAddScoreButtonClick = () => {
     setShowAddScoreModal(true)
@@ -22,17 +22,13 @@ const DayAggPage = ({ loggedInUser, addScore, dayData, dayMaxIndex, setDayMaxInd
       }
       <div className="arrowContainer">
         <div className={leftArrowActive ? 'leftArrow arrow active' : 'leftArrow arrow'}>
-          <FaArrowLeft onClick={() => leftArrowActive ? setDayMaxIndex(dayMaxIndex - 1) : ''} />
+          <FaArrowLeft onClick={() => leftArrowActive ? setDayIndex(dayIndex - 1) : ''} />
         </div>
       </div>
-      {
-        dayMaxIndex >= 0
-        ? <DayScoreTable loggedInUser={loggedInUser} dayData={dayData} dayMaxIndex={dayMaxIndex} onAddScoreButtonClick={onAddScoreButtonClick} />
-        : <SpinningLoader />
-      }
+      <DayScoreTable loggedInUser={loggedInUser} dayData={data} dayIndex={dayIndex} onAddScoreButtonClick={onAddScoreButtonClick} />
       <div className="arrowContainer">
         <div className={rightArrowActive ? 'rightArrow arrow active' : 'rightArrow arrow'}>
-          <FaArrowRight onClick={() => rightArrowActive ? setDayMaxIndex(dayMaxIndex + 1): ''} />
+          <FaArrowRight onClick={() => rightArrowActive ? setDayIndex(dayIndex + 1): ''} />
         </div>
       </div>
     </div>

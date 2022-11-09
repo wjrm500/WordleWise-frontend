@@ -3,13 +3,13 @@ import React from 'react'
 import LoginContainer from './LoginContainer'
 import HomeContainer from './HomeContainer'
 
-const Container = ({ loggedInUser, onLogin, onLogout, addScore, dayData, dayMaxIndex, setDayMaxIndex, weekData, weekMaxIndex, setWeekMaxIndex }) => {
+const Container = ({ loggedInUser, onLogin, onLogout }) => {
   return (
     <div id="container">
       <Header loggedInUser={loggedInUser} onLogout={onLogout} />
       {
         sessionStorage.getItem('token') ?
-        <HomeContainer loggedInUser={loggedInUser} addScore={addScore} dayData={dayData} dayMaxIndex={dayMaxIndex} setDayMaxIndex={setDayMaxIndex} weekData={weekData} weekMaxIndex={weekMaxIndex} setWeekMaxIndex={setWeekMaxIndex} /> :
+        <HomeContainer loggedInUser={loggedInUser} /> :
         <LoginContainer onLogin={onLogin} />
       }
     </div>
