@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react"
 
 const AddScoreModal = ({ loggedInUser, addScore, setShowAddScoreModal }) => {
   const onChange = (event) => {
@@ -6,7 +6,7 @@ const AddScoreModal = ({ loggedInUser, addScore, setShowAddScoreModal }) => {
     addScore(dateToday, loggedInUser, event.target.value)
     setShowAddScoreModal(false)
   }
-  const options = [1, 2, 3, 4, 5, 6, 'Fail'].map(option => (
+  const options = [1, 2, 3, 4, 5, 6, "Fail"].map(option => (
     <option value={option}>{option}</option>
   ))
   return (

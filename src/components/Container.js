@@ -1,14 +1,14 @@
-import Header from './Header'
-import React, { useContext, useState } from 'react'
-import LoginContainer from './LoginContainer'
-import HomeContainer from './HomeContainer'
-import ServerAddrContext from '../contexts/ServerAddrContext'
-import axios from 'axios'
+import Header from "./Header"
+import React, { useContext, useState } from "react"
+import LoginContainer from "./LoginContainer"
+import HomeContainer from "./HomeContainer"
+import ServerAddrContext from "../contexts/ServerAddrContext"
+import axios from "axios"
 
 const Container = () => {
   /* Hooks */
   const SERVER_ADDR = useContext(ServerAddrContext)
-  const [loggedInUser, setLoggedInUser] = useState(sessionStorage.getItem('loggedInUser'))
+  const [loggedInUser, setLoggedInUser] = useState(sessionStorage.getItem("loggedInUser"))
 
   /* Functions */
   const onLogin = (username, password, setLoginIsLoading) => {
@@ -23,8 +23,8 @@ const Container = () => {
       type: "cors",
     }).then(({ data }) => {
         if (data.success) {
-          sessionStorage.setItem('token', data.access_token)
-          sessionStorage.setItem('loggedInUser', username)
+          sessionStorage.setItem("token", data.access_token)
+          sessionStorage.setItem("loggedInUser", username)
           setLoggedInUser(username)
         } else {
           setLoginIsLoading(false)
@@ -33,12 +33,12 @@ const Container = () => {
       })
       .catch(() => {
         setLoginIsLoading(false)
-        alert('Something went wrong. Is the server running?')
+        alert("Something went wrong. Is the server running?")
       })
   }
   const onLogout = () => {
-    sessionStorage.removeItem('token')
-    sessionStorage.removeItem('loggedInUser')
+    sessionStorage.removeItem("token")
+    sessionStorage.removeItem("loggedInUser")
     setLoggedInUser(null)
   }
 
@@ -47,7 +47,7 @@ const Container = () => {
     <div id="container">
       <Header loggedInUser={loggedInUser} onLogout={onLogout} />
       {
-        sessionStorage.getItem('token') ?
+        sessionStorage.getItem("token") ?
         <HomeContainer loggedInUser={loggedInUser} /> :
         <LoginContainer onLogin={onLogin} />
       }

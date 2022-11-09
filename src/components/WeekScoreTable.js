@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react"
 
 const WeekScoreTable = ({ weekData, weekIndex }) => {
   return (
@@ -23,9 +23,9 @@ const WeekScoreTable = ({ weekData, weekIndex }) => {
                       week.StartDate.slice(8, 10)
                     ).toLocaleString(
                       undefined, {
-                        weekday: 'short',
-                        month: 'short',
-                        day: '2-digit'
+                        weekday: "short",
+                        month: "short",
+                        day: "2-digit"
                       }
                     )
                   }

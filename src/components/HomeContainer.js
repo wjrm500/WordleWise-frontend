@@ -1,13 +1,13 @@
-import DayAggPage from './DayAggPage'
-import WeekAggPage from './WeekAggPage'
-import React, { useContext, useEffect, useState } from 'react'
-import axios from 'axios';
-import ServerAddrContext from '../contexts/ServerAddrContext';
-import SpinningLoader from './SpinningLoader';
+import DayAggPage from "./DayAggPage"
+import WeekAggPage from "./WeekAggPage"
+import React, { useContext, useEffect, useState } from "react"
+import axios from "axios";
+import ServerAddrContext from "../contexts/ServerAddrContext";
+import SpinningLoader from "./SpinningLoader";
 
 const HomeContainer = ({ loggedInUser }) => {
-  const DAILY_PAGE = 'daily'
-  const WEEKLY_PAGE = 'weekly'
+  const DAILY_PAGE = "daily"
+  const WEEKLY_PAGE = "weekly"
 
   /* Hooks */
   const SERVER_ADDR = useContext(ServerAddrContext)
@@ -19,7 +19,7 @@ const HomeContainer = ({ loggedInUser }) => {
   const getData = () => {
     axios.get(SERVER_ADDR + "/getData", {
       headers: {
-        "Authorization": "Bearer " + sessionStorage.getItem('token')
+        "Authorization": "Bearer " + sessionStorage.getItem("token")
       }
     }).then(({ data }) => {
       setAppData(data)
@@ -33,7 +33,7 @@ const HomeContainer = ({ loggedInUser }) => {
       {
         headers: {
           "Access-Control-Allow-Origin": "*",
-          "Authorization": "Bearer " + sessionStorage.getItem('token'),
+          "Authorization": "Bearer " + sessionStorage.getItem("token"),
           "Content-Type": "application/json"
         },
         type: "cors"
@@ -49,10 +49,10 @@ const HomeContainer = ({ loggedInUser }) => {
   return (
     <div id="homeContainer">
       <div id="pageMenu">
-        <div className={"pageMenuItem " + (page == DAILY_PAGE ? 'selected' : '')} onClick={() => onClick(DAILY_PAGE)}>
+        <div className={"pageMenuItem " + (page == DAILY_PAGE ? "selected" : "")} onClick={() => onClick(DAILY_PAGE)}>
           Daily
         </div>
-        <div className={"pageMenuItem " + (page == WEEKLY_PAGE ? 'selected' : '')} onClick={() => onClick(WEEKLY_PAGE)}>
+        <div className={"pageMenuItem " + (page == WEEKLY_PAGE ? "selected" : "")} onClick={() => onClick(WEEKLY_PAGE)}>
           Weekly
         </div>
       </div>

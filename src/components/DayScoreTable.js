@@ -1,5 +1,5 @@
-import React from 'react'
-import AddScoreButton from './AddScoreButton'
+import React from "react"
+import AddScoreButton from "./AddScoreButton"
 
 const DayScoreTable = ({ loggedInUser, dayData, dayIndex, onAddScoreButtonClick }) => {
   return (
@@ -36,23 +36,23 @@ const DayScoreTable = ({ loggedInUser, dayData, dayIndex, onAddScoreButtonClick 
                       day.Date.slice(8, 10)
                     ).toLocaleString(
                       undefined, {
-                        weekday: 'short',
-                        month: 'short',
-                        day: '2-digit'
+                        weekday: "short",
+                        month: "short",
+                        day: "2-digit"
                       }
                     )
                   }
                 </td>
                 <td>
                   {
-                    dateIsToday && loggedInUser == 'kjem500' && day.Kate == null
+                    dateIsToday && loggedInUser == "kjem500" && day.Kate == null
                     ? <AddScoreButton onAddScoreButtonClick={onAddScoreButtonClick} />
                     : day.Kate
                   }
                 </td>
                 <td>
                   {
-                    dateIsToday && loggedInUser == 'wjrm500' && day.Will == null
+                    dateIsToday && loggedInUser == "wjrm500" && day.Will == null
                     ? <AddScoreButton onAddScoreButtonClick={onAddScoreButtonClick} />
                     : day.Will
                   }
