@@ -1,5 +1,5 @@
 import { createContext } from "react";
 
-const ServerAddrContext = createContext(process.env.REACT_APP_API_URL);
+const ServerAddrContext = createContext();
 
 export default ServerAddrContext
