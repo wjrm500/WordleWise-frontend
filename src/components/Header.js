@@ -1,5 +1,4 @@
 import LogoutButton from './LogoutButton'
-import PropTypes from 'prop-types'
 import React from 'react'
 
 const Header = ({ loggedInUser, onLogout }) => {
@@ -10,9 +9,5 @@ const Header = ({ loggedInUser, onLogout }) => {
     </div>
   )
 }
-
-// Header.propTypes = {
-//   loggedInUser: PropTypes.string.isRequired
-// }
 
 export default Header
