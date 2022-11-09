@@ -12,7 +12,6 @@ const HomeContainer = ({ loggedInUser }) => {
   /* Hooks */
   const SERVER_ADDR = useContext(ServerAddrContext)
   const [appData, setAppData] = useState({})
-  const [dataLoaded, setDataLoaded] = useState(false)
   const [page, setPage] = useState(DAILY_PAGE)
   
   /* Functions */
@@ -23,7 +22,6 @@ const HomeContainer = ({ loggedInUser }) => {
       }
     }).then(({ data }) => {
       setAppData(data)
-      setDataLoaded(true)
     })
   }
   const addScore = (date, user, score) => {
@@ -58,7 +56,7 @@ const HomeContainer = ({ loggedInUser }) => {
       </div>
       <div id="homeContainerPage">
         {
-          dataLoaded ? (
+          appData.length > 0 ? (
             page == DAILY_PAGE ?
             <DayAggPage loggedInUser={loggedInUser} addScore={addScore} data={appData} /> :
             <WeekAggPage data={appData} />
