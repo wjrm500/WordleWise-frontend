@@ -22,17 +22,18 @@ const HomeContainer = ({ loggedInUser }) => {
   }
   useEffect(getData, [appData.length])
   const addScore = (date, user, score) => {
-    fetch(SERVER_ADDR + "/addScore", {
-      method: "POST",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Authorization": "Bearer " + sessionStorage.getItem('token'),
-        "Content-Type": "application/json"
-      },
-      type: "cors",
-      body: JSON.stringify({date, user, score})
-    })
-      .then(getData)
+    axios.post(
+      SERVER_ADDR + "/addScore",
+      {date, user, score},
+      {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Authorization": "Bearer " + sessionStorage.getItem('token'),
+          "Content-Type": "application/json"
+        },
+        type: "cors"
+      }
+    ).then(getData)
   }
 
   const DAILY_PAGE = 'daily'
