@@ -48,7 +48,7 @@ const Container = () => {
       <Header loggedInUser={loggedInUser} onLogout={onLogout} />
       {
         sessionStorage.getItem("token") ?
-        <HomeContainer loggedInUser={loggedInUser} /> :
+        <HomeContainer loggedInUser={loggedInUser} onLogout={onLogout} /> :
         <LoginContainer onLogin={onLogin} />
       }
     </div>

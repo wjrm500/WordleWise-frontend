@@ -4,8 +4,9 @@ import React, { useContext, useEffect, useState } from "react"
 import axios from "axios";
 import ServerAddrContext from "../contexts/ServerAddrContext";
 import SpinningLoader from "./SpinningLoader";
+import StatusCodes from "http-status-codes";
 
-const HomeContainer = ({ loggedInUser }) => {
+const HomeContainer = ({ loggedInUser, onLogout }) => {
   const DAILY_PAGE = "daily"
   const WEEKLY_PAGE = "weekly"
 
@@ -19,9 +20,14 @@ const HomeContainer = ({ loggedInUser }) => {
     axios.get(SERVER_ADDR + "/getData", {
       headers: {
         "Authorization": "Bearer " + sessionStorage.getItem("token")
-      }
+      },
+      type: "cors"
     }).then(({ data }) => {
       setAppData(data)
+    }).catch(({ response }) => {
+      if (response.status == StatusCodes.UNAUTHORIZED) {
+        onLogout()
+      }
     })
   }
   const addScore = (date, user, score) => {
