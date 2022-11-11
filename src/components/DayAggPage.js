@@ -14,10 +14,12 @@ const DayAggPage = ({loggedInUser, addScore, data}) => {
   return (
     <div id="dayAggPage" className="page">
       {
-        showAddScoreModal ? <AddScoreOverlay /> : ""
-      }
-      {
-        showAddScoreModal ? <AddScoreModal loggedInUser={loggedInUser} addScore={addScore} setShowAddScoreModal={setShowAddScoreModal} /> : ""
+        showAddScoreModal ? (
+          <>
+            <AddScoreOverlay />
+            <AddScoreModal loggedInUser={loggedInUser} addScore={addScore} setShowAddScoreModal={setShowAddScoreModal} />
+          </>
+        ) : ""
       }
       <LeftArrow active={dayIndex > 0} index={dayIndex} setIndex={setDayIndex} />
       <DayScoreTable loggedInUser={loggedInUser} dayData={data} dayIndex={dayIndex} onAddScoreButtonClick={onAddScoreButtonClick} />
