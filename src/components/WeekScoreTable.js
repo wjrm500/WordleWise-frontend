@@ -1,4 +1,5 @@
 import React from "react"
+import beautifyDate from "../utilities/dates.js"
 
 const WeekScoreTable = ({weekData, weekIndex}) => {
   const headerRow = <tr>
@@ -9,27 +10,9 @@ const WeekScoreTable = ({weekData, weekIndex}) => {
   const dataRows = weekData[weekIndex].map(week => {
     return (
       <tr key={week.StartDate}>
-        <td>
-          {
-            new Date(
-              week.StartDate.slice(0, 4),
-              week.StartDate.slice(5, 7) - 1,
-              week.StartDate.slice(8, 10)
-            ).toLocaleString(
-              undefined, {
-                weekday: "short",
-                month: "short",
-                day: "2-digit"
-              }
-            )
-          }
-        </td>
-        <td>
-          {week.KateTotal}
-        </td>
-        <td>
-          {week.WillTotal}
-        </td>
+        <td>{beautifyDate(week.StartDate)}</td>
+        <td>{week.KateTotal}</td>
+        <td>{week.WillTotal}</td>
       </tr>
     )
   })

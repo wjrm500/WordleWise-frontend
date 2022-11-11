@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import WeekScoreTable from "./WeekScoreTable"
-import array_chunks from "../utilities/arrays"
+import arrayChunks from "../utilities/arrays"
 import LeftArrow from "./LeftArrow"
 import RightArrow from "./RightArrow"
 
@@ -13,7 +13,7 @@ const WeekAggPage = ({data}) => {
     }
   }
   let weekData = data.map(consolidateWeek)
-  weekData = array_chunks(weekData, 7)
+  weekData = arrayChunks(weekData, 7)
   const [weekIndex, setWeekIndex] = useState(weekData.length - 1)
   return (
     <div id="weekAggPage" className="page">
