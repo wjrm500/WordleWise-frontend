@@ -1,8 +1,8 @@
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa"
 import React, { useState } from "react"
 import WeekScoreTable from "./WeekScoreTable"
-import SpinningLoader from "./SpinningLoader"
 import array_chunks from "../utilities/arrays"
+import LeftArrow from "./LeftArrow"
+import RightArrow from "./RightArrow"
 
 const WeekAggPage = ({data}) => {
   const consolidateWeek = (weekData) => {
@@ -15,25 +15,11 @@ const WeekAggPage = ({data}) => {
   let weekData = data.map(consolidateWeek)
   weekData = array_chunks(weekData, 7)
   const [weekIndex, setWeekIndex] = useState(weekData.length - 1)
-  const leftArrowActive = weekIndex > 0
-  const rightArrowActive = weekIndex < weekData.length - 1
   return (
     <div id="weekAggPage" className="page">
-      <div className="arrowContainer">
-        <div className={leftArrowActive ? "leftArrow arrow active" : "leftArrow arrow"}>
-          <FaArrowLeft onClick={() => leftArrowActive ? setWeekIndex(weekIndex - 1) : ""} />
-        </div>
-      </div>
-      {
-        weekIndex >= 0
-        ? <WeekScoreTable weekData={weekData} weekIndex={weekIndex} />
-        : <SpinningLoader />
-      }
-      <div className="arrowContainer">
-        <div className={rightArrowActive ? "rightArrow arrow active" : "rightArrow arrow"}>
-          <FaArrowRight onClick={() => rightArrowActive ? setWeekIndex(weekIndex + 1): ""} />
-        </div>
-      </div>
+      <LeftArrow active={weekIndex > 0} index={weekIndex} setIndex={setWeekIndex} />
+      <WeekScoreTable weekData={weekData} weekIndex={weekIndex} />
+      <RightArrow active={weekIndex < weekData.length - 1} index={weekIndex} setIndex={setWeekIndex} />
     </div>
   )
 }
