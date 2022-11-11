@@ -12,4 +12,16 @@ const beautifyDate = (date) => {
   )
 }
 
-export default beautifyDate
+const dateIsToday = (dateString) => {
+  const date = new Date(
+    dateString.slice(0, 4),
+    dateString.slice(5, 7) - 1,
+    dateString.slice(8, 10)
+  )
+  const dateToday = new Date()
+  return date.getFullYear() == dateToday.getFullYear()
+    && date.getMonth() == dateToday.getMonth()
+    && date.getDate() == dateToday.getDate()
+}
+
+export {beautifyDate, dateIsToday}

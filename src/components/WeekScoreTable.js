@@ -1,5 +1,5 @@
 import React from "react"
-import beautifyDate from "../utilities/dates.js"
+import { beautifyDate } from "../utilities/dates.js"
 
 const WeekScoreTable = ({weekData, weekIndex}) => {
   const headerRow = <tr>
