@@ -2,16 +2,16 @@ import DayAggPage from "./DayAggPage"
 import WeekAggPage from "./WeekAggPage"
 import React, { useContext, useEffect, useState } from "react"
 import axios from "axios";
+import PageConstsContext from "../contexts/PageConstsContext";
 import ServerAddrContext from "../contexts/ServerAddrContext";
 import SpinningLoader from "./SpinningLoader";
 import StatusCodes from "http-status-codes";
+import PageMenu from "./PageMenu";
 
 const HomeContainer = ({ loggedInUser, onLogout }) => {
-  const DAILY_PAGE = "daily"
-  const WEEKLY_PAGE = "weekly"
-
   /* Hooks */
   const SERVER_ADDR = useContext(ServerAddrContext)
+  const {DAILY_PAGE} = useContext(PageConstsContext)
   const [appData, setAppData] = useState({})
   const [page, setPage] = useState(DAILY_PAGE)
   
@@ -44,7 +44,6 @@ const HomeContainer = ({ loggedInUser, onLogout }) => {
       }
     ).then(getData)
   }
-  const onClick = (page) => setPage(page)
 
   /* Get data */
   useEffect(getData, [appData.length])
@@ -52,27 +51,18 @@ const HomeContainer = ({ loggedInUser, onLogout }) => {
   /* Render */
   return (
     <div id="homeContainer">
-      <div id="pageMenu">
-        <div className={"pageMenuItem " + (page == DAILY_PAGE ? "selected" : "")} onClick={() => onClick(DAILY_PAGE)}>
-          Daily
-        </div>
-        <div className={"pageMenuItem " + (page == WEEKLY_PAGE ? "selected" : "")} onClick={() => onClick(WEEKLY_PAGE)}>
-          Weekly
-        </div>
-      </div>
-      <div id="homeContainerPage">
-        {
-          appData.length > 0 ? (
-            page == DAILY_PAGE ?
-            <DayAggPage loggedInUser={loggedInUser} addScore={addScore} data={appData} /> :
-            <WeekAggPage data={appData} />
-          ) : (
-            <div className="page">
-              <SpinningLoader />
-            </div>
-          )
-        }
-      </div>
+      <PageMenu page={page} setPage={setPage} />
+      {
+        appData.length > 0 ? (
+          page == DAILY_PAGE ?
+          <DayAggPage loggedInUser={loggedInUser} addScore={addScore} data={appData} /> :
+          <WeekAggPage data={appData} />
+        ) : (
+          <div className="page">
+            <SpinningLoader />
+          </div>
+        )
+      }
     </div>
   )
 }
