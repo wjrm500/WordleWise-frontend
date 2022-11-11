@@ -1,5 +1,5 @@
 import PropTypes from "prop-types"
-import React, {useState} from "react"
+import React, { useState } from "react"
 import SpinningLoader from "./SpinningLoader"
 
 const LoginBox = ({onLogin}) => {

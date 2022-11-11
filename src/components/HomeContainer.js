@@ -1,6 +1,6 @@
 import DayAggPage from "./DayAggPage"
 import WeekAggPage from "./WeekAggPage"
-import React, {useContext, useEffect, useState} from "react"
+import React, { useContext, useEffect, useState } from "react"
 import axios from "axios";
 import PageConstsContext from "../contexts/PageConstsContext";
 import ServerAddrContext from "../contexts/ServerAddrContext";

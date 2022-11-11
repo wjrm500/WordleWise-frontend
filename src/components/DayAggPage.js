@@ -1,5 +1,5 @@
-import {FaArrowLeft, FaArrowRight} from "react-icons/fa"
-import React, {useState} from "react"
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa"
+import React, { useState } from "react"
 import DayScoreTable from "./DayScoreTable"
 import AddScoreModal from "./AddScoreModal"
 import AddScoreOverlay from "./AddScoreOverlay"

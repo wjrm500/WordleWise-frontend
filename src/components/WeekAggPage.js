@@ -1,5 +1,5 @@
-import {FaArrowLeft, FaArrowRight} from "react-icons/fa"
-import React, {useState} from "react"
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa"
+import React, { useState } from "react"
 import WeekScoreTable from "./WeekScoreTable"
 import SpinningLoader from "./SpinningLoader"
 import array_chunks from "../utilities/arrays"
