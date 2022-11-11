@@ -8,15 +8,14 @@ import RightArrow from "./RightArrow"
 const DayAggPage = ({loggedInUser, addScore, data}) => {
   const [dayIndex, setDayIndex] = useState(data.length - 1)
   const [showAddScoreModal, setShowAddScoreModal] = useState(false)
-  const onAddScoreButtonClick = () => {
-    setShowAddScoreModal(true)
-  }
+  const onAddScoreButtonClick = () => setShowAddScoreModal(true)
+  const onAddScoreOverlayClick = () => setShowAddScoreModal(false)
   return (
     <div id="dayAggPage" className="page">
       {
         showAddScoreModal ? (
           <>
-            <AddScoreOverlay />
+            <AddScoreOverlay onClick={onAddScoreOverlayClick} />
             <AddScoreModal loggedInUser={loggedInUser} addScore={addScore} setShowAddScoreModal={setShowAddScoreModal} />
           </>
         ) : ""

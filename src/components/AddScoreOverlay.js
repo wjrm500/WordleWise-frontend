@@ -1,8 +1,8 @@
 import React from "react"
 
-const AddScoreOverlay = () => {
+const AddScoreOverlay = ({onClick}) => {
   return (
-    <div id="addScoreOverlay"></div>
+    <div id="addScoreOverlay" onClick={onClick}></div>
   )
 }
 
