@@ -1,7 +1,7 @@
-import React, { useContext } from 'react'
+import React, {useContext} from 'react'
 import PageConstsContext from '../contexts/PageConstsContext'
 
-const PageMenu = ({ page, setPage }) => {
+const PageMenu = ({page, setPage}) => {
   const {DAILY_PAGE, WEEKLY_PAGE} = useContext(PageConstsContext)
   const onClick = (page) => setPage(page)
   return (

@@ -1,6 +1,6 @@
 import DayAggPage from "./DayAggPage"
 import WeekAggPage from "./WeekAggPage"
-import React, { useContext, useEffect, useState } from "react"
+import React, {useContext, useEffect, useState} from "react"
 import axios from "axios";
 import PageConstsContext from "../contexts/PageConstsContext";
 import ServerAddrContext from "../contexts/ServerAddrContext";
@@ -8,7 +8,7 @@ import SpinningLoader from "./SpinningLoader";
 import StatusCodes from "http-status-codes";
 import PageMenu from "./PageMenu";
 
-const HomeContainer = ({ loggedInUser, onLogout }) => {
+const HomeContainer = ({loggedInUser, onLogout}) => {
   /* Hooks */
   const SERVER_ADDR = useContext(ServerAddrContext)
   const {DAILY_PAGE} = useContext(PageConstsContext)
@@ -22,9 +22,9 @@ const HomeContainer = ({ loggedInUser, onLogout }) => {
         "Authorization": "Bearer " + sessionStorage.getItem("token")
       },
       type: "cors"
-    }).then(({ data }) => {
+    }).then(({data}) => {
       setAppData(data)
-    }).catch(({ response }) => {
+    }).catch(({response}) => {
       if (response.status == StatusCodes.UNAUTHORIZED) {
         onLogout()
       }

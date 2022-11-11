@@ -1,10 +1,10 @@
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa"
-import React, { useState } from "react"
+import {FaArrowLeft, FaArrowRight} from "react-icons/fa"
+import React, {useState} from "react"
 import DayScoreTable from "./DayScoreTable"
 import AddScoreModal from "./AddScoreModal"
 import AddScoreOverlay from "./AddScoreOverlay"
 
-const DayAggPage = ({ loggedInUser, addScore, data }) => {
+const DayAggPage = ({loggedInUser, addScore, data}) => {
   const [dayIndex, setDayIndex] = useState(data.length - 1)
   const leftArrowActive = dayIndex > 0
   const rightArrowActive = dayIndex < data.length - 1

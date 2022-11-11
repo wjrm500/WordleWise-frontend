@@ -1,6 +1,6 @@
 import React from "react"
 
-const WeekScoreTable = ({ weekData, weekIndex }) => {
+const WeekScoreTable = ({weekData, weekIndex}) => {
   return (
     <table id="weekScoreTable" className="scoreTable" cellSpacing={0}>
       <thead>
@@ -31,10 +31,10 @@ const WeekScoreTable = ({ weekData, weekIndex }) => {
                   }
                 </td>
                 <td>
-                  { week.KateTotal }
+                  {week.KateTotal}
                 </td>
                 <td>
-                  { week.WillTotal }
+                  {week.WillTotal}
                 </td>
               </tr>
             )

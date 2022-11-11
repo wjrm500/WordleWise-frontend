@@ -1,6 +1,6 @@
 import React from "react"
 
-const AddScoreModal = ({ loggedInUser, addScore, setShowAddScoreModal }) => {
+const AddScoreModal = ({loggedInUser, addScore, setShowAddScoreModal}) => {
   const onChange = (event) => {
     const dateToday = new Date().toLocaleDateString("en-GB", {timeZone: "Asia/Singapore"}).split("/").reverse().join("-")
     addScore(dateToday, loggedInUser, event.target.value)

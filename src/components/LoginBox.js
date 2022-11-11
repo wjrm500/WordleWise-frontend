@@ -1,8 +1,8 @@
 import PropTypes from "prop-types"
-import React, { useState } from "react"
+import React, {useState} from "react"
 import SpinningLoader from "./SpinningLoader"
 
-const LoginBox = ({ onLogin }) => {
+const LoginBox = ({onLogin}) => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [loginIsLoading, setLoginIsLoading] = useState(false)

@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import {createContext} from "react";
 
 const DAILY_PAGE = "daily"
 const WEEKLY_PAGE = "weekly"

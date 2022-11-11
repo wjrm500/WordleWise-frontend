@@ -1,7 +1,7 @@
 import React from "react"
 import AddScoreButton from "./AddScoreButton"
 
-const DayScoreTable = ({ loggedInUser, dayData, dayIndex, onAddScoreButtonClick }) => {
+const DayScoreTable = ({loggedInUser, dayData, dayIndex, onAddScoreButtonClick}) => {
   return (
     <table id="dayScoreTable" className="scoreTable" cellSpacing={0}>
       <thead>

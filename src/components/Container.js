@@ -1,5 +1,5 @@
 import Header from "./Header"
-import React, { useContext, useState } from "react"
+import React, {useContext, useState} from "react"
 import LoginContainer from "./LoginContainer"
 import HomeContainer from "./HomeContainer"
 import ServerAddrContext from "../contexts/ServerAddrContext"
@@ -21,7 +21,7 @@ const Container = () => {
         "Content-Type": "application/json"
       },
       type: "cors",
-    }).then(({ data }) => {
+    }).then(({data}) => {
         if (data.success) {
           sessionStorage.setItem("token", data.access_token)
           sessionStorage.setItem("loggedInUser", username)
