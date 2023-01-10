@@ -15,14 +15,22 @@ const HomeContainer = ({loggedInUser, onLogout}) => {
   const [appData, setAppData] = useState({})
   const [page, setPage] = useState(DAILY_PAGE)
   
+  const postOptions = {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Authorization": "Bearer " + sessionStorage.getItem("token"),
+      "Content-Type": "application/json"
+    },
+    type: "cors"
+  }
+
   /* Functions */
   const getData = () => {
-    axios.get(SERVER_ADDR + "/getData", {
-      headers: {
-        "Authorization": "Bearer " + sessionStorage.getItem("token")
-      },
-      type: "cors"
-    }).then(({data}) => {
+    axios.post(
+      SERVER_ADDR + "/getData",
+      {timezone: Intl.DateTimeFormat().resolvedOptions().timeZone},
+      postOptions
+    ).then(({data}) => {
       setAppData(data)
     }).catch(({response}) => {
       if (response.status == StatusCodes.UNAUTHORIZED) {
@@ -33,15 +41,8 @@ const HomeContainer = ({loggedInUser, onLogout}) => {
   const addScore = (date, user, score) => {
     axios.post(
       SERVER_ADDR + "/addScore",
-      {date, user, score},
-      {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Authorization": "Bearer " + sessionStorage.getItem("token"),
-          "Content-Type": "application/json"
-        },
-        type: "cors"
-      }
+      {date, user, score, timezone: Intl.DateTimeFormat().resolvedOptions().timeZone},
+      postOptions
     ).then(getData)
   }
 
