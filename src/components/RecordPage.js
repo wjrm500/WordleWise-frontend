@@ -21,7 +21,7 @@ const RecordPage = ({data}) => {
   ))
   return (
     <div className="page" style={{alignItems: 'center', flexDirection: 'column'}}>
-      <div style={{paddingBottom: '5px'}}>Most consecutive wins</div>
+      <div style={{fontWeight: 'bold', paddingBottom: '5px'}}>Most consecutive wins</div>
       <table className="recordTable">
         {headerRow}
         {rows}

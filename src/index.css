@@ -49,7 +49,7 @@ code {
   font-size: 18px;
   height: 50px;
   justify-content: space-between;
-  margin: 2px;
+  margin: 2px 0px;
   padding: 5px 10px;
 }
 
@@ -104,7 +104,6 @@ code {
 #pageMenu {
   display: flex;
   justify-content: space-between;
-  margin: 2px 2px 0px 2px;
 }
 
 .pageMenuItem {
@@ -149,7 +148,6 @@ code {
   display: flex;
   font-size: 14px;
   justify-content: center;
-  margin: 0px 2px 2px 2px;
   padding: 5px;
 }
 
@@ -247,24 +245,23 @@ code {
 }
 
 .recordTable {
-  border-collapse: collapse; /* remove the cell spacing and border between cells */
+  border: 1px solid black;
+  border-collapse: collapse;
   font-size: 0.8em;
   width: 80%;
 }
 
 .recordTable th, .recordTable td {
-  padding: 8px; /* add some padding to the cells */
-  text-align: left; /* align the text in the cells to the left */
+  padding: 8px;
+  text-align: left;
   width: 25%;
 }
 
-/* make the header row bold and give it a background color */
 .recordTable th {
-  font-weight: bold;
   background-color: #f2f2f2;
+  font-weight: bold;
 }
 
-/* use alternating colors for the rows */
 .recordTable tr:nth-child(odd) {
   background-color: #f2f2f2;
 }
