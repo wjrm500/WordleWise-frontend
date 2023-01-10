@@ -1,8 +1,19 @@
-import React from 'react'
-import { getWinStreaks } from '../utilities/records'
+import React, { useState } from 'react'
+import { getUnbeatenStreaks, getWinStreaks } from '../utilities/records'
 
 const RecordPage = ({data}) => {
-  const winStreaks = getWinStreaks(data)
+  const [recordType, setRecordType] = useState("Most consecutive wins")
+  
+  const getRecords = (recordType) => {
+    console.log(recordType)
+    switch(recordType) {
+      case "Most consecutive wins":
+        return getWinStreaks(data)
+      case "Most consecutive rounds unbeaten":
+        return getUnbeatenStreaks(data)
+    }
+  }
+
   const headerRow = (
     <tr>
       <th>#</th>
@@ -11,7 +22,7 @@ const RecordPage = ({data}) => {
       <th>End date</th>
     </tr>
   )
-  const rows = winStreaks.map((streak, index) => (
+  const rows = getRecords(recordType).map((streak, index) => (
     <tr>
       <td>{index + 1}</td>
       <td>{streak.player}</td>
@@ -21,7 +32,10 @@ const RecordPage = ({data}) => {
   ))
   return (
     <div className="page" style={{alignItems: 'center', flexDirection: 'column'}}>
-      <div style={{fontWeight: 'bold', paddingBottom: '5px'}}>Most consecutive wins</div>
+      <select onChange={(event) => setRecordType(event.target.value)} style={{marginBottom: '5px'}}>
+        <option value="Most consecutive wins">Most consecutive wins</option>
+        <option value="Most consecutive rounds unbeaten">Most consecutive rounds unbeaten</option>
+      </select>
       <table className="recordTable">
         {headerRow}
         {rows}
