@@ -245,3 +245,26 @@ code {
 #addScoreModal * {
   padding: 2px;
 }
+
+.recordTable {
+  border-collapse: collapse; /* remove the cell spacing and border between cells */
+  font-size: 0.8em;
+  width: 80%;
+}
+
+.recordTable th, .recordTable td {
+  padding: 8px; /* add some padding to the cells */
+  text-align: left; /* align the text in the cells to the left */
+  width: 25%;
+}
+
+/* make the header row bold and give it a background color */
+.recordTable th {
+  font-weight: bold;
+  background-color: #f2f2f2;
+}
+
+/* use alternating colors for the rows */
+.recordTable tr:nth-child(odd) {
+  background-color: #f2f2f2;
+}
