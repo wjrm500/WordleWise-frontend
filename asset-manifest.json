@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/WordleTracker_Frontend/static/css/main.8cb0cd7e.css",
-    "main.js": "/WordleTracker_Frontend/static/js/main.c8d4f56d.js",
+    "main.css": "/WordleTracker_Frontend/static/css/main.45d0931e.css",
+    "main.js": "/WordleTracker_Frontend/static/js/main.2bc29521.js",
     "static/media/spinner-cropped.gif": "/WordleTracker_Frontend/static/media/spinner-cropped.c62fe977666a2ce93275.gif",
     "index.html": "/WordleTracker_Frontend/index.html",
-    "main.8cb0cd7e.css.map": "/WordleTracker_Frontend/static/css/main.8cb0cd7e.css.map",
-    "main.c8d4f56d.js.map": "/WordleTracker_Frontend/static/js/main.c8d4f56d.js.map"
+    "main.45d0931e.css.map": "/WordleTracker_Frontend/static/css/main.45d0931e.css.map",
+    "main.2bc29521.js.map": "/WordleTracker_Frontend/static/js/main.2bc29521.js.map"
   },
   "entrypoints": [
-    "static/css/main.8cb0cd7e.css",
-    "static/js/main.c8d4f56d.js"
+    "static/css/main.45d0931e.css",
+    "static/js/main.2bc29521.js"
   ]
 }
