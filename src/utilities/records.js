@@ -24,8 +24,8 @@ const getWinStreaks = (data) => {
 }
 
 const getUnbeatenStreaks = (data) => {
-  let currentUnbeatenStreaks = {"Kate": 0, "Will": 0}
-  let unbeatenStreaks = []
+  let currentStreaks = {"Kate": 0, "Will": 0}
+  let streaks = []
   let finalDate
   const now = new Date()
   const todayDate = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()))
@@ -35,35 +35,35 @@ const getUnbeatenStreaks = (data) => {
     let currentWinner = day.Kate < day.Will ? "Kate" : day.Will < day.Kate ? "Will" : null
     let currentLoser = day.Kate > day.Will ? "Kate" : day.Will > day.Kate ? "Will" : null
     if (currentWinner == null) {
-      currentUnbeatenStreaks.Kate++
-      currentUnbeatenStreaks.Will++
+      currentStreaks.Kate++
+      currentStreaks.Will++
     } else {
-      currentUnbeatenStreaks[currentWinner]++
-      let numDays = currentUnbeatenStreaks[currentLoser]
-      if (numDays > 0) {
+      currentStreaks[currentWinner]++
+      let days = currentStreaks[currentLoser]
+      if (days > 0) {
         let endDate = new Date(day.Date)
         endDate.setTime(endDate.getTime() - 86400000)
         endDate = endDate.toISOString().slice(0, 10)
-        unbeatenStreaks.push({player: currentLoser, numDays, endDate})
+        streaks.push({player: currentLoser, days, endDate})
       }
-      currentUnbeatenStreaks[currentLoser] = 0
+      currentStreaks[currentLoser] = 0
     }
     finalDate = day.Date
   })
-  if (currentUnbeatenStreaks.Kate > 0) {
-    unbeatenStreaks.push({player: "Kate", numDays: currentUnbeatenStreaks.Kate, endDate: finalDate})
+  if (currentStreaks.Kate > 0) {
+    streaks.push({player: "Kate", days: currentStreaks.Kate, endDate: finalDate})
   }
-  if (currentUnbeatenStreaks.Will > 0) {
-    unbeatenStreaks.push({player: "Will", numDays: currentUnbeatenStreaks.Will, endDate: finalDate})
+  if (currentStreaks.Will > 0) {
+    streaks.push({player: "Will", days: currentStreaks.Will, endDate: finalDate})
   }
-  unbeatenStreaks.sort((a, b) => {
-    if (b.numDays !== a.numDays) {
-      return b.numDays - a.numDays
+  streaks.sort((a, b) => {
+    if (b.days !== a.days) {
+      return b.days - a.days
     } else {
       return new Date(a.endDate) - new Date(b.endDate)
     }
   })
-  return unbeatenStreaks
+  return streaks
 }
 
 export {getWinStreaks, getUnbeatenStreaks}
