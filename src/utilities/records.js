@@ -53,7 +53,7 @@ const getUnbeatenStreaks = (data) => {
   if (currentUnbeatenStreaks.Kate > 0) {
     unbeatenStreaks.push({player: "Kate", numDays: currentUnbeatenStreaks.Kate, endDate: finalDate})
   }
-  if (currentUnbeatenStreaks.Kate > 0) {
+  if (currentUnbeatenStreaks.Will > 0) {
     unbeatenStreaks.push({player: "Will", numDays: currentUnbeatenStreaks.Will, endDate: finalDate})
   }
   unbeatenStreaks.sort((a, b) => {
