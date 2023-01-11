@@ -175,10 +175,8 @@ code {
   border: 1px solid white;
   border-spacing: 0;
   flex: 5;
-  margin: 5px;
-  max-width: 250px;
   text-align: center;
-  width: 75%;
+  width: 100%;
 }
 
 .table tbody tr:nth-child(odd) {
@@ -191,6 +189,11 @@ code {
 
 .table th, .table td {
   padding: 2px 5px;
+}
+
+.scoreTable {
+  margin: 5px;
+  max-width: 250px;
 }
 
 .scoreTable td:first-child {
@@ -244,24 +247,9 @@ code {
   padding: 2px;
 }
 
-.recordTable {
-  border: 1px solid black;
-  border-collapse: collapse;
-  font-size: 0.8em;
-  width: 80%;
-}
-
-.recordTable th, .recordTable td {
-  padding: 8px;
-  text-align: left;
-  width: 25%;
-}
-
-.recordTable th {
-  background-color: #f2f2f2;
-  font-weight: bold;
-}
-
-.recordTable tr:nth-child(odd) {
-  background-color: #f2f2f2;
+#recordTableContainer {
+  height: 200px;
+  margin-bottom: 5px;
+  overflow-y: auto;
+  width: 90%;
 }

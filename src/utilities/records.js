@@ -20,7 +20,7 @@ const getWinStreaks = (data) => {
       return new Date(a.endDate) - new Date(b.endDate)
     }
   })
-  return streaks.slice(0, 5)
+  return streaks
 }
 
 const getUnbeatenStreaks = (data) => {
@@ -76,7 +76,7 @@ const getUnbeatenStreaks = (data) => {
       return new Date(a.endDate) - new Date(b.endDate)
     }
   })
-  return unbeatenStreaks.slice(0, 5)
+  return unbeatenStreaks
 }
 
 export {getWinStreaks, getUnbeatenStreaks}
