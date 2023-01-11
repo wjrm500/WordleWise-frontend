@@ -54,7 +54,10 @@ const getUnbeatenStreaks = (data) => {
       currentUnbeatenStreaks[currentWinner]++
       let numDays = currentUnbeatenStreaks[currentLoser]
       if (numDays > 0) {
-        unbeatenStreaks.push({player: currentLoser, numDays, endDate: day.Date})
+        let endDate = new Date(day.Date)
+        endDate.setTime(endDate.getTime() - 86400000)
+        endDate = endDate.toISOString().slice(0, 10)
+        unbeatenStreaks.push({player: currentLoser, numDays, endDate})
       }
       currentUnbeatenStreaks[currentLoser] = 0
     }
