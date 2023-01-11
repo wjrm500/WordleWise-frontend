@@ -27,24 +27,11 @@ const getUnbeatenStreaks = (data) => {
   let currentUnbeatenStreaks = {"Kate": 0, "Will": 0}
   let unbeatenStreaks = []
   let finalDate
-  let todayDate = new Date()
-  let todayYear = todayDate.getFullYear()
-  let todayMonth = todayDate.getMonth() + 1
-  let todayDay = todayDate.getDate()
-  console.log(todayDay)
+  const now = new Date()
+  const todayDate = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()))
   data.flat().forEach(day => {
-    let [dayYear, dayMonth, dayDay] = day.Date.split("-").map(x => parseInt(x, 10))
-    if (dayYear > todayYear) {
-      return
-    } else if (dayYear == todayYear) {
-      if (dayMonth > todayMonth) {
-        return
-      } else if (dayMonth == todayMonth) {
-        if (dayDay > todayDay) {
-          return
-        }
-      }
-    }
+    let currentDate = new Date(day.Date)
+    if (currentDate > todayDate) return
     let currentWinner = day.Kate < day.Will ? "Kate" : day.Will < day.Kate ? "Will" : null
     let currentLoser = day.Kate > day.Will ? "Kate" : day.Will > day.Kate ? "Will" : null
     if (currentWinner == null) {
