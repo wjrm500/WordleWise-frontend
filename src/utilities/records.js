@@ -2,9 +2,9 @@ const getWinStreaks = (data) => {
   let previousWinner = null
   let streaks = []
   data.flat().forEach(day => {
-    day.Kate = day.Kate != null ? day.Kate : 8
-    day.Will = day.Will != null ? day.Will : 8
-    let currentWinner = day.Kate < day.Will ? "Kate" : day.Will < day.Kate ? "Will" : null
+    let kateScore = day.Kate || 8
+    let willScore = day.Will || 8
+    let currentWinner = kateScore < willScore ? "Kate" : willScore < kateScore ? "Will" : null
     if (currentWinner && currentWinner === previousWinner) {
       let currentStreak = streaks.pop()
       currentStreak.days++
@@ -33,9 +33,13 @@ const getUnbeatenStreaks = (data) => {
   const todayDate = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()))
   data.flat().forEach(day => {
     let currentDate = new Date(day.Date)
-    if (currentDate > todayDate) return
-    let currentWinner = day.Kate < day.Will ? "Kate" : day.Will < day.Kate ? "Will" : null
-    let currentLoser = day.Kate > day.Will ? "Kate" : day.Will > day.Kate ? "Will" : null
+    if (currentDate > todayDate) {
+      return
+    }
+    let kateScore = day.Kate || 8
+    let willScore = day.Will || 8
+    let currentWinner = kateScore < willScore ? "Kate" : willScore < kateScore ? "Will" : null
+    let currentLoser = kateScore > willScore ? "Kate" : willScore > kateScore ? "Will" : null
     if (currentWinner == null) {
       currentStreaks.Kate++
       currentStreaks.Will++
@@ -81,7 +85,7 @@ const getXOrBelowStreaks = (data, X) => {
       return
     }
     for (let player of ["Kate", "Will"]) {
-      if (day[player] <= X) {
+      if ((day[player] || 8) <= X) {
         currentStreaks[player]++
       } else {
         let days = currentStreaks[player]

@@ -53,7 +53,7 @@ const RecordPage = ({data}) => {
         <option value={CONSECUTIVE_FOUR_BELOW}>Consecutive days scoring 4 or below</option>
         <option value={CONSECUTIVE_FIVE_BELOW}>Consecutive days scoring 5 or below</option>
       </select>
-      <div id="recordTableContainer">
+      <div className="tableContainer" style={{height: "200px"}}>
         <table className="table">
           <thead>
             {headerRow}

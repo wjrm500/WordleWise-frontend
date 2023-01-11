@@ -34,22 +34,28 @@ const DayScoreTable = ({loggedInUser, dayData, dayIndex, onAddScoreButtonClick})
         </tr>
       )
     })
-  const summaryRow = <tr>
-    <td></td>
+  const summaryRow = <tr style={{backgroundColor: "var(--blue-3)", color: "white"}}>
+    <td>Total</td>
     <td>{dayData[dayIndex].reduce((score, day) => score + day.Kate, 0)}</td>
     <td>{dayData[dayIndex].reduce((score, day) => score + day.Will, 0)}</td>
   </tr>
   return (
-    <table id="dayScoreTable" className="scoreTable table">
-      <thead>
-        {headerRow1}
-        {headerRow2}
-      </thead>
-      <tbody>
-        {dataRows}
-        {summaryRow}
-      </tbody>
-    </table>
+    <div style={{width: "75%"}}>
+      <table id="dayScoreTable" className="scoreTable table">
+        <thead>
+          {headerRow1}
+          {headerRow2}
+        </thead>
+        <tbody>
+          {dataRows}
+        </tbody>
+      </table>
+      <table className="scoreTable table" style={{marginTop: "5px"}}>
+        <tbody>
+          {summaryRow}
+        </tbody>
+      </table>
+    </div>
   )
 }
 

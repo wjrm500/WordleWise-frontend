@@ -147,7 +147,7 @@ code {
   display: flex;
   font-size: 14px;
   justify-content: center;
-  padding: 5px;
+  padding: 10px;
 }
 
 .arrowContainer {
@@ -191,21 +191,12 @@ code {
   padding: 2px 5px;
 }
 
-.scoreTable {
-  margin: 5px;
-  max-width: 250px;
-}
-
 .scoreTable td:first-child {
   width: 50%
 }
 
 .scoreTable td:not(:first-child) {
   width: 25%
-}
-
-.scoreTable tr:last-child {
-  font-weight: bold;
 }
 
 .addScoreButton {
@@ -247,9 +238,8 @@ code {
   padding: 2px;
 }
 
-#recordTableContainer {
-  height: 200px;
-  margin-bottom: 5px;
+.tableContainer {
   overflow-y: auto;
-  width: 90%;
+  scrollbar-gutter: stable;
+  width: 100%;
 }
