@@ -2,20 +2,22 @@ const getWinStreaks = (data) => {
   let previousWinner = null
   let streaks = []
   data.flat().forEach(day => {
+    day.Kate = day.Kate != null ? day.Kate : 8
+    day.Will = day.Will != null ? day.Will : 8
     let currentWinner = day.Kate < day.Will ? "Kate" : day.Will < day.Kate ? "Will" : null
     if (currentWinner && currentWinner === previousWinner) {
       let currentStreak = streaks.pop()
-      currentStreak.numDays++
+      currentStreak.days++
       currentStreak.endDate = day.Date
       streaks.push(currentStreak)
     } else if (currentWinner) {
-      streaks.push({player: currentWinner, numDays: 1, endDate: day.Date})
+      streaks.push({player: currentWinner, days: 1, endDate: day.Date})
     }
     previousWinner = currentWinner
   })
   streaks.sort((a, b) => {
-    if (b.numDays !== a.numDays) {
-      return b.numDays - a.numDays
+    if (b.days !== a.days) {
+      return b.days - a.days
     } else {
       return new Date(a.endDate) - new Date(b.endDate)
     }
@@ -50,12 +52,13 @@ const getUnbeatenStreaks = (data) => {
     }
     finalDate = day.Date
   })
-  if (currentStreaks.Kate > 0) {
-    streaks.push({player: "Kate", days: currentStreaks.Kate, endDate: finalDate})
+
+  for (let player of ["Kate", "Will"]) {
+    if (currentStreaks[player] > 0) {
+      streaks.push({player, days: currentStreaks[player], endDate: finalDate})
+    }
   }
-  if (currentStreaks.Will > 0) {
-    streaks.push({player: "Will", days: currentStreaks.Will, endDate: finalDate})
-  }
+
   streaks.sort((a, b) => {
     if (b.days !== a.days) {
       return b.days - a.days
@@ -66,4 +69,48 @@ const getUnbeatenStreaks = (data) => {
   return streaks
 }
 
-export {getWinStreaks, getUnbeatenStreaks}
+const getXOrBelowStreaks = (data, X) => {
+  let currentStreaks = {"Kate": 0, "Will": 0}
+  let streaks = []
+  let finalDate
+  const now = new Date()
+  const todayDate = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()))
+  data.flat().forEach(day => {
+    let currentDate = new Date(day.Date)
+    if (currentDate > todayDate) {
+      return
+    }
+    for (let player of ["Kate", "Will"]) {
+      if (day[player] <= X) {
+        currentStreaks[player]++
+      } else {
+        let days = currentStreaks[player]
+        if (days > 0) {
+          let endDate = new Date(day.Date)
+          endDate.setTime(endDate.getTime() - 86400000)
+          endDate = endDate.toISOString().slice(0, 10)
+          streaks.push({player: player, days, endDate})
+        }
+        currentStreaks[player] = 0
+      }
+    }
+    finalDate = day.Date
+  })
+
+  for (let player of ["Kate", "Will"]) {
+    if (currentStreaks[player] > 0) {
+      streaks.push({player, days: currentStreaks[player], endDate: finalDate})
+    }
+  }
+
+  streaks.sort((a, b) => {
+    if (b.days !== a.days) {
+      return b.days - a.days
+    } else {
+      return new Date(a.endDate) - new Date(b.endDate)
+    }
+  })
+  return streaks
+}
+
+export {getWinStreaks, getUnbeatenStreaks, getXOrBelowStreaks}
