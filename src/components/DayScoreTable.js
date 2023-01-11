@@ -40,7 +40,7 @@ const DayScoreTable = ({loggedInUser, dayData, dayIndex, onAddScoreButtonClick})
     <td>{dayData[dayIndex].reduce((score, day) => score + day.Will, 0)}</td>
   </tr>
   return (
-    <table id="dayScoreTable" className="scoreTable" cellSpacing="0">
+    <table id="dayScoreTable" className="scoreTable table">
       <thead>
         {headerRow1}
         {headerRow2}

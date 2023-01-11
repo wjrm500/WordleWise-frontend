@@ -22,7 +22,7 @@ const WeekScoreTable = ({weekData, weekIndex}) => {
     <td>{weekData[weekIndex].reduce((score, week) => score + week.WillTotal, 0)}</td>
   </tr>
   return (
-    <table id="weekScoreTable" className="scoreTable" cellSpacing="0">
+    <table id="weekScoreTable" className="scoreTable table">
       <thead>
         {headerRow}
       </thead>

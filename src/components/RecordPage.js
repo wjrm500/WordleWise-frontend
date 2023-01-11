@@ -36,9 +36,13 @@ const RecordPage = ({data}) => {
         <option value="Most consecutive wins">Most consecutive wins</option>
         <option value="Most consecutive rounds unbeaten">Most consecutive rounds unbeaten</option>
       </select>
-      <table className="recordTable">
-        {headerRow}
-        {rows}
+      <table className="table">
+        <thead>
+          {headerRow}
+        </thead>
+        <tbody>
+          {rows}
+        </tbody>
       </table>
     </div>
   )
