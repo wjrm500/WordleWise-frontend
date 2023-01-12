@@ -7,7 +7,7 @@ const AddScoreModal = ({loggedInUser, addScore, setShowAddScoreModal}) => {
     setShowAddScoreModal(false)
   }
   const options = [1, 2, 3, 4, 5, 6, "Fail"].map(option => (
-    <option value={option}>{option}</option>
+    <option value={option == "Fail" ? 8 : option}>{option}</option>
   ))
   return (
     <div id="addScoreModal" class="scoreModal">
