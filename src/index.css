@@ -58,6 +58,7 @@ code {
   border: none;
   border-radius: 4px;
   color: white;
+  margin: 2.5px;
   padding: 5px;
 }
 
@@ -231,7 +232,7 @@ code {
   z-index: 2;
 }
 
-.scoreModal * {
+.scoreModal *:not(button) {
   padding: 2px;
 }
 

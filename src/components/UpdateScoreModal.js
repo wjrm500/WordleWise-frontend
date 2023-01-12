@@ -51,7 +51,7 @@ const UpdateScoreModal = ({addScore, setShowUpdateScoreModal}) => {
             {scoreOptions}
           </select>
         </div>
-        <input type="submit" className="headerButton" />
+        <button className="headerButton">Submit</button>
       </form>
     </div>
   )
