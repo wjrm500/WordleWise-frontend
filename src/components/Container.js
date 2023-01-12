@@ -24,8 +24,8 @@ const Container = () => {
     }).then(({data}) => {
         if (data.success) {
           sessionStorage.setItem("token", data.access_token)
-          sessionStorage.setItem("loggedInUser", username)
-          setLoggedInUser(username)
+          sessionStorage.setItem("loggedInUser", data.user)
+          setLoggedInUser(data.user)
         } else {
           setLoginIsLoading(false)
           alert(data.error)

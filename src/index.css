@@ -53,7 +53,7 @@ code {
   padding: 5px 10px;
 }
 
-#logoutButton {
+.headerButton {
   background-color: var(--blue-3);
   border: none;
   border-radius: 4px;
@@ -61,7 +61,7 @@ code {
   padding: 5px;
 }
 
-#logoutButton:hover {
+.headerButton:hover {
   color: black;
   cursor: pointer;
 }
