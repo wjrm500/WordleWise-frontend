@@ -4,7 +4,22 @@ const UpdateScoreModal = ({addScore, setShowUpdateScoreModal}) => {
   const [date, setDate] = useState("");
   const [player, setPlayer] = useState("");
   const [score, setScore] = useState("");
-  const onSubmit = () => {
+  const dateChange = (event) => {
+    let tempDate = new Date()
+    tempDate.setTime(tempDate.getTime() + (24 * 60 * 60 * 1000))
+    let tomorrowDate = new Date(tempDate.getFullYear(), tempDate.getMonth(), tempDate.getDate())
+    let inputDate = new Date(event.target.value)
+    console.log(tomorrowDate)
+    console.log(inputDate)
+    console.log(inputDate > tomorrowDate)
+    if (inputDate > tomorrowDate) {
+      alert("Date cannot be in the future")
+    } else {
+      setDate(event.target.value)
+    }
+  }
+  const onSubmit = (event) => {
+    event.preventDefault()
     addScore(date, player, score)
     setShowUpdateScoreModal(false)
   }
@@ -20,7 +35,7 @@ const UpdateScoreModal = ({addScore, setShowUpdateScoreModal}) => {
       <form onSubmit={onSubmit}>
         <div className="formGroup">
           <label htmlFor="date">Date</label>
-          <input type="date" name="date" value={date} onChange={event => setDate(event.target.value)} />
+          <input type="date" name="date" value={date} onChange={dateChange} />
         </div>
         <div className="formGroup">
           <label htmlFor="player">Player</label>
