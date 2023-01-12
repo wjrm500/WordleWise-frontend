@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import DayScoreTable from "./DayScoreTable"
 import AddScoreModal from "./AddScoreModal"
-import AddScoreOverlay from "./AddScoreOverlay"
+import ModalOverlay from "./ModalOverlay"
 import LeftArrow from "./LeftArrow"
 import RightArrow from "./RightArrow"
 
@@ -9,13 +9,13 @@ const DayAggPage = ({loggedInUser, addScore, data}) => {
   const [dayIndex, setDayIndex] = useState(data.length - 1)
   const [showAddScoreModal, setShowAddScoreModal] = useState(false)
   const onAddScoreButtonClick = () => setShowAddScoreModal(true)
-  const onAddScoreOverlayClick = () => setShowAddScoreModal(false)
+  const onModalOverlayClick = () => setShowAddScoreModal(false)
   return (
     <div id="dayAggPage" className="page">
       {
         showAddScoreModal ? (
           <>
-            <AddScoreOverlay onClick={onAddScoreOverlayClick} />
+            <ModalOverlay onClick={onModalOverlayClick} />
             <AddScoreModal loggedInUser={loggedInUser} addScore={addScore} setShowAddScoreModal={setShowAddScoreModal} />
           </>
         ) : ""

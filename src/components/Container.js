@@ -4,11 +4,22 @@ import LoginContainer from "./LoginContainer"
 import HomeContainer from "./HomeContainer"
 import ServerAddrContext from "../contexts/ServerAddrContext"
 import axios from "axios"
+import StatusCodes from "http-status-codes";
 
 const Container = () => {
   /* Hooks */
   const SERVER_ADDR = useContext(ServerAddrContext)
-  const [loggedInUser, setLoggedInUser] = useState(sessionStorage.getItem("loggedInUser"))
+  const [loggedInUser, setLoggedInUser] = useState(JSON.parse(sessionStorage.getItem("loggedInUser")))
+  const [appData, setAppData] = useState({})
+
+  const postOptions = {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Authorization": "Bearer " + sessionStorage.getItem("token"),
+      "Content-Type": "application/json"
+    },
+    type: "cors"
+  }
 
   /* Functions */
   const onLogin = (username, password, setLoginIsLoading) => {
@@ -24,7 +35,7 @@ const Container = () => {
     }).then(({data}) => {
         if (data.success) {
           sessionStorage.setItem("token", data.access_token)
-          sessionStorage.setItem("loggedInUser", data.user)
+          sessionStorage.setItem("loggedInUser", JSON.stringify(data.user))
           setLoggedInUser(data.user)
         } else {
           setLoginIsLoading(false)
@@ -41,14 +52,40 @@ const Container = () => {
     sessionStorage.removeItem("loggedInUser")
     setLoggedInUser(null)
   }
+  const getData = () => {
+    axios.post(
+      SERVER_ADDR + "/getData",
+      {timezone: Intl.DateTimeFormat().resolvedOptions().timeZone},
+      postOptions
+    ).then(({data}) => {
+      setAppData(data)
+    }).catch(({response}) => {
+      if (response.status == StatusCodes.UNAUTHORIZED) {
+        onLogout()
+      }
+    })
+  }
+  const addScore = (date, user, score) => {
+    axios.post(
+      SERVER_ADDR + "/addScore",
+      {date, user, score, timezone: Intl.DateTimeFormat().resolvedOptions().timeZone},
+      postOptions
+    ).then(
+      getData
+    ).catch(({response}) => {
+      if (response.status == StatusCodes.UNAUTHORIZED) {
+        onLogout()
+      }
+    })
+  }
 
   /* Render */
   return (
     <div id="container">
-      <Header loggedInUser={loggedInUser} onLogout={onLogout} />
+      <Header loggedInUser={loggedInUser} onLogout={onLogout} getData={getData} addScore={addScore} />
       {
         sessionStorage.getItem("token") ?
-        <HomeContainer loggedInUser={loggedInUser} onLogout={onLogout} /> :
+        <HomeContainer loggedInUser={loggedInUser} appData={appData} getData={getData} addScore={addScore} /> :
         <LoginContainer onLogin={onLogin} />
       }
     </div>

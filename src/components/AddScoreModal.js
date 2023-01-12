@@ -10,7 +10,7 @@ const AddScoreModal = ({loggedInUser, addScore, setShowAddScoreModal}) => {
     <option value={option}>{option}</option>
   ))
   return (
-    <div id="addScoreModal">
+    <div id="addScoreModal" class="scoreModal">
       <div>Add your score</div>
       <form>
         <select name="score" onChange={onChange}>

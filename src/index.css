@@ -209,7 +209,7 @@ code {
   cursor: pointer;
 }
 
-#addScoreOverlay {
+#modalOverlay {
   background-color: rgba(255, 255, 255, 0.8);
   height: 100%;
   left: 0;
@@ -219,13 +219,10 @@ code {
   z-index: 1;
 }
 
-#addScoreModal {
+.scoreModal {
   align-items: center;
   background-color: var(--blue-0);
   color: white;
-  display: flex;
-  font-size: 1.2em;
-  font-weight: bold;
   left: 50%;
   padding: 10px;
   position: fixed;
@@ -234,8 +231,31 @@ code {
   z-index: 2;
 }
 
-#addScoreModal * {
+.scoreModal * {
   padding: 2px;
+}
+
+#addScoreModal {
+  display: flex;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+#updateScoreModal {
+  font-size: 16px;
+  width: 200px;
+}
+
+#updateScoreModal .formGroup {
+  display: flex;
+}
+
+#updateScoreModal .formGroup label {
+  flex: 1;
+}
+
+#updateScoreModal .formGroup *:not(label) {
+  flex: 2;
 }
 
 .tableContainer {
