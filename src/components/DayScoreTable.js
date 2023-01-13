@@ -19,14 +19,14 @@ const DayScoreTable = ({loggedInUser, dayData, dayIndex, onAddScoreButtonClick})
           <td>{beautifyDate(day.Date)}</td>
           <td>
             {
-              today && loggedInUser == "kjem500" && day.Kate == null
+              today && loggedInUser.username == "kjem500" && day.Kate == null
               ? <AddScoreButton onAddScoreButtonClick={onAddScoreButtonClick} />
               : day.Kate
             }
           </td>
           <td>
             {
-              today && loggedInUser == "wjrm500" && day.Will == null
+              today && loggedInUser.username == "wjrm500" && day.Will == null
               ? <AddScoreButton onAddScoreButtonClick={onAddScoreButtonClick} />
               : day.Will
             }
