@@ -35,14 +35,17 @@ const RecordPage = ({data}) => {
       <th>End date</th>
     </tr>
   )
-  const rows = getRecords(recordType).map((streak, index) => (
-    <tr>
-      <td>{index + 1}</td>
-      <td>{streak.player}</td>
-      <td>{streak.days}</td>
-      <td>{streak.endDate}</td>
-    </tr>
-  ))
+  const rows = getRecords(recordType).map((streak, index) => {
+    const highlight = streak.endDate == (new Date()).toISOString().slice(0, 10)
+    return (
+      <tr style={{backgroundColor: highlight ? "var(--blue-3)" : "", color: highlight ? "white" : ""}}>
+        <td>{index + 1}</td>
+        <td>{streak.player}</td>
+        <td>{streak.days}</td>
+        <td>{streak.endDate}</td>
+      </tr>
+    )
+  })
   return (
     <div className="page" style={{alignItems: 'center', flexDirection: 'column'}}>
       <select onChange={(event) => setRecordType(event.target.value)} style={{marginBottom: '5px'}}>
