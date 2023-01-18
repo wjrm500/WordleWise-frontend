@@ -1,3 +1,10 @@
+const getTodayDate = () => {
+  const now = new Date()
+  return new Date(now.getFullYear(), now.getMonth(), now.getDate())
+}
+
+const getDateFromStr = (dateStr) => new Date(...dateStr.split("-").map(x => parseInt(x, 10)).map((x, i) => i == 1 ? x - 1 : x))
+
 const getWinStreaks = (data) => {
   let previousWinner = null
   let streaks = []
@@ -29,10 +36,9 @@ const getUnbeatenStreaks = (data) => {
   let currentStreaks = {"Kate": 0, "Will": 0}
   let streaks = []
   let finalDate
-  const now = new Date()
-  const todayDate = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()))
+  const todayDate = getTodayDate()
   data.flat().forEach(day => {
-    let currentDate = new Date(day.Date)
+    let currentDate = getDateFromStr(day.Date)
     if (currentDate > todayDate) {
       return
     }
@@ -77,10 +83,9 @@ const getXOrBelowStreaks = (data, X) => {
   let currentStreaks = {"Kate": 0, "Will": 0}
   let streaks = []
   let finalDate
-  const now = new Date()
-  const todayDate = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()))
+  const todayDate = getTodayDate()
   data.flat().forEach(day => {
-    let currentDate = new Date(day.Date)
+    let currentDate = getDateFromStr(day.Date)
     if (currentDate > todayDate) {
       return
     }
