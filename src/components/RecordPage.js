@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { dateIsToday } from '../utilities/dates'
 import { getUnbeatenStreaks, getWinStreaks, getXOrBelowStreaks } from '../utilities/records'
 
 const RecordPage = ({data}) => {
@@ -36,7 +37,7 @@ const RecordPage = ({data}) => {
     </tr>
   )
   const rows = getRecords(recordType).map((streak, index) => {
-    const highlight = streak.endDate == (new Date()).toISOString().slice(0, 10)
+    const highlight = dateIsToday(streak.endDate)
     return (
       <tr style={{backgroundColor: highlight ? "var(--blue-3)" : "", color: highlight ? "white" : ""}}>
         <td>{index + 1}</td>

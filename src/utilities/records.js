@@ -1,9 +1,4 @@
-const getTodayDate = () => {
-  const now = new Date()
-  return new Date(now.getFullYear(), now.getMonth(), now.getDate())
-}
-
-const getDateFromStr = (dateStr) => new Date(...dateStr.split("-").map(x => parseInt(x, 10)).map((x, i) => i == 1 ? x - 1 : x))
+import { getDateFromStr, getTodayDate } from "./dates"
 
 const getWinStreaks = (data) => {
   let previousWinner = null
