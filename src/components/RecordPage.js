@@ -39,7 +39,7 @@ const RecordPage = ({data}) => {
   const rows = getRecords(recordType).map((streak, index) => {
     const highlight = isPastPresentOrFuture(streak.endDate) == PRESENT
     return (
-      <tr style={{backgroundColor: highlight ? "var(--blue-3)" : "", color: highlight ? "white" : ""}}>
+      <tr key={index} style={{backgroundColor: highlight ? "var(--blue-3)" : "", color: highlight ? "white" : ""}}>
         <td>{index + 1}</td>
         <td>{streak.player}</td>
         <td>{streak.days}</td>
