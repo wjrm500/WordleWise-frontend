@@ -1,5 +1,6 @@
 import React from "react"
-import { beautifyDate, dateIsToday } from "../utilities/dates"
+import { calculateTotal } from "../utilities/arrays"
+import { beautifyDate, PAST, PRESENT, FUTURE, isPastPresentOrFuture } from "../utilities/dates"
 import AddScoreButton from "./AddScoreButton"
 
 const DayScoreTable = ({loggedInUser, dayData, dayIndex, onAddScoreButtonClick}) => {
@@ -11,33 +12,42 @@ const DayScoreTable = ({loggedInUser, dayData, dayIndex, onAddScoreButtonClick})
     <th>Kate</th>
     <th>Will</th>
   </tr>
-  const dataRows =
-    dayData[dayIndex].map(day => {
-      const today = dateIsToday(day.Date)
-      return (
-        <tr key={day.Date}>
-          <td>{beautifyDate(day.Date)}</td>
-          <td>
-            {
-              today && loggedInUser.username == "kjem500" && day.Kate == null
-              ? <AddScoreButton onAddScoreButtonClick={onAddScoreButtonClick} />
-              : day.Kate
-            }
-          </td>
-          <td>
-            {
-              today && loggedInUser.username == "wjrm500" && day.Will == null
-              ? <AddScoreButton onAddScoreButtonClick={onAddScoreButtonClick} />
-              : day.Will
-            }
-          </td>
-        </tr>
-      )
-    })
+  let dataRows = []
+  for (let i = 0; i < dayData[dayIndex].length; i++) {
+    const day = dayData[dayIndex][i]
+    const pastPresentFuture = isPastPresentOrFuture(day.Date)
+    let kateCell, willCell
+    switch (pastPresentFuture) {
+      case PAST:
+        kateCell = (<td style={day.Kate == null ? {color: "darkgrey"} : {}}>{day.Kate || 8}</td>)
+        willCell = (<td style={day.Will == null ? {color: "darkgrey"} : {}}>{day.Will || 8}</td>)
+        break
+      case PRESENT:
+        kateCell = loggedInUser.username == "kjem500" && day.Kate == null ?
+          (<td><AddScoreButton onAddScoreButtonClick={onAddScoreButtonClick} /></td>) :
+          (<td>{day.Kate}</td>)
+        willCell = loggedInUser.username == "wjrm500" && day.Will == null ?
+          (<td><AddScoreButton onAddScoreButtonClick={onAddScoreButtonClick} /></td>) :
+          (<td>{day.Will}</td>)
+        break
+      case FUTURE:
+        kateCell = willCell = <td></td>
+    }
+    const row = (
+      <tr key={day.Date}>
+        <td>{beautifyDate(day.Date)}</td>
+        {kateCell}
+        {willCell}
+      </tr>
+    )
+    dataRows.push(row)
+  }
+  let kateTotal = calculateTotal(dayData[dayIndex], "Kate")
+  let willTotal = calculateTotal(dayData[dayIndex], "Will")
   const summaryRow = <tr style={{backgroundColor: "var(--blue-3)", color: "white"}}>
     <td>Total</td>
-    <td>{dayData[dayIndex].reduce((score, day) => score + day.Kate, 0)}</td>
-    <td>{dayData[dayIndex].reduce((score, day) => score + day.Will, 0)}</td>
+    <td>{kateTotal}</td>
+    <td>{willTotal}</td>
   </tr>
   return (
     <div style={{width: "75%"}}>

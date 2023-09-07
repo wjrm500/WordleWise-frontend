@@ -19,6 +19,20 @@ const getTodayDate = () => {
   return new Date(now.getFullYear(), now.getMonth(), now.getDate())
 }
 
-const dateIsToday = (dateStr) => getDateFromStr(dateStr).getTime() == getTodayDate().getTime()
+const PAST = "PAST"
+const PRESENT = "PRESENT"
+const FUTURE = "FUTURE"
 
-export {beautifyDate, getDateFromStr, getTodayDate, dateIsToday}
+const isPastPresentOrFuture = (dateStr) => {
+  const date = getDateFromStr(dateStr)
+  const today = getTodayDate()
+  if (date.getTime() < today.getTime()) {
+    return PAST
+  } else if (date.getTime() == today.getTime()) {
+    return PRESENT
+  } else {
+    return FUTURE
+  }
+}
+
+export {beautifyDate, getDateFromStr, getTodayDate, PAST, PRESENT, FUTURE, isPastPresentOrFuture}
