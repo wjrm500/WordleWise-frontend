@@ -1,4 +1,4 @@
-import { PRESENT, FUTURE, isPastPresentOrFuture } from "../utilities/dates"
+import { PAST, PRESENT, FUTURE, isPastPresentOrFuture } from "../utilities/dates"
 
 const arrayChunks = (array, chunk_size) => {
   return Array(Math.ceil(array.length / chunk_size))
