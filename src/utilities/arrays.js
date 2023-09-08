@@ -9,8 +9,13 @@ const arrayChunks = (array, chunk_size) => {
 
 const calculateTotal = (data, key) => {
   return data
-    .filter((day) => isPastPresentOrFuture(day.Date) != FUTURE)
-    .map((day) => isPastPresentOrFuture(day.Date) == PRESENT ? 0 : day[key] || 8)
+    .map((day) => {
+      switch (isPastPresentOrFuture(day.Date)) {
+        case PAST: return day[key] || 8
+        case PRESENT: return day[key] || 0
+        case FUTURE: return 0
+      }
+    })
     .reduce((acc, score) => acc + score, 0)
 }
 
