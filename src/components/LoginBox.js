@@ -22,14 +22,14 @@ const LoginBox = ({onLogin}) => {
           <input type="text"
                  autoComplete="username"
                  onChange={(e) => setUsername(e.target.value)}
-                 onKeyPress={(e) => e.key == "Enter" ? onSubmit() : ""} />
+                 onKeyDown={(e) => e.key == "Enter" ? onSubmit() : ""} />
         </div>
         <div className="loginBoxField">
           <label>Password</label>
           <input type="password"
                  autoComplete="current-password"
                  onChange={(e) => setPassword(e.target.value)}
-                 onKeyPress={(e) => e.key == "Enter" ? onSubmit() : ""} />
+                 onKeyDown={(e) => e.key == "Enter" ? onSubmit() : ""} />
         </div>
         <button id="loginButton">
           {
