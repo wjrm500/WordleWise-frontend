@@ -19,11 +19,17 @@ const LoginBox = ({onLogin}) => {
       <form method="post" onSubmit={(e) => e.preventDefault()}>
         <div className="loginBoxField">
           <label>Username</label>
-          <input type="text" onChange={(e) => setUsername(e.target.value)} onKeyPress={(e) => e.key == "Enter" ? onSubmit() : ""} />
+          <input type="text"
+                 autoComplete="username"
+                 onChange={(e) => setUsername(e.target.value)}
+                 onKeyPress={(e) => e.key == "Enter" ? onSubmit() : ""} />
         </div>
         <div className="loginBoxField">
           <label>Password</label>
-          <input type="password" onChange={(e) => setPassword(e.target.value)} onKeyPress={(e) => e.key == "Enter" ? onSubmit() : ""} />
+          <input type="password"
+                 autoComplete="current-password"
+                 onChange={(e) => setPassword(e.target.value)}
+                 onKeyPress={(e) => e.key == "Enter" ? onSubmit() : ""} />
         </div>
         <button id="loginButton">
           {
