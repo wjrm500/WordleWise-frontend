@@ -11,6 +11,7 @@ const Container = () => {
   const SERVER_ADDR = useContext(ServerAddrContext)
   const [loggedInUser, setLoggedInUser] = useState(JSON.parse(sessionStorage.getItem("loggedInUser")))
   const [appData, setAppData] = useState({})
+  const [dayIndex, setDayIndex] = useState(null)
 
   const postOptions = {
     headers: {
@@ -59,6 +60,7 @@ const Container = () => {
       postOptions
     ).then(({data}) => {
       setAppData(data)
+      setDayIndex(data.length - 1)
     }).catch(({response}) => {
       if (response.status == StatusCodes.UNAUTHORIZED) {
         onLogout()
@@ -85,7 +87,7 @@ const Container = () => {
       <Header loggedInUser={loggedInUser} onLogout={onLogout} getData={getData} addScore={addScore} />
       {
         sessionStorage.getItem("token") ?
-        <HomeContainer loggedInUser={loggedInUser} appData={appData} getData={getData} addScore={addScore} /> :
+        <HomeContainer loggedInUser={loggedInUser} appData={appData} getData={getData} addScore={addScore} dayIndex={dayIndex} setDayIndex={setDayIndex} /> :
         <LoginContainer onLogin={onLogin} />
       }
     </div>

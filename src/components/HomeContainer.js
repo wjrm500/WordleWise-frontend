@@ -7,15 +7,14 @@ import SpinningLoader from "./SpinningLoader";
 import PageMenu from "./PageMenu";
 import RecordPage from "./RecordPage";
 
-const HomeContainer = ({loggedInUser, appData, getData, addScore}) => {
+const HomeContainer = ({loggedInUser, appData, getData, addScore, dayIndex, setDayIndex}) => {
   /* Hooks */
   const {DAILY_PAGE, WEEKLY_PAGE, RECORD_PAGE} = useContext(PageConstsContext)
   const [pageType, setPageType] = useState(DAILY_PAGE)
-  const [selectedWeekIndex, setSelectedWeekIndex] = useState(null)
 
   const onWeekRowClick = (index) => {
-    setPageType(DAILY_PAGE);
-    setSelectedWeekIndex(index);
+    setPageType(DAILY_PAGE)
+    setDayIndex(index)
   }
 
   /* Get data */
@@ -24,7 +23,7 @@ const HomeContainer = ({loggedInUser, appData, getData, addScore}) => {
   let page
   switch (pageType) {
     case DAILY_PAGE:
-      page = <DayAggPage loggedInUser={loggedInUser} addScore={addScore} data={appData} selectedWeekIndex={selectedWeekIndex} />
+      page = <DayAggPage loggedInUser={loggedInUser} addScore={addScore} data={appData} dayIndex={dayIndex} setDayIndex={setDayIndex} />
       break
     case WEEKLY_PAGE:
       page = <WeekAggPage data={appData} onWeekRowClick={onWeekRowClick} />

@@ -3,7 +3,6 @@ import { calculateTotal } from "../utilities/arrays"
 import WeekScoreTable from "./WeekScoreTable"
 
 const WeekAggPage = ({data, onWeekRowClick}) => {
-
   const consolidateWeek = (weekData, index) => {
     return {
       index,
