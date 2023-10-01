@@ -192,12 +192,12 @@ code {
   padding: 2px 5px;
 }
 
-.scoreTable td:first-child {
+.scoreTable td.dateColumn {
   width: 50%
 }
 
-.scoreTable td:not(:first-child) {
-  width: 25%
+.scoreTable td.scoreColumn {
+  width: 20%
 }
 
 .addScoreButton {
@@ -263,4 +263,9 @@ code {
   overflow-y: auto;
   scrollbar-gutter: stable;
   width: 100%;
+}
+
+.clickableRow:hover {
+  font-weight: bold;
+  cursor: pointer;
 }

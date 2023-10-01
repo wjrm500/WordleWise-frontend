@@ -3,23 +3,26 @@ import { beautifyDate } from "../utilities/dates.js"
 
 const WeekScoreTable = ({weekData, onWeekRowClick}) => {
   const headerRow = <tr>
+    <th>#</th>
     <th>Start date</th>
     <th>Kate</th>
     <th>Will</th>
   </tr>
   const dataRows = weekData.map(week => {
     return (
-      <tr key={week.StartDate} onClick={() => onWeekRowClick(week.index)}>
+      <tr key={week.StartDate} onClick={() => onWeekRowClick(week.index)} className="clickableRow">
+        <td>{week.index + 1}</td>
         <td>{beautifyDate(week.StartDate)}</td>
-        <td>{week.KateTotal}</td>
-        <td>{week.WillTotal}</td>
+        <td className="scoreColumn">{week.KateTotal}</td>
+        <td className="scoreColumn">{week.WillTotal}</td>
       </tr>
     )
   })
   const summaryRow = <tr style={{backgroundColor: "var(--blue-3)", color: "white"}}>
-    <td>Total</td>
-    <td>{weekData.reduce((score, week) => score + week.KateTotal, 0)}</td>
-    <td>{weekData.reduce((score, week) => score + week.WillTotal, 0)}</td>
+    <td></td>
+    <td></td>
+    <td className="scoreColumn">{weekData.reduce((score, week) => score + week.KateTotal, 0)}</td>
+    <td className="scoreColumn">{weekData.reduce((score, week) => score + week.WillTotal, 0)}</td>
   </tr>
   return (
     <div style={{width: "100%"}}>
