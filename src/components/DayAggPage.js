@@ -5,8 +5,8 @@ import ModalOverlay from "./ModalOverlay"
 import LeftArrow from "./LeftArrow"
 import RightArrow from "./RightArrow"
 
-const DayAggPage = ({loggedInUser, addScore, data}) => {
-  const [dayIndex, setDayIndex] = useState(data.length - 1)
+const DayAggPage = ({loggedInUser, addScore, data, selectedWeekIndex}) => {
+  const [dayIndex, setDayIndex] = useState(selectedWeekIndex !== null ? selectedWeekIndex : data.length - 1)
   const [showAddScoreModal, setShowAddScoreModal] = useState(false)
   const onAddScoreButtonClick = () => setShowAddScoreModal(true)
   const onModalOverlayClick = () => setShowAddScoreModal(false)

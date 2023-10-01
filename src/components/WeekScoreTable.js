@@ -1,7 +1,7 @@
 import React from "react"
 import { beautifyDate } from "../utilities/dates.js"
 
-const WeekScoreTable = ({weekData}) => {
+const WeekScoreTable = ({weekData, onWeekRowClick}) => {
   const headerRow = <tr>
     <th>Start date</th>
     <th>Kate</th>
@@ -9,7 +9,7 @@ const WeekScoreTable = ({weekData}) => {
   </tr>
   const dataRows = weekData.map(week => {
     return (
-      <tr key={week.StartDate}>
+      <tr key={week.StartDate} onClick={() => onWeekRowClick(week.index)}>
         <td>{beautifyDate(week.StartDate)}</td>
         <td>{week.KateTotal}</td>
         <td>{week.WillTotal}</td>

@@ -11,6 +11,12 @@ const HomeContainer = ({loggedInUser, appData, getData, addScore}) => {
   /* Hooks */
   const {DAILY_PAGE, WEEKLY_PAGE, RECORD_PAGE} = useContext(PageConstsContext)
   const [pageType, setPageType] = useState(DAILY_PAGE)
+  const [selectedWeekIndex, setSelectedWeekIndex] = useState(null)
+
+  const onWeekRowClick = (index) => {
+    setPageType(DAILY_PAGE);
+    setSelectedWeekIndex(index);
+  }
 
   /* Get data */
   useEffect(getData, [appData.length])
@@ -18,10 +24,10 @@ const HomeContainer = ({loggedInUser, appData, getData, addScore}) => {
   let page
   switch (pageType) {
     case DAILY_PAGE:
-      page = <DayAggPage loggedInUser={loggedInUser} addScore={addScore} data={appData} />
+      page = <DayAggPage loggedInUser={loggedInUser} addScore={addScore} data={appData} selectedWeekIndex={selectedWeekIndex} />
       break
     case WEEKLY_PAGE:
-      page = <WeekAggPage data={appData} />
+      page = <WeekAggPage data={appData} onWeekRowClick={onWeekRowClick} />
       break
     case RECORD_PAGE:
       page = <RecordPage data={appData} />
