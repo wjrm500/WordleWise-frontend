@@ -7,7 +7,8 @@ const beautifyDate = (date) => {
     undefined, {
     weekday: "short",
     month: "short",
-    day: "2-digit"
+    day: "2-digit",
+    year: "numeric",
     }
   )
 }
