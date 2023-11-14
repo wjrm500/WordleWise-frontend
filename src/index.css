@@ -269,3 +269,7 @@ code {
   font-weight: bold;
   cursor: pointer;
 }
+
+.icon-20px {
+  height: 18px;
+}
