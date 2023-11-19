@@ -23,7 +23,7 @@ const UpdateScoreModal = ({addScore, setShowUpdateScoreModal}) => {
     addScore(date, player, score)
     setShowUpdateScoreModal(false)
   }
-  const playerOptions = [{display: "Kate", value: "kjem500"}, {display: "Will", value: "wjrm500"}].map(option => (
+  const playerOptions = [{display: "Kate", value: 2}, {display: "Will", value: 1}].map(option => (
     <option value={option.value}>{option.display}</option>
   ))
   const scoreOptions = [1, 2, 3, 4, 5, 6, "Fail"].map(option => (
