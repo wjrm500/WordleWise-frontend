@@ -67,10 +67,10 @@ const Container = () => {
       }
     })
   }
-  const addScore = (date, user, score) => {
+  const addScore = (date, user_id, score) => {
     axios.post(
       SERVER_ADDR + "/addScore",
-      {date, user, score, timezone: Intl.DateTimeFormat().resolvedOptions().timeZone},
+      {date, user_id, score, timezone: Intl.DateTimeFormat().resolvedOptions().timeZone},
       postOptions
     ).then(
       getData
