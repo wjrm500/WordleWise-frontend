@@ -53,9 +53,9 @@ const Container = () => {
     sessionStorage.removeItem("loggedInUser")
     setLoggedInUser(null)
   }
-  const getData = () => {
+  const getScores = () => {
     axios.post(
-      SERVER_ADDR + "/getData",
+      SERVER_ADDR + "/getScores",
       {timezone: Intl.DateTimeFormat().resolvedOptions().timeZone},
       postOptions
     ).then(({data}) => {
@@ -73,7 +73,7 @@ const Container = () => {
       {date, user_id, score, timezone: Intl.DateTimeFormat().resolvedOptions().timeZone},
       postOptions
     ).then(
-      getData
+      getScores
     ).catch(({response}) => {
       if (response.status == StatusCodes.UNAUTHORIZED) {
         onLogout()
@@ -84,10 +84,10 @@ const Container = () => {
   /* Render */
   return (
     <div id="container">
-      <Header loggedInUser={loggedInUser} onLogout={onLogout} getData={getData} addScore={addScore} />
+      <Header loggedInUser={loggedInUser} onLogout={onLogout} addScore={addScore} />
       {
         sessionStorage.getItem("token") ?
-        <HomeContainer loggedInUser={loggedInUser} appData={appData} getData={getData} addScore={addScore} dayIndex={dayIndex} setDayIndex={setDayIndex} /> :
+        <HomeContainer loggedInUser={loggedInUser} appData={appData} getScores={getScores} addScore={addScore} dayIndex={dayIndex} setDayIndex={setDayIndex} /> :
         <LoginContainer onLogin={onLogin} />
       }
     </div>
