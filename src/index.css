@@ -62,6 +62,10 @@ code {
   padding: 5px;
 }
 
+.headerButton:disabled {
+  background-color: darkgrey;
+}
+
 .headerButton:hover {
   color: black;
   cursor: pointer;

@@ -1,9 +1,11 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 
 const UpdateScoreModal = ({addScore, setShowUpdateScoreModal, players}) => {
   const [date, setDate] = useState("");
   const [player, setPlayer] = useState("");
   const [score, setScore] = useState("");
+  const [isFormValid, setIsFormValid] = useState(false);
+
   const dateChange = (event) => {
     let tempDate = new Date()
     tempDate.setTime(tempDate.getTime() + (24 * 60 * 60 * 1000))
@@ -20,15 +22,23 @@ const UpdateScoreModal = ({addScore, setShowUpdateScoreModal, players}) => {
   }
   const onSubmit = (event) => {
     event.preventDefault()
-    addScore(date, player, score)
-    setShowUpdateScoreModal(false)
+    if (isFormValid) {
+      addScore(date, player, score)
+      setShowUpdateScoreModal(false)
+    }
   }
   const playerOptions = players.map(player => (
-    <option value={player.id}>{player.username}</option>
+    <option key={player.id} value={player.id}>{player.username}</option>
   ));
   const scoreOptions = [1, 2, 3, 4, 5, 6, "Fail"].map(option => (
-    <option value={option == "Fail" ? 8 : option}>{option}</option>
+    <option key={option} value={option == "Fail" ? 8 : option}>{option}</option>
   ))
+
+   // Check form validity whenever any input changes
+   useEffect(() => {
+    setIsFormValid(date !== "" && player !== "" && score !== "");
+  }, [date, player, score])
+
   return (
     <div id="updateScoreModal" className="scoreModal">
       <div style={{fontWeight: "bold"}}>Update score</div>
@@ -51,7 +61,7 @@ const UpdateScoreModal = ({addScore, setShowUpdateScoreModal, players}) => {
             {scoreOptions}
           </select>
         </div>
-        <button className="headerButton">Submit</button>
+        <button className="headerButton" disabled={!isFormValid}>Submit</button>
       </form>
     </div>
   )
