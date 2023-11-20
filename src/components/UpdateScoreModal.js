@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-const UpdateScoreModal = ({addScore, setShowUpdateScoreModal}) => {
+const UpdateScoreModal = ({addScore, setShowUpdateScoreModal, players}) => {
   const [date, setDate] = useState("");
   const [player, setPlayer] = useState("");
   const [score, setScore] = useState("");
@@ -23,9 +23,9 @@ const UpdateScoreModal = ({addScore, setShowUpdateScoreModal}) => {
     addScore(date, player, score)
     setShowUpdateScoreModal(false)
   }
-  const playerOptions = [{display: "Kate", value: 2}, {display: "Will", value: 1}].map(option => (
-    <option value={option.value}>{option.display}</option>
-  ))
+  const playerOptions = players.map(player => (
+    <option value={player.id}>{player.username}</option>
+  ));
   const scoreOptions = [1, 2, 3, 4, 5, 6, "Fail"].map(option => (
     <option value={option == "Fail" ? 8 : option}>{option}</option>
   ))

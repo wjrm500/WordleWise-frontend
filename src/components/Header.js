@@ -5,7 +5,7 @@ import UpdateScoreModal from "./UpdateScoreModal"
 import ModalOverlay from "./ModalOverlay"
 import logo from '../images/logo.png'
 
-const Header = ({loggedInUser, onLogout, addScore}) => {
+const Header = ({loggedInUser, onLogout, addScore, players}) => {
   const [showUpdateScoreModal, setShowUpdateScoreModal] = useState(false)
   const onUpdateScoreButtonClick = () => setShowUpdateScoreModal(true)
   const onModalOverlayClick = () => setShowUpdateScoreModal(false)
@@ -15,7 +15,7 @@ const Header = ({loggedInUser, onLogout, addScore}) => {
         showUpdateScoreModal ? (
           <>
             <ModalOverlay onClick={onModalOverlayClick} />
-            <UpdateScoreModal addScore={addScore} setShowUpdateScoreModal={setShowUpdateScoreModal} />
+            <UpdateScoreModal addScore={addScore} setShowUpdateScoreModal={setShowUpdateScoreModal} players={players} />
           </>
         ) : ""
       }

@@ -7,7 +7,7 @@ import SpinningLoader from "./SpinningLoader";
 import PageMenu from "./PageMenu";
 import RecordPage from "./RecordPage";
 
-const HomeContainer = ({loggedInUser, appData, getScores, addScore, dayIndex, setDayIndex}) => {
+const HomeContainer = ({loggedInUser, scores, getScores, addScore, players, getPlayers, dayIndex, setDayIndex}) => {
   /* Hooks */
   const {DAILY_PAGE, WEEKLY_PAGE, RECORD_PAGE} = useContext(PageConstsContext)
   const [pageType, setPageType] = useState(DAILY_PAGE)
@@ -17,19 +17,22 @@ const HomeContainer = ({loggedInUser, appData, getScores, addScore, dayIndex, se
     setDayIndex(index)
   }
 
-  /* Get data */
-  useEffect(getScores, [appData.length])
+  /* Get score data */
+  useEffect(getScores, [scores.length])
+
+  /* Get player data */
+  useEffect(getPlayers, [players.length])
 
   let page
   switch (pageType) {
     case DAILY_PAGE:
-      page = <DayAggPage loggedInUser={loggedInUser} addScore={addScore} data={appData} dayIndex={dayIndex} setDayIndex={setDayIndex} />
+      page = <DayAggPage loggedInUser={loggedInUser} addScore={addScore} data={scores} dayIndex={dayIndex} setDayIndex={setDayIndex} />
       break
     case WEEKLY_PAGE:
-      page = <WeekAggPage data={appData} onWeekRowClick={onWeekRowClick} />
+      page = <WeekAggPage data={scores} onWeekRowClick={onWeekRowClick} />
       break
     case RECORD_PAGE:
-      page = <RecordPage data={appData} />
+      page = <RecordPage data={scores} />
       break
   }
   
@@ -38,7 +41,7 @@ const HomeContainer = ({loggedInUser, appData, getScores, addScore, dayIndex, se
     <div id="homeContainer">
       <PageMenu pageType={pageType} setPageType={setPageType} />
       {
-        appData.length > 0 ?
+        scores.length > 0 ?
         page : (
           <div className="page">
             <SpinningLoader />
