@@ -36,12 +36,16 @@ const RecordPage = ({data}) => {
       <th>End date</th>
     </tr>
   )
+  const playerMapping = {
+    "kjem500": "Kate",
+    "wjrm500": "Will"
+  }
   const rows = getRecords(recordType).map((streak, index) => {
     const highlight = isPastPresentOrFuture(streak.endDate) == PRESENT
     return (
       <tr key={index} style={{backgroundColor: highlight ? "var(--blue-3)" : "", color: highlight ? "white" : ""}}>
         <td>{index + 1}</td>
-        <td>{streak.player}</td>
+        <td>{playerMapping[streak.player]}</td>
         <td>{streak.days}</td>
         <td>{streak.endDate}</td>
       </tr>

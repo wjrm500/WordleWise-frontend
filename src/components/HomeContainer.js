@@ -18,10 +18,10 @@ const HomeContainer = ({loggedInUser, scores, getScores, addScore, players, getP
   }
 
   /* Get score data */
-  useEffect(getScores, [scores.length])
+  useEffect(getScores, [])
 
   /* Get player data */
-  useEffect(getPlayers, [players.length])
+  useEffect(getPlayers, [])
 
   let page
   switch (pageType) {

@@ -4,8 +4,9 @@ import { beautifyDate, PAST, PRESENT, FUTURE, isPastPresentOrFuture } from "../u
 import AddScoreButton from "./AddScoreButton"
 
 const DayScoreTable = ({loggedInUser, dayData, dayIndex, onAddScoreButtonClick}) => {
+  const title = beautifyDate(dayData[dayIndex]["start_of_week"], false, true)
   const headerRow1 = <tr>
-    <th colSpan="3">Week {dayIndex + 1}</th>
+    <th colSpan="3">Week starting {title}</th>
   </tr>
   const headerRow2 = <tr>
     <th>Date</th>
@@ -13,37 +14,37 @@ const DayScoreTable = ({loggedInUser, dayData, dayIndex, onAddScoreButtonClick})
     <th className="scoreColumn">Will</th>
   </tr>
   let dataRows = []
-  for (let i = 0; i < dayData[dayIndex].length; i++) {
-    const day = dayData[dayIndex][i]
-    const pastPresentFuture = isPastPresentOrFuture(day.Date)
+  for (let date in dayData[dayIndex]["data"]) {
+    const day = dayData[dayIndex]["data"][date]
+    const pastPresentFuture = isPastPresentOrFuture(date)
     let kateCell, willCell
     switch (pastPresentFuture) {
       case PAST:
-        kateCell = (<td className="scoreColumn" style={day.Kate == null ? {color: "darkgrey"} : {}}>{day.Kate || 8}</td>)
-        willCell = (<td className="scoreColumn" style={day.Will == null ? {color: "darkgrey"} : {}}>{day.Will || 8}</td>)
+        kateCell = (<td className="scoreColumn" style={day.kjem500 == null ? {color: "darkgrey"} : {}}>{day.kjem500 || 8}</td>)
+        willCell = (<td className="scoreColumn" style={day.wjrm500 == null ? {color: "darkgrey"} : {}}>{day.wjrm500 || 8}</td>)
         break
       case PRESENT:
-        kateCell = loggedInUser.username == "kjem500" && day.Kate == null ?
+        kateCell = loggedInUser.username == "kjem500" && day.kjem500 == null ?
           (<td className="scoreColumn"><AddScoreButton onAddScoreButtonClick={onAddScoreButtonClick} /></td>) :
-          (<td className="scoreColumn">{day.Kate}</td>)
-        willCell = loggedInUser.username == "wjrm500" && day.Will == null ?
+          (<td className="scoreColumn">{day.kjem500 || ""}</td>)
+        willCell = loggedInUser.username == "wjrm500" && day.wjrm500 == null ?
           (<td className="scoreColumn"><AddScoreButton onAddScoreButtonClick={onAddScoreButtonClick} /></td>) :
-          (<td className="scoreColumn">{day.Will}</td>)
+          (<td className="scoreColumn">{day.wjrm500 || ""}</td>)
         break
       case FUTURE:
         kateCell = willCell = <td></td>
     }
     const row = (
-      <tr key={day.Date}>
-        <td>{beautifyDate(day.Date)}</td>
+      <tr key={date}>
+        <td>{beautifyDate(date)}</td>
         {kateCell}
         {willCell}
       </tr>
     )
     dataRows.push(row)
   }
-  let kateTotal = calculateTotal(dayData[dayIndex], "Kate")
-  let willTotal = calculateTotal(dayData[dayIndex], "Will")
+  let kateTotal = calculateTotal(dayData[dayIndex]["data"], "kjem500")
+  let willTotal = calculateTotal(dayData[dayIndex]["data"], "wjrm500")
   const summaryRow = <tr style={{backgroundColor: "var(--blue-3)", color: "white"}}>
     <td></td>
     <td className="scoreColumn">{kateTotal}</td>

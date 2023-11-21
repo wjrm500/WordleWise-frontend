@@ -4,7 +4,7 @@ import { beautifyDate } from "../utilities/dates.js"
 const WeekScoreTable = ({weekData, onWeekRowClick}) => {
   const headerRow = <tr>
     <th>#</th>
-    <th>Start date</th>
+    <th>Week starting</th>
     <th>Kate</th>
     <th>Will</th>
   </tr>
@@ -12,7 +12,7 @@ const WeekScoreTable = ({weekData, onWeekRowClick}) => {
     return (
       <tr key={week.StartDate} onClick={() => onWeekRowClick(week.index)} className="clickableRow">
         <td>{week.index + 1}</td>
-        <td>{beautifyDate(week.StartDate)}</td>
+        <td>{week.StartOfWeek}</td>
         <td className="scoreColumn">{week.KateTotal}</td>
         <td className="scoreColumn">{week.WillTotal}</td>
       </tr>

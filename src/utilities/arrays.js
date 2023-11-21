@@ -8,15 +8,22 @@ const arrayChunks = (array, chunk_size) => {
 }
 
 const calculateTotal = (data, key) => {
-  return data
-    .map((day) => {
-      switch (isPastPresentOrFuture(day.Date)) {
-        case PAST: return day[key] || 8
-        case PRESENT: return day[key] || 0
-        case FUTURE: return 0
-      }
-    })
-    .reduce((acc, score) => acc + score, 0)
+  let total = 0
+  for (let date in data) {
+    const day = data[date]
+    switch (isPastPresentOrFuture(date)) {
+      case PAST:
+        total += day[key] || 8
+        break
+      case PRESENT:
+        total += day[key] || 0
+        break
+      case FUTURE:
+        total += 0
+        break
+    }
+  }
+  return total
 }
 
 export {arrayChunks, calculateTotal}
