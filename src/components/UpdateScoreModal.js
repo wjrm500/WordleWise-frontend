@@ -11,9 +11,6 @@ const UpdateScoreModal = ({addScore, setShowUpdateScoreModal, players}) => {
     tempDate.setTime(tempDate.getTime() + (24 * 60 * 60 * 1000))
     let tomorrowDate = new Date(tempDate.getFullYear(), tempDate.getMonth(), tempDate.getDate())
     let inputDate = new Date(event.target.value)
-    console.log(tomorrowDate)
-    console.log(inputDate)
-    console.log(inputDate > tomorrowDate)
     if (inputDate > tomorrowDate) {
       alert("Date cannot be in the future")
     } else {
