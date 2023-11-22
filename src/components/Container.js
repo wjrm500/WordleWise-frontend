@@ -54,27 +54,31 @@ const Container = () => {
     sessionStorage.removeItem("loggedInUser")
     setLoggedInUser(null)
   }
-  const getScores = () => {
+  const getScores = (init = true) => {
     axios.post(
       SERVER_ADDR + "/getScores",
       {timezone: Intl.DateTimeFormat().resolvedOptions().timeZone},
       postOptions
     ).then(({data}) => {
       setScores(data)
-      setDayIndex(data.length - 1)
+      if (init) {
+        setDayIndex(data.length - 1)
+      }
     }).catch(({response}) => {
       if (response.status == StatusCodes.UNAUTHORIZED) {
         onLogout()
       }
     })
   }
-  const addScore = (date, user_id, score) => {
+  const addScore = (date, user_id, score, init = true) => {
     axios.post(
       SERVER_ADDR + "/addScore",
       {date, user_id, score, timezone: Intl.DateTimeFormat().resolvedOptions().timeZone},
       postOptions
     ).then(
-      getScores
+      () => {
+        getScores(init)
+      }
     ).catch(({response}) => {
       if (response.status == StatusCodes.UNAUTHORIZED) {
         onLogout()

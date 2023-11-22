@@ -20,7 +20,7 @@ const UpdateScoreModal = ({addScore, setShowUpdateScoreModal, players}) => {
   const onSubmit = (event) => {
     event.preventDefault()
     if (isFormValid) {
-      addScore(date, player, score)
+      addScore(date, player, score, false)
       setShowUpdateScoreModal(false)
     }
   }
