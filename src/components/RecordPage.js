@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { PRESENT, isPastPresentOrFuture } from '../utilities/dates'
 import { getUnbeatenStreaks, getWinStreaks, getXOrBelowStreaks } from '../utilities/records'
 
-const RecordPage = ({data}) => {
+const RecordPage = ({data, onRecordClick}) => {
   const CONSECUTIVE_WINS = "consecWin"
   const CONSECUTIVE_DAYS_UNBEATEN = "consecUnbeat"
   const CONSECUTIVE_TWO_BELOW = "consec2"
@@ -43,7 +43,7 @@ const RecordPage = ({data}) => {
   const rows = getRecords(recordType).map((streak, index) => {
     const highlight = isPastPresentOrFuture(streak.endDate) == PRESENT
     return (
-      <tr key={index} style={{backgroundColor: highlight ? "var(--blue-3)" : "", color: highlight ? "white" : ""}}>
+      <tr key={index} style={{backgroundColor: highlight ? "var(--blue-3)" : "", color: highlight ? "white" : ""}} onClick={() => onRecordClick(streak)} className="clickableRow">
         <td>{index + 1}</td>
         <td>{playerMapping[streak.player]}</td>
         <td>{streak.days}</td>

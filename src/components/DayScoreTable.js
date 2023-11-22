@@ -1,9 +1,18 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { calculateTotal } from "../utilities/arrays"
 import { beautifyDate, PAST, PRESENT, FUTURE, isPastPresentOrFuture } from "../utilities/dates"
 import AddScoreButton from "./AddScoreButton"
 
-const DayScoreTable = ({loggedInUser, dayData, dayIndex, onAddScoreButtonClick}) => {
+const DayScoreTable = ({loggedInUser, dayData, dayIndex, onAddScoreButtonClick, selectedRecordDate}) => {
+  const [highlightDate, setHighlightDate] = useState(null)
+
+  useEffect(() => {
+    if (selectedRecordDate != null) {
+      setHighlightDate(selectedRecordDate)
+      setTimeout(() => setHighlightDate(null), 1000)
+    }
+  }, [selectedRecordDate])
+  
   const title = beautifyDate(dayData[dayIndex]["start_of_week"], false, true)
   const headerRow1 = <tr>
     <th colSpan="3">Week starting {title}</th>
@@ -43,6 +52,17 @@ const DayScoreTable = ({loggedInUser, dayData, dayIndex, onAddScoreButtonClick})
     )
     dataRows.push(row)
   }
+
+  dataRows = dataRows.map(row => {
+    const isHighlighted = highlightDate && row.key == highlightDate
+    const rowStyle = isHighlighted ? {backgroundColor: "yellow"} : {}
+    return (
+      <tr key={row.key} style={rowStyle}>
+        {row.props.children}
+      </tr>
+    )
+  })
+
   let kateTotal = calculateTotal(dayData[dayIndex]["data"], "kjem500")
   let willTotal = calculateTotal(dayData[dayIndex]["data"], "wjrm500")
   const summaryRow = <tr style={{backgroundColor: "var(--blue-3)", color: "white"}}>

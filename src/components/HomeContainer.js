@@ -11,10 +11,20 @@ const HomeContainer = ({loggedInUser, scores, getScores, addScore, players, getP
   /* Hooks */
   const {DAILY_PAGE, WEEKLY_PAGE, RECORD_PAGE} = useContext(PageConstsContext)
   const [pageType, setPageType] = useState(DAILY_PAGE)
+  const [selectedRecordDate, setSelectedRecordDate] = useState(null);
 
   const onWeekRowClick = (index) => {
     setPageType(DAILY_PAGE)
     setDayIndex(index)
+  }
+
+  const onRecordClick = (streak) => {
+    setSelectedRecordDate(streak.endDate)
+    const weekIndex = scores.findIndex(week =>
+      week.data.hasOwnProperty(streak.endDate)
+    )
+    setPageType(DAILY_PAGE)
+    setDayIndex(weekIndex)
   }
 
   /* Get score data */
@@ -26,13 +36,13 @@ const HomeContainer = ({loggedInUser, scores, getScores, addScore, players, getP
   let page
   switch (pageType) {
     case DAILY_PAGE:
-      page = <DayAggPage loggedInUser={loggedInUser} addScore={addScore} data={scores} dayIndex={dayIndex} setDayIndex={setDayIndex} />
+      page = <DayAggPage loggedInUser={loggedInUser} addScore={addScore} data={scores} dayIndex={dayIndex} setDayIndex={setDayIndex} selectedRecordDate={selectedRecordDate} />
       break
     case WEEKLY_PAGE:
       page = <WeekAggPage data={scores} onWeekRowClick={onWeekRowClick} />
       break
     case RECORD_PAGE:
-      page = <RecordPage data={scores} />
+      page = <RecordPage data={scores} onRecordClick={onRecordClick} />
       break
   }
   

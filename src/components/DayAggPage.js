@@ -5,7 +5,7 @@ import ModalOverlay from "./ModalOverlay"
 import LeftArrow from "./LeftArrow"
 import RightArrow from "./RightArrow"
 
-const DayAggPage = ({loggedInUser, addScore, data, dayIndex, setDayIndex}) => {
+const DayAggPage = ({loggedInUser, addScore, data, dayIndex, setDayIndex, selectedRecordDate}) => {
   const [showAddScoreModal, setShowAddScoreModal] = useState(false)
 
   const handleKeyPress = (event) => {
@@ -36,7 +36,7 @@ const DayAggPage = ({loggedInUser, addScore, data, dayIndex, setDayIndex}) => {
         ) : ""
       }
       <LeftArrow active={dayIndex > 0} index={dayIndex} setIndex={setDayIndex} />
-      <DayScoreTable loggedInUser={loggedInUser} dayData={data} dayIndex={dayIndex} onAddScoreButtonClick={onAddScoreButtonClick} />
+      <DayScoreTable loggedInUser={loggedInUser} dayData={data} dayIndex={dayIndex} onAddScoreButtonClick={onAddScoreButtonClick} selectedRecordDate={selectedRecordDate} />
       <RightArrow active={dayIndex < data.length - 1} index={dayIndex} setIndex={setDayIndex} />
     </div>
   )
