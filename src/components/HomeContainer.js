@@ -7,7 +7,7 @@ import SpinningLoader from "./SpinningLoader";
 import PageMenu from "./PageMenu";
 import RecordPage from "./RecordPage";
 
-const HomeContainer = ({loggedInUser, scores, getScores, addScore, players, getPlayers, dayIndex, setDayIndex}) => {
+const HomeContainer = ({loggedInUser, scores, getScores, addScore, getPlayers, dayIndex, setDayIndex}) => {
   /* Hooks */
   const {DAILY_PAGE, WEEKLY_PAGE, RECORD_PAGE} = useContext(PageConstsContext)
   const [pageType, setPageType] = useState(DAILY_PAGE)

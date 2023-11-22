@@ -104,7 +104,7 @@ const Container = () => {
       <Header loggedInUser={loggedInUser} onLogout={onLogout} addScore={addScore} players={players} getPlayers={getPlayers} />
       {
         sessionStorage.getItem("token") ?
-        <HomeContainer loggedInUser={loggedInUser} scores={scores} getScores={getScores} addScore={addScore} players={players} getPlayers={getPlayers} dayIndex={dayIndex} setDayIndex={setDayIndex} /> :
+        <HomeContainer loggedInUser={loggedInUser} scores={scores} getScores={getScores} addScore={addScore} getPlayers={getPlayers} dayIndex={dayIndex} setDayIndex={setDayIndex} /> :
         <LoginContainer onLogin={onLogin} />
       }
     </div>
