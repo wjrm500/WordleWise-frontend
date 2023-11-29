@@ -11,7 +11,7 @@ const Container = () => {
   const SERVER_ADDR = useContext(ServerAddrContext)
   const [loggedInUser, setLoggedInUser] = useState(JSON.parse(sessionStorage.getItem("loggedInUser")))
   const [scores, setScores] = useState({})
-  const [players, setPlayers] = useState({})
+  const [users, setUsers] = useState({})
   const [dayIndex, setDayIndex] = useState(null)
 
   const postOptions = {
@@ -85,12 +85,12 @@ const Container = () => {
       }
     })
   }
-  const getPlayers = () => {
+  const getUsers = () => {
     axios.get(
-      SERVER_ADDR + "/getPlayers",
+      SERVER_ADDR + "/getUsers",
       postOptions
     ).then(({data}) => {
-      setPlayers(data)
+      setUsers(data)
     }).catch(({response}) => {
       if (response.status == StatusCodes.UNAUTHORIZED) {
         onLogout()
@@ -101,10 +101,10 @@ const Container = () => {
   /* Render */
   return (
     <div id="container">
-      <Header loggedInUser={loggedInUser} onLogout={onLogout} addScore={addScore} players={players} getPlayers={getPlayers} />
+      <Header loggedInUser={loggedInUser} onLogout={onLogout} addScore={addScore} users={users} getUsers={getUsers} />
       {
         sessionStorage.getItem("token") ?
-        <HomeContainer loggedInUser={loggedInUser} scores={scores} getScores={getScores} addScore={addScore} getPlayers={getPlayers} dayIndex={dayIndex} setDayIndex={setDayIndex} /> :
+        <HomeContainer loggedInUser={loggedInUser} scores={scores} getScores={getScores} addScore={addScore} getUsers={getUsers} dayIndex={dayIndex} setDayIndex={setDayIndex} /> :
         <LoginContainer onLogin={onLogin} />
       }
     </div>

@@ -31,12 +31,12 @@ const RecordPage = ({data, onRecordClick}) => {
   const headerRow = (
     <tr>
       <th>#</th>
-      <th>Player</th>
+      <th>User</th>
       <th>Days</th>
       <th>End date</th>
     </tr>
   )
-  const playerMapping = {
+  const userMapping = {
     "kjem500": "Kate",
     "wjrm500": "Will"
   }
@@ -45,7 +45,7 @@ const RecordPage = ({data, onRecordClick}) => {
     return (
       <tr key={index} style={{backgroundColor: highlight ? "var(--blue-3)" : "", color: highlight ? "white" : ""}} onClick={() => onRecordClick(streak)} className="clickableRow">
         <td>{index + 1}</td>
-        <td>{playerMapping[streak.player]}</td>
+        <td>{userMapping[streak.user]}</td>
         <td>{streak.days}</td>
         <td>{streak.endDate}</td>
       </tr>

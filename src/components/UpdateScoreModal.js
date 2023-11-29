@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
 
-const UpdateScoreModal = ({addScore, setShowUpdateScoreModal, players}) => {
+const UpdateScoreModal = ({addScore, setShowUpdateScoreModal, users}) => {
   const [date, setDate] = useState("");
-  const [player, setPlayer] = useState("");
+  const [user, setUser] = useState("");
   const [score, setScore] = useState("");
   const [isFormValid, setIsFormValid] = useState(false);
 
@@ -20,12 +20,12 @@ const UpdateScoreModal = ({addScore, setShowUpdateScoreModal, players}) => {
   const onSubmit = (event) => {
     event.preventDefault()
     if (isFormValid) {
-      addScore(date, player, score, false)
+      addScore(date, user, score, false)
       setShowUpdateScoreModal(false)
     }
   }
-  const playerOptions = players.map(player => (
-    <option key={player.id} value={player.id}>{player.username}</option>
+  const userOptions = users.map(user => (
+    <option key={user.id} value={user.id}>{user.username}</option>
   ));
   const scoreOptions = [1, 2, 3, 4, 5, 6, "Fail"].map(option => (
     <option key={option} value={option == "Fail" ? 8 : option}>{option}</option>
@@ -33,8 +33,8 @@ const UpdateScoreModal = ({addScore, setShowUpdateScoreModal, players}) => {
 
    // Check form validity whenever any input changes
    useEffect(() => {
-    setIsFormValid(date !== "" && player !== "" && score !== "");
-  }, [date, player, score])
+    setIsFormValid(date !== "" && user !== "" && score !== "");
+  }, [date, user, score])
 
   return (
     <div id="updateScoreModal" className="scoreModal">
@@ -45,10 +45,10 @@ const UpdateScoreModal = ({addScore, setShowUpdateScoreModal, players}) => {
           <input type="date" name="date" value={date} onChange={dateChange} />
         </div>
         <div className="formGroup">
-          <label htmlFor="player">Player</label>
-          <select name="player" value={player} onChange={event => setPlayer(event.target.value)}>
-            <option value="" disabled>Select a player</option>
-            {playerOptions}
+          <label htmlFor="user">User</label>
+          <select name="user" value={user} onChange={event => setUser(event.target.value)}>
+            <option value="" disabled>Select a user</option>
+            {userOptions}
           </select>
         </div>
         <div className="formGroup">

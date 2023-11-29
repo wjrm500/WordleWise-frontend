@@ -25,7 +25,7 @@ const getWinStreaks = (data) => {
       currentStreak.endDate = day.Date
       streaks.push(currentStreak)
     } else if (currentWinner) {
-      streaks.push({player: currentWinner, days: 1, endDate: day.Date})
+      streaks.push({user: currentWinner, days: 1, endDate: day.Date})
     }
     previousWinner = currentWinner
   })
@@ -63,16 +63,16 @@ const getUnbeatenStreaks = (data) => {
         let endDate = new Date(day.Date)
         endDate.setTime(endDate.getTime() - 86400000)
         endDate = endDate.toISOString().slice(0, 10)
-        streaks.push({player: currentLoser, days, endDate})
+        streaks.push({user: currentLoser, days, endDate})
       }
       currentStreaks[currentLoser] = 0
     }
     finalDate = day.Date
   })
 
-  for (let player of ["kjem500", "wjrm500"]) {
-    if (currentStreaks[player] > 0) {
-      streaks.push({player, days: currentStreaks[player], endDate: finalDate})
+  for (let user of ["kjem500", "wjrm500"]) {
+    if (currentStreaks[user] > 0) {
+      streaks.push({user, days: currentStreaks[user], endDate: finalDate})
     }
   }
 
@@ -96,26 +96,26 @@ const getXOrBelowStreaks = (data, X) => {
     if (currentDate > todayDate) {
       return
     }
-    for (let player of ["kjem500", "wjrm500"]) {
-      if ((day[player] || 8) <= X) {
-        currentStreaks[player]++
+    for (let user of ["kjem500", "wjrm500"]) {
+      if ((day[user] || 8) <= X) {
+        currentStreaks[user]++
       } else {
-        let days = currentStreaks[player]
+        let days = currentStreaks[user]
         if (days > 0) {
           let endDate = new Date(day.Date)
           endDate.setTime(endDate.getTime() - 86400000)
           endDate = endDate.toISOString().slice(0, 10)
-          streaks.push({player: player, days, endDate})
+          streaks.push({user: user, days, endDate})
         }
-        currentStreaks[player] = 0
+        currentStreaks[user] = 0
       }
     }
     finalDate = day.Date
   })
 
-  for (let player of ["kjem500", "wjrm500"]) {
-    if (currentStreaks[player] > 0) {
-      streaks.push({player, days: currentStreaks[player], endDate: finalDate})
+  for (let user of ["kjem500", "wjrm500"]) {
+    if (currentStreaks[user] > 0) {
+      streaks.push({user, days: currentStreaks[user], endDate: finalDate})
     }
   }
 

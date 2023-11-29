@@ -7,7 +7,7 @@ import SpinningLoader from "./SpinningLoader";
 import PageMenu from "./PageMenu";
 import RecordPage from "./RecordPage";
 
-const HomeContainer = ({loggedInUser, scores, getScores, addScore, getPlayers, dayIndex, setDayIndex}) => {
+const HomeContainer = ({loggedInUser, scores, getScores, addScore, getUsers, dayIndex, setDayIndex}) => {
   /* Hooks */
   const {DAILY_PAGE, WEEKLY_PAGE, RECORD_PAGE} = useContext(PageConstsContext)
   const [pageType, setPageType] = useState(DAILY_PAGE)
@@ -30,8 +30,8 @@ const HomeContainer = ({loggedInUser, scores, getScores, addScore, getPlayers, d
   /* Get score data */
   useEffect(getScores, [])
 
-  /* Get player data */
-  useEffect(getPlayers, [])
+  /* Get user data */
+  useEffect(getUsers, [])
 
   let page
   switch (pageType) {
