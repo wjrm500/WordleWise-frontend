@@ -5,6 +5,7 @@ import { getUnbeatenStreaks, getWinStreaks, getXOrBelowStreaks } from '../utilit
 const RecordPage = ({data, onRecordClick}) => {
   const CONSECUTIVE_WINS = "consecWin"
   const CONSECUTIVE_DAYS_UNBEATEN = "consecUnbeat"
+  const CONSECUTIVE_ONE_BELOW = "consec1"
   const CONSECUTIVE_TWO_BELOW = "consec2"
   const CONSECUTIVE_THREE_BELOW = "consec3"
   const CONSECUTIVE_FOUR_BELOW = "consec4"
@@ -17,6 +18,8 @@ const RecordPage = ({data, onRecordClick}) => {
         return getWinStreaks(data)
       case CONSECUTIVE_DAYS_UNBEATEN:
         return getUnbeatenStreaks(data)
+      case CONSECUTIVE_ONE_BELOW:
+        return getXOrBelowStreaks(data, 1)
       case CONSECUTIVE_TWO_BELOW:
         return getXOrBelowStreaks(data, 2)
       case CONSECUTIVE_THREE_BELOW:
@@ -56,6 +59,7 @@ const RecordPage = ({data, onRecordClick}) => {
       <select onChange={(event) => setRecordType(event.target.value)} style={{marginBottom: '5px'}}>
         <option value={CONSECUTIVE_WINS}>Consecutive wins</option>
         <option value={CONSECUTIVE_DAYS_UNBEATEN}>Consecutive days unbeaten</option>
+        <option value={CONSECUTIVE_ONE_BELOW}>Consecutive days scoring 1 or below</option>
         <option value={CONSECUTIVE_TWO_BELOW}>Consecutive days scoring 2 or below</option>
         <option value={CONSECUTIVE_THREE_BELOW}>Consecutive days scoring 3 or below</option>
         <option value={CONSECUTIVE_FOUR_BELOW}>Consecutive days scoring 4 or below</option>
