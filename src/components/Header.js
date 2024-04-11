@@ -20,7 +20,7 @@ const Header = ({loggedInUser, onLogout, addScore, users}) => {
         ) : ""
       }
       <img src={logo} alt="WordleWise Logo" style={{ height: "50px" }} />
-      <div>Welcome to <b>WordleWise</b></div>
+      <div>I love you my angel wuff 💕😘</div>
       {loggedInUser && loggedInUser.admin ? <UpdateScoreButton onClick={onUpdateScoreButtonClick} /> : ""}
       {loggedInUser ? <LogoutButton onLogout={onLogout} /> : ""}
     </div>
