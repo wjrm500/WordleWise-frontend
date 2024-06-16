@@ -4,7 +4,7 @@ import LoginContainer from "./LoginContainer"
 import HomeContainer from "./HomeContainer"
 import ServerAddrContext from "../contexts/ServerAddrContext"
 import axios from "axios"
-import StatusCodes from "http-status-codes";
+import StatusCodes from "http-status-codes"
 
 const Container = () => {
   /* Hooks */
@@ -27,14 +27,14 @@ const Container = () => {
   const onLogin = (username, password, setLoginIsLoading) => {
     axios.post(
       SERVER_ADDR + "/login",
-      {username, password},
+      { username, password },
       {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json"
-      },
-      type: "cors",
-    }).then(({data}) => {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json"
+        },
+        type: "cors",
+      }).then(({ data }) => {
         if (data.success) {
           sessionStorage.setItem("token", data.access_token)
           sessionStorage.setItem("loggedInUser", JSON.stringify(data.user))
@@ -57,14 +57,14 @@ const Container = () => {
   const getScores = (init = true) => {
     axios.post(
       SERVER_ADDR + "/getScores",
-      {timezone: Intl.DateTimeFormat().resolvedOptions().timeZone},
+      { timezone: Intl.DateTimeFormat().resolvedOptions().timeZone },
       postOptions
-    ).then(({data}) => {
+    ).then(({ data }) => {
       setScores(data)
       if (init) {
         setDayIndex(data.length - 1)
       }
-    }).catch(({response}) => {
+    }).catch(({ response }) => {
       if (response.status == StatusCodes.UNAUTHORIZED) {
         onLogout()
       }
@@ -73,13 +73,13 @@ const Container = () => {
   const addScore = (date, user_id, score, init = true) => {
     axios.post(
       SERVER_ADDR + "/addScore",
-      {date, user_id, score, timezone: Intl.DateTimeFormat().resolvedOptions().timeZone},
+      { date, user_id, score, timezone: Intl.DateTimeFormat().resolvedOptions().timeZone },
       postOptions
     ).then(
       () => {
         getScores(init)
       }
-    ).catch(({response}) => {
+    ).catch(({ response }) => {
       if (response.status == StatusCodes.UNAUTHORIZED) {
         onLogout()
       }
@@ -89,9 +89,9 @@ const Container = () => {
     axios.get(
       SERVER_ADDR + "/getUsers",
       postOptions
-    ).then(({data}) => {
+    ).then(({ data }) => {
       setUsers(data)
-    }).catch(({response}) => {
+    }).catch(({ response }) => {
       if (response.status == StatusCodes.UNAUTHORIZED) {
         onLogout()
       }
@@ -104,8 +104,8 @@ const Container = () => {
       <Header loggedInUser={loggedInUser} onLogout={onLogout} addScore={addScore} users={users} getUsers={getUsers} />
       {
         sessionStorage.getItem("token") ?
-        <HomeContainer loggedInUser={loggedInUser} scores={scores} getScores={getScores} addScore={addScore} getUsers={getUsers} dayIndex={dayIndex} setDayIndex={setDayIndex} /> :
-        <LoginContainer onLogin={onLogin} />
+          <HomeContainer loggedInUser={loggedInUser} scores={scores} getScores={getScores} addScore={addScore} getUsers={getUsers} users={users} dayIndex={dayIndex} setDayIndex={setDayIndex} /> : // Pass users prop here
+          <LoginContainer onLogin={onLogin} />
       }
     </div>
   )

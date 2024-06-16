@@ -1,17 +1,17 @@
 import DayAggPage from "./DayAggPage"
 import WeekAggPage from "./WeekAggPage"
+import RecordPage from "./RecordPage"
+import StatsPage from "./StatsPage"
 import React, { useContext, useEffect, useState } from "react"
-import PageConstsContext from "../contexts/PageConstsContext";
-import SpinningLoader from "./SpinningLoader";
+import PageConstsContext from "../contexts/PageConstsContext"
+import SpinningLoader from "./SpinningLoader"
+import PageMenu from "./PageMenu"
 
-import PageMenu from "./PageMenu";
-import RecordPage from "./RecordPage";
-
-const HomeContainer = ({loggedInUser, scores, getScores, addScore, getUsers, dayIndex, setDayIndex}) => {
+const HomeContainer = ({ loggedInUser, scores, getScores, addScore, getUsers, users, dayIndex, setDayIndex }) => {
   /* Hooks */
-  const {DAILY_PAGE, WEEKLY_PAGE, RECORD_PAGE} = useContext(PageConstsContext)
+  const { DAILY_PAGE, WEEKLY_PAGE, RECORD_PAGE, STATS_PAGE } = useContext(PageConstsContext)
   const [pageType, setPageType] = useState(DAILY_PAGE)
-  const [selectedRecordDate, setSelectedRecordDate] = useState(null);
+  const [selectedRecordDate, setSelectedRecordDate] = useState(null)
 
   const onWeekRowClick = (index) => {
     setPageType(DAILY_PAGE)
@@ -44,19 +44,22 @@ const HomeContainer = ({loggedInUser, scores, getScores, addScore, getUsers, day
     case RECORD_PAGE:
       page = <RecordPage data={scores} onRecordClick={onRecordClick} />
       break
+    case STATS_PAGE:
+      page = <StatsPage scores={scores} users={users} loggedInUser={loggedInUser} />
+      break
   }
-  
+
   /* Render */
   return (
     <div id="homeContainer">
       <PageMenu pageType={pageType} setPageType={setPageType} />
       {
         scores.length > 0 ?
-        page : (
-          <div className="page">
-            <SpinningLoader />
-          </div>
-        )
+          page : (
+            <div className="page">
+              <SpinningLoader />
+            </div>
+          )
       }
     </div>
   )

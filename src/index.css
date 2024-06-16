@@ -277,3 +277,19 @@ code {
 .icon-20px {
   height: 18px;
 }
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.controls label {
+  display: flex;
+  flex-direction: column;
+}
+
+.chart {
+  width: 100%;
+  max-width: 600px;
+}

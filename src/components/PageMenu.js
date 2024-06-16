@@ -1,19 +1,22 @@
 import React, { useContext } from 'react'
 import PageConstsContext from '../contexts/PageConstsContext'
 
-const PageMenu = ({pageType, setPageType}) => {
-  const {DAILY_PAGE, WEEKLY_PAGE, RECORD_PAGE} = useContext(PageConstsContext)
+const PageMenu = ({ pageType, setPageType }) => {
+  const { DAILY_PAGE, WEEKLY_PAGE, RECORD_PAGE, STATS_PAGE } = useContext(PageConstsContext);
   const onClick = (pageType) => setPageType(pageType)
   return (
     <div id="pageMenu">
       <div className={"pageMenuItem " + (pageType == DAILY_PAGE ? "selected" : "")} onClick={() => onClick(DAILY_PAGE)}>
-          Daily
+        Daily
       </div>
       <div className={"pageMenuItem " + (pageType == WEEKLY_PAGE ? "selected" : "")} onClick={() => onClick(WEEKLY_PAGE)}>
-          Weekly
+        Weekly
       </div>
       <div className={"pageMenuItem " + (pageType == RECORD_PAGE ? "selected" : "")} onClick={() => onClick(RECORD_PAGE)}>
-          Records
+        Records
+      </div>
+      <div className={"pageMenuItem " + (pageType == STATS_PAGE ? "selected" : "")} onClick={() => onClick(STATS_PAGE)}>
+        Stats
       </div>
     </div>
   )
