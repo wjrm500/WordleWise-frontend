@@ -50,7 +50,7 @@ const StatsPage = ({ scores, users, loggedInUser }) => {
         datasets: [{
           label: 'Number of Scores',
           data,
-          backgroundColor: 'rgba(75, 192, 192, 0.6)',
+          backgroundColor: 'rgba(47, 85, 151, 1.0)',
         }],
       })
     }
