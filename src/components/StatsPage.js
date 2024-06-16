@@ -48,7 +48,6 @@ const StatsPage = ({ scores, users, loggedInUser }) => {
       setChartData({
         labels,
         datasets: [{
-          label: 'Number of Scores',
           data,
           backgroundColor: 'rgba(47, 85, 151, 1.0)',
         }],
@@ -83,7 +82,17 @@ const StatsPage = ({ scores, users, loggedInUser }) => {
         </label>
       </div>
       <div className="chart">
-        <Bar data={chartData} options={{ indexAxis: 'y' }} />
+        <Bar 
+            data={chartData} 
+            options={{ 
+            indexAxis: 'y',
+            plugins: {
+                legend: {
+                display: false,
+                }
+            }
+            }} 
+        />
       </div>
     </div>
   )
