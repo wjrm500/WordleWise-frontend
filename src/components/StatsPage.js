@@ -4,7 +4,6 @@ import { Chart, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend }
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
-// Register the components
 Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const StatsPage = ({ scores, users, loggedInUser }) => {
@@ -69,17 +68,17 @@ const StatsPage = ({ scores, users, loggedInUser }) => {
     <div id="statsPage" className="page">
       <div className="controls">
         <label>
-          Player:
+          Player
           <select value={selectedUser} onChange={e => setSelectedUser(e.target.value)}>
             {userOptions}
           </select>
         </label>
         <label>
-          Start Date:
+          Start Date
           <DatePicker selected={startDate} onChange={date => setStartDate(date)} />
         </label>
         <label>
-          End Date:
+          End Date
           <DatePicker selected={endDate} onChange={date => setEndDate(date)} />
         </label>
       </div>
