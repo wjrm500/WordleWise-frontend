@@ -24,6 +24,9 @@ const StatsPage = ({ scores, users, loggedInUser }) => {
     if (!users || users.length === 0) return
 
     const fetchData = () => {
+      // Define the fixed set of scores
+      const fixedScores = [1, 2, 3, 4, 5, 6, 8]
+
       // Flatten scores and map to objects containing both score and date
       const userScores = scores.flatMap(week => 
         Object.entries(week.data).map(([date, scores]) => ({
@@ -42,7 +45,14 @@ const StatsPage = ({ scores, users, loggedInUser }) => {
         return acc
       }, {})
 
-      const labels = Object.keys(scoreCounts).sort((a, b) => a - b)
+      // Ensure all fixed scores are in the scoreCounts
+      fixedScores.forEach(score => {
+        if (!scoreCounts[score]) {
+          scoreCounts[score] = 0
+        }
+      })
+
+      const labels = fixedScores
       const data = labels.map(label => scoreCounts[label])
 
       setChartData({
