@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { Bar } from 'react-chartjs-2'
 import { Chart, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js'
 import DatePicker from 'react-datepicker'
@@ -11,94 +11,64 @@ const StatsPage = ({ scores, users, loggedInUser }) => {
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)
   const [chartData, setChartData] = useState({
-    labels: [],
+    labels: [1, 2, 3, 4, 5, 6, 8],
     datasets: [{
-      data: [],
+      data: [0, 0, 0, 0, 0, 0, 0],
       backgroundColor: 'rgba(75, 192, 192, 0.6)',
     }],
   })
   const [maxCount, setMaxCount] = useState(0)
 
-  useEffect(() => {
-    if (!scores || scores.length === 0) return
-    if (!users || users.length === 0) return
+  const processData = useMemo(() => {
+    if (!scores || scores.length === 0 || !users || users.length === 0) return null
 
+    const fixedScores = [1, 2, 3, 4, 5, 6, 8]
     let globalMaxCount = 0
+    let scoreCounts = Array(fixedScores.length).fill(0)
 
-    // Find the global maximum score count
     users.forEach(user => {
-      const userScores = scores.flatMap(week => 
-        Object.entries(week.data).map(([date, scores]) => ({
-          date,
-          score: scores[user.username] || 8,
-        }))
-      )
+      const userScoreCounts = Array(fixedScores.length).fill(0)
 
-      const filteredScores = userScores.filter(({ date }) => {
-        const scoreDate = new Date(date)
-        return (!startDate || scoreDate >= startDate) && (!endDate || scoreDate <= endDate)
-      }).map(({ score }) => score)
+      scores.forEach(week => {
+        Object.entries(week.data).forEach(([date, scoreData]) => {
+          const scoreDate = new Date(date)
+          if ((!startDate || scoreDate >= startDate) && (!endDate || scoreDate <= endDate)) {
+            const score = scoreData[user.username] || 8
+            const index = fixedScores.indexOf(score)
+            if (index > -1) {
+              userScoreCounts[index]++
+            }
+          }
+        })
+      })
 
-      const scoreCounts = filteredScores.reduce((acc, score) => {
-        acc[score] = (acc[score] || 0) + 1
-        return acc
-      }, {})
+      const userMaxCount = Math.max(...userScoreCounts)
+      if (userMaxCount > globalMaxCount) {
+        globalMaxCount = userMaxCount
+      }
 
-      const maxCount = Math.max(...Object.values(scoreCounts))
-      if (maxCount > globalMaxCount) {
-        globalMaxCount = maxCount
+      if (user.username === selectedUser) {
+        scoreCounts = userScoreCounts
       }
     })
 
     setMaxCount(Math.ceil(globalMaxCount / 50) * 50)
-  }, [startDate, endDate, scores, users])
+    return scoreCounts
+  }, [selectedUser, startDate, endDate, scores, users])
 
   useEffect(() => {
-    if (!scores || scores.length === 0) return
-    if (!users || users.length === 0) return
-
-    const fetchData = () => {
-      const fixedScores = [1, 2, 3, 4, 5, 6, 8]
-
-      const userScores = scores.flatMap(week => 
-        Object.entries(week.data).map(([date, scores]) => ({
-          date,
-          score: scores[selectedUser] || 8,
-        }))
-      )
-
-      const filteredScores = userScores.filter(({ date }) => {
-        const scoreDate = new Date(date)
-        return (!startDate || scoreDate >= startDate) && (!endDate || scoreDate <= endDate)
-      }).map(({ score }) => score)
-
-      const scoreCounts = filteredScores.reduce((acc, score) => {
-        acc[score] = (acc[score] || 0) + 1
-        return acc
-      }, {})
-
-      fixedScores.forEach(score => {
-        if (!scoreCounts[score]) {
-          scoreCounts[score] = 0
-        }
-      })
-
-      const labels = fixedScores
-      const data = labels.map(label => scoreCounts[label])
-
+    if (processData) {
       setChartData({
-        labels,
+        labels: [1, 2, 3, 4, 5, 6, 8],
         datasets: [{
-          data,
+          data: processData,
           backgroundColor: 'rgba(47, 85, 151, 0.8)',
         }],
       })
     }
+  }, [processData])
 
-    fetchData()
-  }, [selectedUser, startDate, endDate, scores, users])
-
-  if (!users || !users.length) return null // Render nothing if users array is empty
+  if (!users || !users.length) return null
 
   const userOptions = users.map(user => (
     <option key={user.id} value={user.username}>{user.username}</option>
