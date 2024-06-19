@@ -6,7 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 
 Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
-const StatsPage = ({ scores, users, loggedInUser }) => {
+const ChartPage = ({ scores, users, loggedInUser }) => {
   const [selectedUser, setSelectedUser] = useState(loggedInUser.username)
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)
@@ -88,7 +88,7 @@ const StatsPage = ({ scores, users, loggedInUser }) => {
   ))
 
   return (
-    <div id="statsPage" className="page">
+    <div id="chartPage" className="page">
       <div className="controls">
         <label>
           Player
@@ -131,4 +131,4 @@ const StatsPage = ({ scores, users, loggedInUser }) => {
   )
 }
 
-export default StatsPage
+export default ChartPage

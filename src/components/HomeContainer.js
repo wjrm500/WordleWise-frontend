@@ -1,7 +1,7 @@
 import DayAggPage from "./DayAggPage"
 import WeekAggPage from "./WeekAggPage"
 import RecordPage from "./RecordPage"
-import StatsPage from "./StatsPage"
+import ChartPage from "./ChartPage"
 import React, { useContext, useEffect, useState } from "react"
 import PageConstsContext from "../contexts/PageConstsContext"
 import SpinningLoader from "./SpinningLoader"
@@ -9,7 +9,7 @@ import PageMenu from "./PageMenu"
 
 const HomeContainer = ({ loggedInUser, scores, getScores, addScore, getUsers, users, dayIndex, setDayIndex }) => {
   /* Hooks */
-  const { DAILY_PAGE, WEEKLY_PAGE, RECORD_PAGE, STATS_PAGE } = useContext(PageConstsContext)
+  const { DAILY_PAGE, WEEKLY_PAGE, RECORD_PAGE, CHART_PAGE } = useContext(PageConstsContext)
   const [pageType, setPageType] = useState(DAILY_PAGE)
   const [selectedRecordDate, setSelectedRecordDate] = useState(null)
 
@@ -44,8 +44,8 @@ const HomeContainer = ({ loggedInUser, scores, getScores, addScore, getUsers, us
     case RECORD_PAGE:
       page = <RecordPage data={scores} onRecordClick={onRecordClick} />
       break
-    case STATS_PAGE:
-      page = <StatsPage scores={scores} users={users} loggedInUser={loggedInUser} />
+    case CHART_PAGE:
+      page = <ChartPage scores={scores} users={users} loggedInUser={loggedInUser} />
       break
   }
 

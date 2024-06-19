@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import PageConstsContext from '../contexts/PageConstsContext'
 
 const PageMenu = ({ pageType, setPageType }) => {
-  const { DAILY_PAGE, WEEKLY_PAGE, RECORD_PAGE, STATS_PAGE } = useContext(PageConstsContext);
+  const { DAILY_PAGE, WEEKLY_PAGE, RECORD_PAGE, CHART_PAGE } = useContext(PageConstsContext);
   const onClick = (pageType) => setPageType(pageType)
   return (
     <div id="pageMenu">
@@ -15,8 +15,8 @@ const PageMenu = ({ pageType, setPageType }) => {
       <div className={"pageMenuItem " + (pageType == RECORD_PAGE ? "selected" : "")} onClick={() => onClick(RECORD_PAGE)}>
         Records
       </div>
-      <div className={"pageMenuItem " + (pageType == STATS_PAGE ? "selected" : "")} onClick={() => onClick(STATS_PAGE)}>
-        Stats
+      <div className={"pageMenuItem " + (pageType == CHART_PAGE ? "selected" : "")} onClick={() => onClick(CHART_PAGE)}>
+        Chart
       </div>
     </div>
   )
