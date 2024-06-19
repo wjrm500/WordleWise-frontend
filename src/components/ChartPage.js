@@ -18,6 +18,7 @@ const ChartPage = ({ scores, users, loggedInUser }) => {
     }],
   })
   const [maxCount, setMaxCount] = useState(0)
+  const [averageScore, setAverageScore] = useState(0)
 
   // Calculate initial start and end dates
   useEffect(() => {
@@ -38,6 +39,8 @@ const ChartPage = ({ scores, users, loggedInUser }) => {
     const fixedScores = [1, 2, 3, 4, 5, 6, 8]
     let globalMaxCount = 0
     let scoreCounts = Array(fixedScores.length).fill(0)
+    let totalScore = 0
+    let totalEntries = 0
 
     users.forEach(user => {
       const userScoreCounts = Array(fixedScores.length).fill(0)
@@ -50,6 +53,10 @@ const ChartPage = ({ scores, users, loggedInUser }) => {
             const index = fixedScores.indexOf(score)
             if (index > -1) {
               userScoreCounts[index]++
+            }
+            if (user.username === selectedUser) {
+              totalScore += score
+              totalEntries++
             }
           }
         })
@@ -66,6 +73,11 @@ const ChartPage = ({ scores, users, loggedInUser }) => {
     })
 
     setMaxCount(Math.ceil(globalMaxCount / 50) * 50)
+    if (totalEntries > 0) {
+      setAverageScore((totalScore / totalEntries).toFixed(2))
+    } else {
+      setAverageScore(0)
+    }
     return scoreCounts
   }, [selectedUser, startDate, endDate, scores, users])
 
@@ -108,6 +120,9 @@ const ChartPage = ({ scores, users, loggedInUser }) => {
             maxDate={new Date()} // Set today's date as the maximum selectable date
           />
         </label>
+      </div>
+      <div className="average-score">
+        Average score: <b>{averageScore}</b>
       </div>
       <div className="chart">
         <Bar 
