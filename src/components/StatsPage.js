@@ -19,6 +19,19 @@ const StatsPage = ({ scores, users, loggedInUser }) => {
   })
   const [maxCount, setMaxCount] = useState(0)
 
+  // Calculate initial start and end dates
+  useEffect(() => {
+    if (scores && scores.length > 0) {
+      const allDates = scores.flatMap(week => Object.keys(week.data))
+      const initialStartDate = new Date(Math.min(...allDates.map(date => new Date(date))))
+      const calculatedEndDate = new Date(Math.max(...allDates.map(date => new Date(date))))
+      const today = new Date()
+      const initialEndDate = calculatedEndDate > today ? today : calculatedEndDate
+      setStartDate(initialStartDate)
+      setEndDate(initialEndDate)
+    }
+  }, [scores])
+
   const processData = useMemo(() => {
     if (!scores || scores.length === 0 || !users || users.length === 0) return null
 
@@ -89,7 +102,11 @@ const StatsPage = ({ scores, users, loggedInUser }) => {
         </label>
         <label>
           End Date
-          <DatePicker selected={endDate} onChange={date => setEndDate(date)} />
+          <DatePicker 
+            selected={endDate} 
+            onChange={date => setEndDate(date)} 
+            maxDate={new Date()} // Set today's date as the maximum selectable date
+          />
         </label>
       </div>
       <div className="chart">
