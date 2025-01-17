@@ -22,7 +22,7 @@ const ChartPage = ({ scores, users, loggedInUser }) => {
   const [averageScore, setAverageScore] = useState(0)
   const [availableYears, setAvailableYears] = useState([])
   const [isInitialized, setIsInitialized] = useState(false)
-  const [shouldAnimate, setShouldAnimate] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     if (scores && scores.length > 0 && !isInitialized) {
@@ -39,7 +39,6 @@ const ChartPage = ({ scores, users, loggedInUser }) => {
       setEndDate(initialEndDate)
       setTimeout(() => {
         setIsInitialized(true)
-        setShouldAnimate(true)
       }, 100)
     }
   }, [scores])
@@ -89,8 +88,8 @@ const ChartPage = ({ scores, users, loggedInUser }) => {
       newStartDate.setHours(0, 0, 0, 0)
     }
 
-    setTimeout(() => setStartDate(newStartDate), 0)
-    setTimeout(() => setEndDate(newEndDate), 50)
+    setStartDate(newStartDate)
+    setEndDate(newEndDate)
   }, [timePeriod, scores, isInitialized])
 
   const processData = useMemo(() => {
@@ -159,6 +158,12 @@ const ChartPage = ({ scores, users, loggedInUser }) => {
     }
   }, [processData])
 
+  const handleTimePeriodChange = (e) => {
+    setIsLoading(true)
+    setTimePeriod(e.target.value)
+    setTimeout(() => setIsLoading(false), 100)
+  }
+
   if (!users || !users.length) return null
 
   return (
@@ -175,7 +180,7 @@ const ChartPage = ({ scores, users, loggedInUser }) => {
         </label>
         <label>
           Time Period
-          <select value={timePeriod} onChange={e => setTimePeriod(e.target.value)}>
+          <select value={timePeriod} onChange={handleTimePeriodChange}>
             <option value="all-time">All-time</option>
             <option value="last-week">Last week</option>
             <option value="last-month">Last month</option>
@@ -225,7 +230,13 @@ const ChartPage = ({ scores, users, loggedInUser }) => {
       </div>
       <div className="chart">
         <Bar 
-          data={chartData} 
+          data={isLoading ? {
+            labels: chartData.labels,
+            datasets: chartData.datasets.map(dataset => ({
+              ...dataset,
+              data: dataset.data.map(() => 0)
+            }))
+          } : chartData} 
           options={{ 
             indexAxis: 'y',
             scales: {
@@ -239,17 +250,17 @@ const ChartPage = ({ scores, users, loggedInUser }) => {
                 position: 'top'
               }
             },
-            animation: shouldAnimate ? {
+            animation: {
               duration: 750,
               easing: 'easeInOutQuart'
-            } : false,
-            transitions: shouldAnimate ? {
+            },
+            transitions: {
               active: {
                 animation: {
                   duration: 750
                 }
               }
-            } : false
+            }
           }}
         />
       </div>
