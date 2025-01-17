@@ -72,10 +72,11 @@ const ChartPage = ({ scores, users, loggedInUser }) => {
       'last-month': () => ({ start: getDateFromMonthsAgo(1), end }),
       'last-3-months': () => ({ start: getDateFromMonthsAgo(3), end }),
       'last-6-months': () => ({ start: getDateFromMonthsAgo(6), end }),
-      'last-year': () => ({ 
-        start: new Date(today.setFullYear(today.getFullYear() - 1)),
-        end
-      })
+      'last-year': () => {
+        const startDate = new Date(today)
+        startDate.setFullYear(today.getFullYear() - 1)
+        return { start: startDate, end }
+      }
     }
 
     if (timePeriod.startsWith('year-')) {
