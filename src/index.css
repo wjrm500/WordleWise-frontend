@@ -322,3 +322,28 @@ code {
   width: 100%;
   max-width: 600px;
 }
+
+.player-average {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 5px 0;
+}
+
+.player-name strong {
+  color: rgba(47, 85, 151, 0.8); /* Blue player */
+}
+
+.player-name:nth-child(2) strong {
+  color: rgba(192, 0, 0, 0.8); /* Red player */
+}
+
+.player-name span {
+  color: #666666;
+  font-weight: normal;
+}
+
+.average-value {
+  font-weight: bold;
+  font-size: 1.1em;
+}

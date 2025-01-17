@@ -7,7 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const ChartPage = ({ scores, users, loggedInUser }) => {
-  const [selectedUser, setSelectedUser] = useState(loggedInUser.username)
+  const [selectedUser, setSelectedUser] = useState('all')
   const [timePeriod, setTimePeriod] = useState('all-time')
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)
@@ -98,23 +98,24 @@ const ChartPage = ({ scores, users, loggedInUser }) => {
 
     const fixedScores = [1, 2, 3, 4, 5, 6, 8]
     let globalMaxCount = 0
-    let scoreCounts = Array(fixedScores.length).fill(0)
-    let totalScore = 0
-    let totalEntries = 0
+    let userDatasets = {}
+    let averages = {}
 
-    users.forEach(user => {
-      const userScoreCounts = Array(fixedScores.length).fill(0)
+    const usersToProcess = selectedUser === 'all' ? users.map(u => u.username) : [selectedUser]
+
+    usersToProcess.forEach(username => {
+      let scoreCounts = Array(fixedScores.length).fill(0)
+      let totalScore = 0
+      let totalEntries = 0
 
       scores.forEach(week => {
         Object.entries(week.data).forEach(([dateStr, scoreData]) => {
           const scoreDate = new Date(dateStr)
           if (scoreDate >= startDate && scoreDate <= endDate) {
-            const score = scoreData[user.username] ?? 8
+            const score = scoreData[username] ?? 8
             const index = fixedScores.indexOf(score)
             if (index > -1) {
-              userScoreCounts[index]++
-            }
-            if (user.username === selectedUser) {
+              scoreCounts[index]++
               totalScore += score
               totalEntries++
             }
@@ -122,43 +123,43 @@ const ChartPage = ({ scores, users, loggedInUser }) => {
         })
       })
 
-      const userMaxCount = Math.max(...userScoreCounts)
+      const userMaxCount = Math.max(...scoreCounts)
       if (userMaxCount > globalMaxCount) {
         globalMaxCount = userMaxCount
       }
 
-      if (user.username === selectedUser) {
-        scoreCounts = userScoreCounts
-      }
+      userDatasets[username] = scoreCounts
+      averages[username] = totalEntries > 0 ? (totalScore / totalEntries).toFixed(2) : '0.00'
     })
 
     return {
-      counts: scoreCounts,
+      datasets: userDatasets,
       maxCount: Math.ceil(globalMaxCount / 50) * 50,
-      average: totalEntries > 0 ? (totalScore / totalEntries).toFixed(2) : '0.00'
+      averages
     }
   }, [selectedUser, startDate, endDate, scores, users])
 
   useEffect(() => {
-  if (processData) {
-    setMaxCount(processData.maxCount)
-    setAverageScore(processData.average)
-    
-    setChartData({
-      labels: [1, 2, 3, 4, 5, 6, 8],
-      datasets: [{
-        data: processData.counts,
-        backgroundColor: 'rgba(47, 85, 151, 0.8)',
-      }],
-    })
-  }
-}, [processData])
+    if (processData) {
+      setMaxCount(processData.maxCount)
+      setAverageScore(Object.entries(processData.averages)
+        .map(([username, avg]) => `${username}: ${avg}`)
+        .join(', '))
+      
+      const colors = ['rgba(47, 85, 151, 0.8)', 'rgba(192, 0, 0, 0.8)']
+      
+      setChartData({
+        labels: [1, 2, 3, 4, 5, 6, 8],
+        datasets: Object.entries(processData.datasets).map(([username, data], index) => ({
+          label: username,
+          data: data,
+          backgroundColor: colors[index % colors.length],
+        }))
+      })
+    }
+  }, [processData])
 
   if (!users || !users.length) return null
-
-  const userOptions = users.map(user => (
-    <option key={user.id} value={user.username}>{user.username}</option>
-  ))
 
   return (
     <div id="chartPage" className="page">
@@ -166,7 +167,10 @@ const ChartPage = ({ scores, users, loggedInUser }) => {
         <label>
           Player
           <select value={selectedUser} onChange={e => setSelectedUser(e.target.value)}>
-            {userOptions}
+            <option value="all">All players</option>
+            {users.map(user => (
+              <option key={user.id} value={user.username}>{user.username}</option>
+            ))}
           </select>
         </label>
         <label>
@@ -207,7 +211,17 @@ const ChartPage = ({ scores, users, loggedInUser }) => {
         )}
       </div>
       <div className="average-score">
-        Average score: <b>{averageScore}</b>
+        {processData && Object.entries(processData.averages).map(([username, avg], index) => (
+          <div key={username} className="player-average">
+            <span className="player-name">
+              <strong style={{ color: index === 0 ? 'rgba(47, 85, 151, 0.8)' : 'rgba(192, 0, 0, 0.8)' }}>
+                {username}
+              </strong>
+              <span>'s average score:</span>
+            </span>
+            <span className="average-value">{avg}</span>
+          </div>
+        ))}
       </div>
       <div className="chart">
         <Bar 
@@ -221,7 +235,8 @@ const ChartPage = ({ scores, users, loggedInUser }) => {
             },
             plugins: {
               legend: {
-                display: false,
+                display: selectedUser === 'all',
+                position: 'top'
               }
             },
             animation: shouldAnimate ? {
