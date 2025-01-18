@@ -56,7 +56,7 @@ const RecordPage = ({data, onRecordClick}) => {
   })
   return (
     <div className="page" style={{alignItems: 'center', flexDirection: 'column'}}>
-      <select onChange={(event) => setRecordType(event.target.value)} style={{marginBottom: '5px'}}>
+      <select onChange={(event) => setRecordType(event.target.value)} style={{marginBottom: '5px', height: '30px'}}>
         <option value={CONSECUTIVE_WINS}>Consecutive wins</option>
         <option value={CONSECUTIVE_DAYS_UNBEATEN}>Consecutive days unbeaten</option>
         <option value={CONSECUTIVE_ONE_BELOW}>Consecutive days scoring 1 or below</option>
