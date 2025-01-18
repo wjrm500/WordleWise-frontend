@@ -114,7 +114,7 @@ const RecordPage = ({data, onRecordClick}) => {
     <div className="page" style={{alignItems: 'center', flexDirection: 'column'}}>
       <select 
         onChange={(event) => setRecordType(event.target.value)} 
-        style={{marginBottom: '5px', height: '30px'}}
+        style={{marginBottom: '10px', height: '30px'}}
       >
         <optgroup label="Streak Records">
           <option value={CONSECUTIVE_WINS}>Consecutive wins</option>
