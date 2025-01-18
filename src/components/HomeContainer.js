@@ -19,9 +19,9 @@ const HomeContainer = ({ loggedInUser, scores, getScores, addScore, getUsers, us
   }
 
   const onRecordClick = (streak) => {
-    setSelectedRecordDate(streak.endDate)
+    setSelectedRecordDate(streak.periodEnd)
     const weekIndex = scores.findIndex(week =>
-      week.data.hasOwnProperty(streak.endDate)
+      week.data.hasOwnProperty(streak.periodEnd)
     )
     setPageType(DAILY_PAGE)
     setDayIndex(weekIndex)
