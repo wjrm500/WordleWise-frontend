@@ -1,70 +1,60 @@
-# Getting Started with Create React App
+# WordleWise Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is the frontend application for WordleWise, a tool for tracking daily Wordle scores between players. It's built with React and communicates with a Flask backend API.
 
-## Available Scripts
+## Local Development
 
-In the project directory, you can run:
+### Prerequisites
+- Node.js (v16 or higher)
+- npm
 
-### `npm start`
+### Setup
+1. Clone this repository
+2. Install dependencies:
+    ```bash
+    npm install
+    ```
+3. Configure the environment:
+- For development: Ensure you have a `.env.development` file with:
+  ```
+  REACT_APP_API_URL=http://localhost:5000
+  REACT_APP_ENV=dev
+  ```
+- For production: Ensure you have a `.env.production` file with:
+  ```
+  REACT_APP_API_URL=https://api.wordlewise.wjrm500.com
+  REACT_APP_ENV=prod
+  ```
+4. Start the development server:
+    ```bash
+    npm start
+    ```
+    The app will run at http://localhost:3000
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Docker Deployment
+This application is deployed using Docker. The Dockerfile performs these steps:
+1. Builds the React application
+2. Creates an Nginx container to serve the static files
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Building the Docker Image
+```bash
+docker build -t wjrm500/wordlewise-frontend:latest .
+```
 
-### `npm test`
+### Running the Docker Container Locally
+```docker run -p 3000:80 wjrm500/wordlewise-frontend:latest```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Deployment Infrastructure
+The application is deployed on a DigitalOcean Droplet with:
 
-### `npm run build`
+- Docker and Docker Compose for containerisation
+- Nginx as a reverse proxy
+- Let's Encrypt for SSL certificates
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Production deployment is managed through the ServerConfig repository, where Docker Compose orchestrates both the frontend and backend services.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Features
+- Daily tracking of Wordle scores
+- Weekly summaries and comparisons
+- Historical records and statistics
+- Performance charts and trends
