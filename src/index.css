@@ -246,21 +246,25 @@ code {
   font-weight: bold;
 }
 
-#updateScoreModal {
+#updateScoreModal, #playWordleModal {
   font-size: 16px;
   width: 200px;
 }
 
-#updateScoreModal .formGroup {
+#updateScoreModal .formGroup, #playWordleModal .formGroup {
   display: flex;
 }
 
-#updateScoreModal .formGroup label {
+#updateScoreModal .formGroup label, #playWordleModal .formGroup label {
   flex: 1;
 }
 
-#updateScoreModal .formGroup *:not(label) {
+#updateScoreModal .formGroup *:not(label), #playWordleModal .formGroup *:not(label) {
   flex: 2;
+}
+
+.formFields {
+  margin: 5px 0px;
 }
 
 .tableContainer {

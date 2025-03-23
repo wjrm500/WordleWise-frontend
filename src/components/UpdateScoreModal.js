@@ -40,23 +40,25 @@ const UpdateScoreModal = ({addScore, setShowUpdateScoreModal, users}) => {
     <div id="updateScoreModal" className="scoreModal">
       <div style={{fontWeight: "bold"}}>Update score</div>
       <form onSubmit={onSubmit}>
-        <div className="formGroup">
-          <label htmlFor="date">Date</label>
-          <input type="date" name="date" value={date} onChange={dateChange} />
-        </div>
-        <div className="formGroup">
-          <label htmlFor="user">User</label>
-          <select name="user" value={user} onChange={event => setUser(event.target.value)}>
-            <option value="" disabled>Select a user</option>
-            {userOptions}
-          </select>
-        </div>
-        <div className="formGroup">
-          <label htmlFor="score">Score</label>
-          <select name="score" value={score} onChange={event => setScore(event.target.value)}>
-            <option value="" disabled>Select a score</option>
-            {scoreOptions}
-          </select>
+        <div className="formFields">
+          <div className="formGroup">
+            <label htmlFor="date">Date</label>
+            <input type="date" name="date" value={date} onChange={dateChange} />
+          </div>
+          <div className="formGroup">
+            <label htmlFor="user">User</label>
+            <select name="user" value={user} onChange={event => setUser(event.target.value)}>
+              <option value="" disabled>Select a user</option>
+              {userOptions}
+            </select>
+          </div>
+          <div className="formGroup">
+            <label htmlFor="score">Score</label>
+            <select name="score" value={score} onChange={event => setScore(event.target.value)}>
+              <option value="" disabled>Select a score</option>
+              {scoreOptions}
+            </select>
+          </div>
         </div>
         <button className="headerButton" disabled={!isFormValid}>Submit</button>
       </form>
