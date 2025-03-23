@@ -4,7 +4,7 @@ import { faPenNib } from '@fortawesome/free-solid-svg-icons'
 
 const UpdateScoreButton = ({onClick}) => {
   return (
-    <button id="updateScoreButton" className="headerButton" onClick={onClick}>
+    <button id="updateScoreButton" className="headerButton" onClick={onClick} title="Update score">
       <FontAwesomeIcon icon={faPenNib} className="icon-20px" />
     </button>
   )

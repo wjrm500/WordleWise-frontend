@@ -4,7 +4,7 @@ import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 
 const LogoutButton = ({onLogout}) => {
   return (
-    <button id="logoutButton" className="headerButton" onClick={onLogout}>
+    <button id="logoutButton" className="headerButton" onClick={onLogout} title="Logout">
       <FontAwesomeIcon icon={faSignOutAlt} className="icon-20px" />
     </button>
   )
