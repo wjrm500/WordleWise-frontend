@@ -22,6 +22,10 @@ const DayScoreTable = ({loggedInUser, dayData, dayIndex, onAddScoreButtonClick, 
     <th className="scoreColumn">Kate</th>
     <th className="scoreColumn">Will</th>
   </tr>
+  
+  // Add a flag to track if any scores are hidden
+  let anyHiddenKate, anyHiddenWill = false
+  
   let dataRows = []
   for (let date in dayData[dayIndex]["data"]) {
     const day = dayData[dayIndex]["data"][date]
@@ -29,17 +33,43 @@ const DayScoreTable = ({loggedInUser, dayData, dayIndex, onAddScoreButtonClick, 
     let kateCell, willCell
     switch (pastPresentFuture) {
       case PAST:
-        kateCell = (<td className="scoreColumn" style={day.kjem500 == null ? {color: "darkgrey"} : {}}>{day.kjem500 || 8}</td>)
-        willCell = (<td className="scoreColumn" style={day.wjrm500 == null ? {color: "darkgrey"} : {}}>{day.wjrm500 || 8}</td>)
+        // If Will is logged in and hasn't entered score but Kate has, show ? for Kate
+        if (loggedInUser.username === "wjrm500" && !day.wjrm500 && day.kjem500) {
+          kateCell = (<td className="scoreColumn">?</td>)
+          anyHiddenKate = true;
+        } else {
+          kateCell = (<td className="scoreColumn" style={day.kjem500 == null ? {color: "darkgrey"} : {}}>{day.kjem500 || 8}</td>)
+        }
+        
+        // If Kate is logged in and hasn't entered score but Will has, show ? for Will
+        if (loggedInUser.username === "kjem500" && !day.kjem500 && day.wjrm500) {
+          willCell = (<td className="scoreColumn">?</td>)
+          anyHiddenWill = true;
+        } else {
+          willCell = (<td className="scoreColumn" style={day.wjrm500 == null ? {color: "darkgrey"} : {}}>{day.wjrm500 || 8}</td>)
+        }
         break
       case PRESENT:
-        kateCell = loggedInUser.username == "kjem500" && day.kjem500 == null ?
-          (<td className="scoreColumn"><AddScoreButton onAddScoreButtonClick={onAddScoreButtonClick} /></td>) :
-          (<td className="scoreColumn">{day.kjem500 || ""}</td>)
-        willCell = loggedInUser.username == "wjrm500" && day.wjrm500 == null ?
-          (<td className="scoreColumn"><AddScoreButton onAddScoreButtonClick={onAddScoreButtonClick} /></td>) :
-          (<td className="scoreColumn">{day.wjrm500 || ""}</td>)
-        break
+          // Kate's cell logic
+          if (loggedInUser.username == "kjem500" && day.kjem500 == null) {
+            kateCell = (<td className="scoreColumn"><AddScoreButton onAddScoreButtonClick={onAddScoreButtonClick} /></td>);
+          } else if (loggedInUser.username === "wjrm500" && !day.wjrm500 && day.kjem500) {
+            kateCell = (<td className="scoreColumn">?</td>);
+            anyHiddenKate = true;
+          } else {
+            kateCell = (<td className="scoreColumn">{day.kjem500 || ""}</td>);
+          }
+          
+          // Will's cell logic
+          if (loggedInUser.username == "wjrm500" && day.wjrm500 == null) {
+            willCell = (<td className="scoreColumn"><AddScoreButton onAddScoreButtonClick={onAddScoreButtonClick} /></td>);
+          } else if (loggedInUser.username === "kjem500" && !day.kjem500 && day.wjrm500) {
+            willCell = (<td className="scoreColumn">?</td>);
+            anyHiddenWill = true;
+          } else {
+            willCell = (<td className="scoreColumn">{day.wjrm500 || ""}</td>);
+          }
+          break;
       case FUTURE:
         kateCell = willCell = <td></td>
     }
@@ -63,8 +93,10 @@ const DayScoreTable = ({loggedInUser, dayData, dayIndex, onAddScoreButtonClick, 
     )
   })
 
-  let kateTotal = calculateTotal(dayData[dayIndex]["data"], "kjem500")
-  let willTotal = calculateTotal(dayData[dayIndex]["data"], "wjrm500")
+  // If any scores are hidden, show ? for totals
+  let kateTotal = anyHiddenKate ? "?" : calculateTotal(dayData[dayIndex]["data"], "kjem500")
+  let willTotal = anyHiddenWill ? "?" : calculateTotal(dayData[dayIndex]["data"], "wjrm500")
+  
   const summaryRow = <tr style={{backgroundColor: "var(--blue-3)", color: "white"}}>
     <td></td>
     <td className="scoreColumn">{kateTotal}</td>
