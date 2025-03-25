@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState, useEffect, useContext, useRef } from "react"
 import axios from "axios"
 import ServerAddrContext from "../contexts/ServerAddrContext"
 
@@ -8,6 +8,7 @@ const PlayWordleModal = ({setShowPlayWordleModal}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isFormValid, setIsFormValid] = useState(false);
+  const linkRef = useRef(null);
   
   // Check if the form is valid whenever the date changes
   useEffect(() => {
@@ -37,8 +38,11 @@ const PlayWordleModal = ({setShowPlayWordleModal}) => {
       );
       
       if (response.data.success) {
-        // Open the playable URL in a new tab
-        window.open(response.data.playable_url, '_blank');
+        // Update hidden link and click it
+        if (linkRef.current) {
+          linkRef.current.href = response.data.playable_url;
+          linkRef.current.click();
+        }
         setShowPlayWordleModal(false);
       } else {
         setError(response.data.error);
@@ -95,6 +99,17 @@ const PlayWordleModal = ({setShowPlayWordleModal}) => {
         >
           {isLoading ? 'Loading...' : 'Play'}
         </button>
+
+        {/* Hidden link that will be programmatically clicked */}
+        <a
+          ref={linkRef}
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{display: 'none'}}
+        >
+          hidden link
+        </a>
       </form>
     </div>
   )
