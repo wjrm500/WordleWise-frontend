@@ -83,6 +83,13 @@ const ChartPage = ({ scores, users, loggedInUser }) => {
       const year = parseInt(timePeriod.split('-')[1])
       start = new Date(year, 0, 1)
       end = new Date(year, 11, 31, 23, 59, 59, 999)
+
+      // Cap the end date at today
+      const today = new Date()
+      today.setHours(23, 59, 59, 999)
+      if (end > today) {
+        end = today
+      }
     } else if (timeRanges[timePeriod]) {
       ({ start, end } = timeRanges[timePeriod]())
     }
