@@ -1,4 +1,4 @@
-import LogoutButton from "./LogoutButton"
+import LogoutButton from "./LogOutButton"
 import React, { useState, useEffect, useContext } from "react"
 import UpdateScoreButton from "./UpdateScoreButton"
 import UpdateScoreModal from "./UpdateScoreModal"

@@ -18,13 +18,54 @@ This is the frontend for WordleWise, an app used by myself and my wife to keep t
     ```bash
     npm install
     ```
-6. Start the React development server:
+6.
+## Development Workflows
 
+This project supports two development workflows: **Frontend Development** (using a mock API) and **Full Stack Development** (using a real backend).
+
+### 1. Frontend Development (Recommended for UI work)
+
+This workflow allows you to work on the frontend in isolation using a local mock API server. This is useful for UI testing and development without needing the full backend infrastructure.
+
+**Prerequisites**:
+- Node.js version 16 or higher (run `nvm use` to switch).
+
+**Steps**:
+1.  Start the Mock API server:
+    ```bash
+    npm run mock-api
+    ```
+    This runs a local Express server on port 3001 serving mock data.
+
+2.  Start the React application:
+    ```bash
+    npm run start:mock
+    ```
+    This starts the frontend on port 3000, configured to talk to the mock API.
+
+### 2. Full Stack Development
+
+This workflow connects the frontend to a real backend server. You must have the backend server running separately.
+
+**Steps**:
+1.  Ensure your backend server is running.
+2.  Start the React application:
     ```bash
     npm start
     ```
+    By default, this will attempt to connect to the backend URL configured in your environment (or default to localhost).
 
-    The app will run at http://localhost:3000 and any code changes will cause the app to automatically reload, which is handy for local development.
+## Available Scripts
+
+In the project directory, you can run:
+
+### `npm start`
+
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+The page will reload when you make changes.\
+You may also see any lint errors in the console.ocal development.
 
 ## Deploying the app
 This app is currently deployed as a Docker container on a DigitalOcean Droplet, alongside various other containerised apps. These containerised apps are managed through the [ServerConfig](https://github.com/wjrm500/ServerConfig) repository, which includes a variety of Docker Compose configurations that reference Docker images stored on Docker Hub. Thus, to deploy any new code changes, we need to (A) build the image locally, (B) push the image up to Docker Hub, (C) SSH into the Droplet, (D) pull the image, and (E) restart the container.
