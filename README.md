@@ -8,17 +8,6 @@ This is the frontend for WordleWise, an app used by myself and my wife to keep t
 - **Records**: browse *consecutive days X* and *lowest score in* records
 - **Chart**: visualise performance over a customisable time period with a simple bar chart
 
-## Running the app locally
-1. Ensure you have Node.js (v16 or higher), npm and git installed
-2. The backend server needs to be running for this app to work. Clone [WordleWise-backend](https://github.com/wjrm500/WordleWise-backend)
-3. Navigate to the backend repo in your terminal and run `docker compose up -d` to start the server on port 5000
-4. Clone *this* repository
-5. Install dependencies:
-
-    ```bash
-    npm install
-    ```
-6.
 ## Development Workflows
 
 This project supports two development workflows: **Frontend Development** (using a mock API) and **Full Stack Development** (using a real backend).
@@ -54,18 +43,6 @@ This workflow connects the frontend to a real backend server. You must have the 
     npm start
     ```
     By default, this will attempt to connect to the backend URL configured in your environment (or default to localhost).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.ocal development.
 
 ## Deploying the app
 This app is currently deployed as a Docker container on a DigitalOcean Droplet, alongside various other containerised apps. These containerised apps are managed through the [ServerConfig](https://github.com/wjrm500/ServerConfig) repository, which includes a variety of Docker Compose configurations that reference Docker images stored on Docker Hub. Thus, to deploy any new code changes, we need to (A) build the image locally, (B) push the image up to Docker Hub, (C) SSH into the Droplet, (D) pull the image, and (E) restart the container.

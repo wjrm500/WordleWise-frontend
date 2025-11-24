@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { Bar } from 'react-chartjs-2'
 import { Chart, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js'
+import ChartDataLabels from 'chartjs-plugin-datalabels'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
-Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
+Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ChartDataLabels)
 
 // Constants
 const CHART_COLORS = ['rgba(47, 85, 151, 0.8)', 'rgba(192, 0, 0, 0.8)']
@@ -244,6 +245,18 @@ const ChartPage = ({ scores, users, loggedInUser }) => {
               legend: {
                 display: selectedUser === 'all',
                 position: 'top'
+              },
+              datalabels: {
+                display: selectedUser !== 'all',
+                anchor: 'end',
+                align: 'end',
+                offset: 5,
+                color: 'rgba(0, 0, 0, 0.8)',
+                font: {
+                  weight: 'bold',
+                  size: 12
+                },
+                formatter: (value) => value === 0 ? '' : value
               }
             },
             animation: {
