@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useContext } from "react"
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import { calculateTotal } from "../utilities/arrays"
 import { beautifyDate, PAST, PRESENT, FUTURE, isPastPresentOrFuture } from "../utilities/dates"
-import AddScoreButton from "./AddScoreButton"
+import ScopeContext from "../contexts/ScopeContext"
 
-const DayScoreTable = ({loggedInUser, dayData, dayIndex, onAddScoreButtonClick, selectedRecordDate}) => {
+const DayScoreTable = ({ loggedInUser, dayData, dayIndex, setDayIndex, selectedRecordDate }) => {
   const [highlightDate, setHighlightDate] = useState(null)
+  const { scopeMembers } = useContext(ScopeContext)
 
   useEffect(() => {
     if (selectedRecordDate != null) {
@@ -12,80 +14,128 @@ const DayScoreTable = ({loggedInUser, dayData, dayIndex, onAddScoreButtonClick, 
       setTimeout(() => setHighlightDate(null), 1000)
     }
   }, [selectedRecordDate])
-  
-  const title = beautifyDate(dayData[dayIndex]["start_of_week"], false, true)
-  const headerRow1 = <tr>
-    <th colSpan="3">Week starting {title}</th>
-  </tr>
-  const headerRow2 = <tr>
-    <th>Date</th>
-    <th className="scoreColumn">Kate</th>
-    <th className="scoreColumn">Will</th>
-  </tr>
-  
-  // Add a flag to track if any scores are hidden
-  let anyHiddenKate, anyHiddenWill = false
-  
+
+  // Guard against undefined/null data
+  if (!dayData || dayIndex === null || !dayData[dayIndex]) {
+    return null
+  }
+
+  const weekData = dayData[dayIndex]
+  const groupCreatedAt = weekData.group_created_at || null
+
+  const canGoBack = dayIndex > 0
+  const canGoForward = dayIndex < dayData.length - 1
+
+  const handlePrev = () => {
+    if (canGoBack) setDayIndex(dayIndex - 1)
+  }
+
+  const handleNext = () => {
+    if (canGoForward) setDayIndex(dayIndex + 1)
+  }
+
+  const title = beautifyDate(weekData["start_of_week"], false, true)
+
+  const headerRow1 = (
+    <tr>
+      <th colSpan={scopeMembers.length + 1} className="weekHeader">
+        <div className="weekHeaderContent">
+          <button
+            className={`weekArrow ${!canGoBack ? 'disabled' : ''}`}
+            onClick={handlePrev}
+            disabled={!canGoBack}
+          >
+            <FaChevronLeft />
+          </button>
+          <span>Week starting {title}</span>
+          <button
+            className={`weekArrow ${!canGoForward ? 'disabled' : ''}`}
+            onClick={handleNext}
+            disabled={!canGoForward}
+          >
+            <FaChevronRight />
+          </button>
+        </div>
+      </th>
+    </tr>
+  )
+
+  const headerRow2 = (
+    <tr>
+      <th>Date</th>
+      {scopeMembers.map(member => (
+        <th key={member.username} className="scoreColumn">{member.forename || member.username}</th>
+      ))}
+    </tr>
+  )
+
+  // Track hidden status for each member (for spoiler protection)
+  const memberHiddenStatus = {}
+  scopeMembers.forEach(m => memberHiddenStatus[m.username] = false)
+
+  // Check if logged in user has played today (for spoiler protection)
+  const todayStr = new Date().toISOString().slice(0, 10)
+  const todayData = weekData["data"][todayStr] || {}
+  const loggedInUserPlayedToday = todayData[loggedInUser.username] != null
+
   let dataRows = []
-  for (let date in dayData[dayIndex]["data"]) {
-    const day = dayData[dayIndex]["data"][date]
+  for (let date in weekData["data"]) {
+    const day = weekData["data"][date]
     const pastPresentFuture = isPastPresentOrFuture(date)
-    let kateCell, willCell
-    switch (pastPresentFuture) {
-      case PAST:
-        // If Will is logged in and hasn't entered score but Kate has, show ? for Kate
-        if (loggedInUser.username === "wjrm500" && !day.wjrm500 && day.kjem500) {
-          kateCell = (<td className="scoreColumn">?</td>)
-          anyHiddenKate = true;
-        } else {
-          kateCell = (<td className="scoreColumn" style={day.kjem500 == null ? {color: "darkgrey"} : {}}>{day.kjem500 || 8}</td>)
+    const isToday = date === todayStr
+    const isBeforeGroupCreation = groupCreatedAt && date < groupCreatedAt
+
+    const memberCells = scopeMembers.map(member => {
+      const isCurrentUser = member.username === loggedInUser.username
+      const score = day[member.username]
+
+      // Future days - empty
+      if (pastPresentFuture === FUTURE) {
+        return <td key={member.username} className="scoreColumn"></td>
+      }
+
+      // Days before group creation - show as N/A (dash)
+      if (isBeforeGroupCreation) {
+        return <td key={member.username} className="scoreColumn" style={{ color: '#999' }}>-</td>
+      }
+
+      if (isCurrentUser) {
+        // Current user's cell
+        if (pastPresentFuture === PRESENT && score == null) {
+          return <td key={member.username} className="scoreColumn">-</td>
         }
-        
-        // If Kate is logged in and hasn't entered score but Will has, show ? for Will
-        if (loggedInUser.username === "kjem500" && !day.kjem500 && day.wjrm500) {
-          willCell = (<td className="scoreColumn">?</td>)
-          anyHiddenWill = true;
+        const displayScore = score || (pastPresentFuture === PAST ? 8 : "")
+        const style = score == null && pastPresentFuture === PAST ? { color: "darkgrey" } : {}
+        return <td key={member.username} className="scoreColumn" style={style}>{displayScore}</td>
+      } else {
+        // Other users - spoiler protection for today only
+        if (isToday && !loggedInUserPlayedToday) {
+          if (score != null) {
+            memberHiddenStatus[member.username] = true
+            return <td key={member.username} className="scoreColumn">?</td>
+          } else {
+            return <td key={member.username} className="scoreColumn">-</td>
+          }
         } else {
-          willCell = (<td className="scoreColumn" style={day.wjrm500 == null ? {color: "darkgrey"} : {}}>{day.wjrm500 || 8}</td>)
+          const displayScore = score || (pastPresentFuture === PAST ? 8 : "")
+          const style = score == null && pastPresentFuture === PAST ? { color: "darkgrey" } : {}
+          return <td key={member.username} className="scoreColumn" style={style}>{displayScore}</td>
         }
-        break
-      case PRESENT:
-          // Kate's cell logic
-          if (loggedInUser.username == "kjem500" && day.kjem500 == null) {
-            kateCell = (<td className="scoreColumn"><AddScoreButton onAddScoreButtonClick={onAddScoreButtonClick} /></td>);
-          } else if (loggedInUser.username === "wjrm500" && !day.wjrm500 && day.kjem500) {
-            kateCell = (<td className="scoreColumn">?</td>);
-            anyHiddenKate = true;
-          } else {
-            kateCell = (<td className="scoreColumn">{day.kjem500 || ""}</td>);
-          }
-          
-          // Will's cell logic
-          if (loggedInUser.username == "wjrm500" && day.wjrm500 == null) {
-            willCell = (<td className="scoreColumn"><AddScoreButton onAddScoreButtonClick={onAddScoreButtonClick} /></td>);
-          } else if (loggedInUser.username === "kjem500" && !day.kjem500 && day.wjrm500) {
-            willCell = (<td className="scoreColumn">?</td>);
-            anyHiddenWill = true;
-          } else {
-            willCell = (<td className="scoreColumn">{day.wjrm500 || ""}</td>);
-          }
-          break;
-      case FUTURE:
-        kateCell = willCell = <td></td>
-    }
+      }
+    })
+
     const row = (
       <tr key={date}>
         <td>{beautifyDate(date)}</td>
-        {kateCell}
-        {willCell}
+        {memberCells}
       </tr>
     )
     dataRows.push(row)
   }
 
   dataRows = dataRows.map(row => {
-    const isHighlighted = highlightDate && row.key == highlightDate
-    const rowStyle = isHighlighted ? {backgroundColor: "yellow"} : {}
+    const isHighlighted = highlightDate && row.key === highlightDate
+    const rowStyle = isHighlighted ? { backgroundColor: "yellow" } : {}
     return (
       <tr key={row.key} style={rowStyle}>
         {row.props.children}
@@ -93,17 +143,24 @@ const DayScoreTable = ({loggedInUser, dayData, dayIndex, onAddScoreButtonClick, 
     )
   })
 
-  // If any scores are hidden, show ? for totals
-  let kateTotal = anyHiddenKate ? "?" : calculateTotal(dayData[dayIndex]["data"], "kjem500")
-  let willTotal = anyHiddenWill ? "?" : calculateTotal(dayData[dayIndex]["data"], "wjrm500")
-  
-  const summaryRow = <tr style={{backgroundColor: "var(--blue-3)", color: "white"}}>
-    <td></td>
-    <td className="scoreColumn">{kateTotal}</td>
-    <td className="scoreColumn">{willTotal}</td>
-  </tr>
+  // Calculate totals (respecting group_created_at)
+  const summaryCells = scopeMembers.map(member => {
+    if (memberHiddenStatus[member.username]) {
+      return <td key={member.username} className="scoreColumn">?</td>
+    }
+    const total = calculateTotal(weekData["data"], member.username, groupCreatedAt)
+    return <td key={member.username} className="scoreColumn">{total}</td>
+  })
+
+  const summaryRow = (
+    <tr className="summaryRow">
+      <td></td>
+      {summaryCells}
+    </tr>
+  )
+
   return (
-    <div style={{width: "75%"}}>
+    <div className="dayScoreTableWrapper">
       <table id="dayScoreTable" className="scoreTable table">
         <thead>
           {headerRow1}
@@ -113,7 +170,7 @@ const DayScoreTable = ({loggedInUser, dayData, dayIndex, onAddScoreButtonClick, 
           {dataRows}
         </tbody>
       </table>
-      <table className="scoreTable table" style={{marginTop: "5px"}}>
+      <table className="scoreTable table summaryTable">
         <tbody>
           {summaryRow}
         </tbody>

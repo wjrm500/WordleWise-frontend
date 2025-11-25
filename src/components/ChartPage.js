@@ -1,14 +1,23 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useContext } from 'react'
 import { Bar } from 'react-chartjs-2'
 import { Chart, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js'
 import ChartDataLabels from 'chartjs-plugin-datalabels'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import ScopeContext from '../contexts/ScopeContext'
 
 Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ChartDataLabels)
 
-// Constants
-const CHART_COLORS = ['rgba(47, 85, 151, 0.8)', 'rgba(192, 0, 0, 0.8)']
+const CHART_COLORS = [
+  'rgba(47, 85, 151, 0.8)',
+  'rgba(192, 0, 0, 0.8)',
+  'rgba(0, 128, 0, 0.8)',
+  'rgba(255, 165, 0, 0.8)',
+  'rgba(128, 0, 128, 0.8)',
+  'rgba(0, 191, 255, 0.8)',
+  'rgba(255, 105, 180, 0.8)',
+  'rgba(128, 128, 0, 0.8)'
+]
 const FIXED_SCORES = [1, 2, 3, 4, 5, 6, 8]
 const DEFAULT_CHART_DATA = {
   labels: FIXED_SCORES,
@@ -18,8 +27,10 @@ const DEFAULT_CHART_DATA = {
   }]
 }
 
-const ChartPage = ({ scores, users, loggedInUser }) => {
-  // State
+const ChartPage = ({ scores, loggedInUser }) => {
+  const { scopeMembers } = useContext(ScopeContext)
+  const users = scopeMembers
+
   const [selectedUser, setSelectedUser] = useState('all')
   const [timePeriod, setTimePeriod] = useState('all-time')
   const [dateRange, setDateRange] = useState({ start: null, end: null })
@@ -29,21 +40,41 @@ const ChartPage = ({ scores, users, loggedInUser }) => {
   const [isInitialized, setIsInitialized] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
+  // Get group_created_at from scores data
+  const groupCreatedAt = useMemo(() => {
+    if (scores && scores.length > 0 && scores[0].group_created_at) {
+      return scores[0].group_created_at
+    }
+    return null
+  }, [scores])
+
   // Initialize date range and available years
   useEffect(() => {
     if (!scores?.length || isInitialized) return
 
-    const allDates = scores.flatMap(week => Object.keys(week.data))
+    const allDates = scores.flatMap(week => {
+      return Object.keys(week.data).filter(date => {
+        // Respect group_created_at
+        if (groupCreatedAt && date < groupCreatedAt) return false
+        return true
+      })
+    })
+
+    if (allDates.length === 0) {
+      setIsInitialized(true)
+      return
+    }
+
     const dates = allDates.map(date => new Date(date))
     const years = [...new Set(dates.map(date => date.getFullYear()))]
-    
+
     setAvailableYears(years.sort((a, b) => b - a))
     setDateRange({
       start: new Date(Math.min(...dates)),
       end: new Date(Math.min(new Date(), Math.max(...dates)))
     })
     setIsInitialized(true)
-  }, [scores, isInitialized])
+  }, [scores, isInitialized, groupCreatedAt])
 
   // Update date range based on time period selection
   useEffect(() => {
@@ -60,11 +91,20 @@ const ChartPage = ({ scores, users, loggedInUser }) => {
       return date
     }
 
+    // Get earliest valid date (respecting group_created_at)
+    const getEarliestDate = () => {
+      const allDates = scores.flatMap(week => {
+        return Object.keys(week.data).filter(date => {
+          if (groupCreatedAt && date < groupCreatedAt) return false
+          return true
+        })
+      })
+      if (allDates.length === 0) return new Date()
+      return new Date(Math.min(...allDates.map(d => new Date(d))))
+    }
+
     const timeRanges = {
-      'all-time': () => ({ 
-        start: new Date(Math.min(...scores.flatMap(week => Object.keys(week.data)).map(date => new Date(date)))),
-        end
-      }),
+      'all-time': () => ({ start: getEarliestDate(), end }),
       'last-week': () => {
         const startDate = new Date(today)
         startDate.setDate(today.getDate() - 6)
@@ -85,19 +125,26 @@ const ChartPage = ({ scores, users, loggedInUser }) => {
       start = new Date(year, 0, 1)
       end = new Date(year, 11, 31, 23, 59, 59, 999)
 
-      // Cap the end date at today
-      const today = new Date()
-      today.setHours(23, 59, 59, 999)
-      if (end > today) {
-        end = today
+      const nowDate = new Date()
+      nowDate.setHours(23, 59, 59, 999)
+      if (end > nowDate) {
+        end = nowDate
       }
     } else if (timeRanges[timePeriod]) {
       ({ start, end } = timeRanges[timePeriod]())
     }
 
+    // Ensure start is not before group_created_at
+    if (groupCreatedAt && start) {
+      const groupStart = new Date(groupCreatedAt)
+      if (start < groupStart) {
+        start = groupStart
+      }
+    }
+
     if (start) start.setHours(0, 0, 0, 0)
     setDateRange({ start, end })
-  }, [timePeriod, scores, isInitialized])
+  }, [timePeriod, scores, isInitialized, groupCreatedAt])
 
   // Process score data
   const processData = useMemo(() => {
@@ -114,6 +161,9 @@ const ChartPage = ({ scores, users, loggedInUser }) => {
 
       scores.forEach(week => {
         Object.entries(week.data).forEach(([dateStr, scoreData]) => {
+          // Skip dates before group creation
+          if (groupCreatedAt && dateStr < groupCreatedAt) return
+
           const scoreDate = new Date(dateStr)
           if (scoreDate >= dateRange.start && scoreDate <= dateRange.end) {
             const score = scoreData[username] ?? 8
@@ -135,7 +185,7 @@ const ChartPage = ({ scores, users, loggedInUser }) => {
     })
 
     return { userStats, maxCount: Math.ceil(globalMaxCount / 50) * 50 }
-  }, [selectedUser, dateRange, scores, users])
+  }, [selectedUser, dateRange, scores, users, groupCreatedAt])
 
   // Update chart data
   useEffect(() => {
@@ -143,7 +193,7 @@ const ChartPage = ({ scores, users, loggedInUser }) => {
 
     const { userStats, maxCount: newMaxCount } = processData
     setMaxCount(newMaxCount)
-    
+
     setChartData({
       labels: FIXED_SCORES,
       datasets: Object.entries(userStats).map(([username, { scoreCounts }], index) => ({
@@ -164,14 +214,13 @@ const ChartPage = ({ scores, users, loggedInUser }) => {
 
   return (
     <div id="chartPage" className="page">
-      {/* Controls */}
       <div className="controls">
         <label>
           Player
           <select value={selectedUser} onChange={e => setSelectedUser(e.target.value)}>
             <option value="all">All players</option>
             {users.map(user => (
-              <option key={user.id} value={user.username}>{user.username}</option>
+              <option key={user.id} value={user.username}>{user.forename || user.username}</option>
             ))}
           </select>
         </label>
@@ -197,14 +246,15 @@ const ChartPage = ({ scores, users, loggedInUser }) => {
               <DatePicker
                 selected={dateRange.start}
                 onChange={date => setDateRange(prev => ({ ...prev, start: date }))}
+                minDate={groupCreatedAt ? new Date(groupCreatedAt) : undefined}
                 className="date-input"
               />
             </label>
             <label>
               End Date
-              <DatePicker 
-                selected={dateRange.end} 
-                onChange={date => setDateRange(prev => ({ ...prev, end: date }))} 
+              <DatePicker
+                selected={dateRange.end}
+                onChange={date => setDateRange(prev => ({ ...prev, end: date }))}
                 maxDate={new Date()}
                 className="date-input"
               />
@@ -213,32 +263,34 @@ const ChartPage = ({ scores, users, loggedInUser }) => {
         )}
       </div>
 
-      {/* Average Scores */}
       <div className="average-score">
-        {processData && Object.entries(processData.userStats).map(([username, { average }], index) => (
-          <div key={username} className="player-average">
-            <span className="player-name">
-              <strong style={{ color: CHART_COLORS[index % CHART_COLORS.length] }}>
-                {username}
-              </strong>
-              <span>'s average score:</span>
-            </span>
-            <span className="average-value">{average}</span>
-          </div>
-        ))}
+        {processData && Object.entries(processData.userStats).map(([username, { average }], index) => {
+          const member = scopeMembers.find(m => m.username === username)
+          const displayName = member?.forename || username
+          return (
+            <div key={username} className="player-average">
+              <span className="player-name">
+                <strong style={{ color: CHART_COLORS[index % CHART_COLORS.length] }}>
+                  {displayName}
+                </strong>
+                <span>'s average score:</span>
+              </span>
+              <span className="average-value">{average}</span>
+            </div>
+          )
+        })}
       </div>
 
-      {/* Chart */}
       <div className="chart">
-        <Bar 
+        <Bar
           data={isLoading ? {
             ...chartData,
             datasets: chartData.datasets.map(dataset => ({
               ...dataset,
               data: dataset.data.map(() => 0)
             }))
-          } : chartData} 
-          options={{ 
+          } : chartData}
+          options={{
             indexAxis: 'y',
             scales: { x: { max: maxCount } },
             plugins: {

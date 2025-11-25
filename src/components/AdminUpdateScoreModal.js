@@ -1,21 +1,17 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState, useContext } from "react"
 import AuthContext from "../contexts/AuthContext"
 import ScopeContext from "../contexts/ScopeContext"
+import api from "../utilities/api"
 
-const AddScoreModal = ({ onClose }) => {
-  const { user } = useContext(AuthContext)
-  const { addScore } = useContext(ScopeContext)
+const AdminUpdateScoreModal = ({ onClose }) => {
+  const { user: currentUser } = useContext(AuthContext)
+  const { scopeMembers, refreshScores } = useContext(ScopeContext)
 
   const [date, setDate] = useState("")
+  const [userId, setUserId] = useState("")
   const [score, setScore] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
-
-  // Set default date to today
-  useEffect(() => {
-    const today = new Date().toISOString().split('T')[0]
-    setDate(today)
-  }, [])
 
   const handleDateChange = (event) => {
     const inputDate = new Date(event.target.value)
@@ -33,20 +29,33 @@ const AddScoreModal = ({ onClose }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    if (!date || !score) return
+    if (!date || !userId || !score) return
 
     setIsLoading(true)
     setError(null)
 
     try {
-      await addScore(date, parseInt(score))
+      await api.post("/admin/updateScore", {
+        date,
+        user_id: parseInt(userId),
+        score: parseInt(score),
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+      })
+
+      await refreshScores()
       onClose()
     } catch (err) {
-      setError(err.response?.data?.error || "Failed to add score. Please try again.")
+      setError(err.response?.data?.error || "Failed to update score. Please try again.")
     } finally {
       setIsLoading(false)
     }
   }
+
+  const userOptions = scopeMembers.map(member => (
+    <option key={member.id} value={member.id}>
+      {member.forename || member.username}
+    </option>
+  ))
 
   // Score options: 1-6 for guesses, 7 for not completed, 8 for failed
   const scoreOptions = [
@@ -62,7 +71,7 @@ const AddScoreModal = ({ onClose }) => {
 
   return (
     <div className="scoreModal">
-      <h2 style={{ marginTop: 0 }}>Add Score</h2>
+      <h2 style={{ marginTop: 0 }}>Update Score (Admin)</h2>
 
       {error && <div style={{ color: '#ff6b6b', marginBottom: '10px' }}>{error}</div>}
 
@@ -75,6 +84,18 @@ const AddScoreModal = ({ onClose }) => {
             onChange={handleDateChange}
             max={new Date().toISOString().split('T')[0]}
           />
+        </div>
+
+        <div className="formGroup">
+          <label>User</label>
+          <select
+            value={userId}
+            onChange={event => setUserId(event.target.value)}
+            required
+          >
+            <option value="" disabled>Select a user</option>
+            {userOptions}
+          </select>
         </div>
 
         <div className="formGroup">
@@ -104,17 +125,17 @@ const AddScoreModal = ({ onClose }) => {
           </button>
           <button
             type="submit"
-            disabled={!date || !score || isLoading}
+            disabled={!date || !userId || !score || isLoading}
             style={{
               padding: '8px 16px',
-              cursor: !date || !score || isLoading ? 'not-allowed' : 'pointer',
-              background: !date || !score || isLoading ? '#ccc' : 'var(--blue-1)',
+              cursor: !date || !userId || !score || isLoading ? 'not-allowed' : 'pointer',
+              background: !date || !userId || !score || isLoading ? '#ccc' : 'var(--blue-1)',
               color: 'white',
               border: 'none',
               borderRadius: '4px'
             }}
           >
-            {isLoading ? 'Saving...' : 'Save'}
+            {isLoading ? 'Updating...' : 'Update'}
           </button>
         </div>
       </form>
@@ -122,4 +143,4 @@ const AddScoreModal = ({ onClose }) => {
   )
 }
 
-export default AddScoreModal
+export default AdminUpdateScoreModal

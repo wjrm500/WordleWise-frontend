@@ -7,9 +7,14 @@ const arrayChunks = (array, chunk_size) => {
     .map(begin => array.slice(begin, begin + chunk_size))
 }
 
-const calculateTotal = (data, key) => {
+const calculateTotal = (data, key, groupCreatedAt = null) => {
   let total = 0
   for (let date in data) {
+    // Skip days before group creation if specified
+    if (groupCreatedAt && date < groupCreatedAt) {
+      continue
+    }
+    
     const day = data[date]
     switch (isPastPresentOrFuture(date)) {
       case PAST:
@@ -26,4 +31,4 @@ const calculateTotal = (data, key) => {
   return total
 }
 
-export {arrayChunks, calculateTotal}
+export { arrayChunks, calculateTotal }

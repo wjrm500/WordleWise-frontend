@@ -1,43 +1,32 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import DayScoreTable from "./DayScoreTable"
-import AddScoreModal from "./AddScoreModal"
-import ModalOverlay from "./ModalOverlay"
-import LeftArrow from "./LeftArrow"
-import RightArrow from "./RightArrow"
 
-const DayAggPage = ({loggedInUser, addScore, data, dayIndex, setDayIndex, selectedRecordDate}) => {
-  const [showAddScoreModal, setShowAddScoreModal] = useState(false)
+const DayAggPage = ({ loggedInUser, data, dayIndex, setDayIndex, selectedRecordDate }) => {
 
   const handleKeyPress = (event) => {
-    if (event.keyCode === 37 && dayIndex > 0) { // Left arrow key pressed
-      setDayIndex(dayIndex - 1);
-    } else if (event.keyCode === 39 && dayIndex < data.length - 1) { // Right arrow key pressed
-      setDayIndex(dayIndex + 1);
+    if (event.keyCode === 37 && dayIndex > 0) {
+      setDayIndex(dayIndex - 1)
+    } else if (event.keyCode === 39 && dayIndex < data.length - 1) {
+      setDayIndex(dayIndex + 1)
     }
-  };
+  }
 
   useEffect(() => {
-    window.addEventListener("keydown", handleKeyPress);
+    window.addEventListener("keydown", handleKeyPress)
     return () => {
-      window.removeEventListener("keydown", handleKeyPress);
-    };
-  }, [dayIndex, data.length, setDayIndex]);
+      window.removeEventListener("keydown", handleKeyPress)
+    }
+  }, [dayIndex, data.length, setDayIndex])
 
-  const onAddScoreButtonClick = () => setShowAddScoreModal(true)
-  const onModalOverlayClick = () => setShowAddScoreModal(false)
   return (
     <div id="dayAggPage" className="page">
-      {
-        showAddScoreModal ? (
-          <>
-            <ModalOverlay onClick={onModalOverlayClick} />
-            <AddScoreModal loggedInUser={loggedInUser} addScore={addScore} setShowAddScoreModal={setShowAddScoreModal} />
-          </>
-        ) : ""
-      }
-      <LeftArrow active={dayIndex > 0} index={dayIndex} setIndex={setDayIndex} />
-      <DayScoreTable loggedInUser={loggedInUser} dayData={data} dayIndex={dayIndex} onAddScoreButtonClick={onAddScoreButtonClick} selectedRecordDate={selectedRecordDate} />
-      <RightArrow active={dayIndex < data.length - 1} index={dayIndex} setIndex={setDayIndex} />
+      <DayScoreTable
+        loggedInUser={loggedInUser}
+        dayData={data}
+        dayIndex={dayIndex}
+        setDayIndex={setDayIndex}
+        selectedRecordDate={selectedRecordDate}
+      />
     </div>
   )
 }

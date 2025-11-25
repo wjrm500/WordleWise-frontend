@@ -39,4 +39,8 @@ const isPastPresentOrFuture = (dateStr) => {
   }
 }
 
-export {beautifyDate, getDateFromStr, getTodayDate, PAST, PRESENT, FUTURE, isPastPresentOrFuture}
+const isToday = (dateStr) => {
+  return isPastPresentOrFuture(dateStr) === PRESENT
+}
+
+export { beautifyDate, getDateFromStr, getTodayDate, PAST, PRESENT, FUTURE, isPastPresentOrFuture, isToday }

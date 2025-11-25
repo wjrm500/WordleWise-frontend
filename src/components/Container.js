@@ -1,113 +1,91 @@
 import Header from "./Header"
-import React, { useContext, useState } from "react"
+import React, { useState } from "react"
 import LoginContainer from "./LoginContainer"
 import HomeContainer from "./HomeContainer"
-import ServerAddrContext from "../contexts/ServerAddrContext"
-import axios from "axios"
+import AuthContext from "../contexts/AuthContext"
+import ScopeProvider from "./scope/ScopeProvider"
+import api from "../utilities/api"
 import StatusCodes from "http-status-codes"
 
 const Container = () => {
-  /* Hooks */
-  const SERVER_ADDR = useContext(ServerAddrContext)
-  const [loggedInUser, setLoggedInUser] = useState(JSON.parse(sessionStorage.getItem("loggedInUser")))
-  const [scores, setScores] = useState({})
-  const [users, setUsers] = useState({})
-  const [dayIndex, setDayIndex] = useState(null)
+  // Auth State
+  const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem("loggedInUser")))
+  const [token, setToken] = useState(localStorage.getItem("token"))
 
-  const postOptions = {
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Authorization": "Bearer " + sessionStorage.getItem("token"),
-      "Content-Type": "application/json"
-    },
-    type: "cors"
+  // Data State
+  const [users, setUsers] = useState({})
+  // Track by week start date instead of index
+  const [currentWeekStart, setCurrentWeekStart] = useState(null)
+
+  const isAuthenticated = !!token;
+  const isSiteAdmin = loggedInUser?.admin === 1;
+
+  const onLogin = async (username, password, setLoginIsLoading) => {
+    try {
+      const { data } = await api.post("/login", { username, password });
+      if (data.success) {
+        localStorage.setItem("token", data.access_token)
+        localStorage.setItem("loggedInUser", JSON.stringify(data.user))
+        setToken(data.access_token)
+        setLoggedInUser(data.user)
+      } else {
+        setLoginIsLoading(false)
+        alert(data.error)
+      }
+    } catch (error) {
+      setLoginIsLoading(false)
+      alert("Something went wrong. Is the server running?")
+    }
   }
 
-  /* Functions */
-  const onLogin = (username, password, setLoginIsLoading) => {
-    axios.post(
-      SERVER_ADDR + "/login",
-      { username, password },
-      {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Content-Type": "application/json"
-        },
-        type: "cors",
-      }).then(({ data }) => {
-        if (data.success) {
-          sessionStorage.setItem("token", data.access_token)
-          sessionStorage.setItem("loggedInUser", JSON.stringify(data.user))
-          setLoggedInUser(data.user)
-        } else {
-          setLoginIsLoading(false)
-          alert(data.error)
+  const onLogout = () => {
+    localStorage.removeItem("token")
+    localStorage.removeItem("loggedInUser")
+    setToken(null)
+    setLoggedInUser(null)
+    setCurrentWeekStart(null)
+  }
+
+  const getUsers = () => {
+    api.get("/getUsers")
+      .then(({ data }) => {
+        setUsers(data)
+      }).catch((error) => {
+        if (error.response && error.response.status === StatusCodes.UNAUTHORIZED) {
+          onLogout()
         }
       })
-      .catch(() => {
-        setLoginIsLoading(false)
-        alert("Something went wrong. Is the server running?")
-      })
-  }
-  const onLogout = () => {
-    sessionStorage.removeItem("token")
-    sessionStorage.removeItem("loggedInUser")
-    setLoggedInUser(null)
-  }
-  const getScores = (init = true) => {
-    axios.post(
-      SERVER_ADDR + "/getScores",
-      { timezone: Intl.DateTimeFormat().resolvedOptions().timeZone },
-      postOptions
-    ).then(({ data }) => {
-      setScores(data)
-      if (init) {
-        setDayIndex(data.length - 1)
-      }
-    }).catch(({ response }) => {
-      if (response.status == StatusCodes.UNAUTHORIZED) {
-        onLogout()
-      }
-    })
-  }
-  const addScore = (date, user_id, score, init = true) => {
-    axios.post(
-      SERVER_ADDR + "/addScore",
-      { date, user_id, score, timezone: Intl.DateTimeFormat().resolvedOptions().timeZone },
-      postOptions
-    ).then(
-      () => {
-        getScores(init)
-      }
-    ).catch(({ response }) => {
-      if (response.status == StatusCodes.UNAUTHORIZED) {
-        onLogout()
-      }
-    })
-  }
-  const getUsers = () => {
-    axios.get(
-      SERVER_ADDR + "/getUsers",
-      postOptions
-    ).then(({ data }) => {
-      setUsers(data)
-    }).catch(({ response }) => {
-      if (response.status == StatusCodes.UNAUTHORIZED) {
-        onLogout()
-      }
-    })
   }
 
-  /* Render */
   return (
-    <div id="container">
-      <Header loggedInUser={loggedInUser} onLogout={onLogout} addScore={addScore} users={users} getUsers={getUsers} />
-      {
-        sessionStorage.getItem("token") ?
-          <HomeContainer loggedInUser={loggedInUser} scores={scores} getScores={getScores} addScore={addScore} getUsers={getUsers} users={users} dayIndex={dayIndex} setDayIndex={setDayIndex} /> : // Pass users prop here
-          <LoginContainer onLogin={onLogin} />
-      }
-    </div>
+    <AuthContext.Provider value={{
+      user: loggedInUser,
+      token,
+      login: onLogin,
+      logout: onLogout,
+      isAuthenticated,
+      isSiteAdmin
+    }}>
+      <ScopeProvider>
+        <div id="container">
+          <Header
+            loggedInUser={loggedInUser}
+            onLogout={onLogout}
+          />
+          {
+            isAuthenticated ?
+              <HomeContainer
+                loggedInUser={loggedInUser}
+                getUsers={getUsers}
+                users={users}
+                currentWeekStart={currentWeekStart}
+                setCurrentWeekStart={setCurrentWeekStart}
+              /> :
+              <LoginContainer onLogin={onLogin} />
+          }
+        </div>
+      </ScopeProvider>
+    </AuthContext.Provider>
   )
 }
 

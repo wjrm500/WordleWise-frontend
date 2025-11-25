@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { PRESENT, isPastPresentOrFuture } from '../utilities/dates'
+import ScopeContext from '../contexts/ScopeContext'
 import {
   getUnbeatenStreaks,
   getWinStreaks,
@@ -10,8 +11,10 @@ import {
   getMonthlyRecords
 } from '../utilities/records'
 
-const RecordPage = ({data, onRecordClick}) => {
-  // Existing streak constants
+const RecordPage = ({ data, onRecordClick }) => {
+  const { scopeMembers, isPersonalScope } = useContext(ScopeContext)
+
+  // Record type constants
   const CONSECUTIVE_WINS = "consecWin"
   const CONSECUTIVE_DAYS_UNBEATEN = "consecUnbeat"
   const CONSECUTIVE_ONE_BELOW = "consec1"
@@ -19,70 +22,95 @@ const RecordPage = ({data, onRecordClick}) => {
   const CONSECUTIVE_THREE_BELOW = "consec3"
   const CONSECUTIVE_FOUR_BELOW = "consec4"
   const CONSECUTIVE_FIVE_BELOW = "consec5"
-  
-  // New period-based record constants
   const WEEKLY_LOW = "weeklyLow"
   const ROLLING_7_LOW = "rolling7Low"
   const FORTNIGHT_LOW = "fortnightLow"
   const ROLLING_14_LOW = "rolling14Low"
   const MONTH_LOW = "monthLow"
   const ROLLING_28_LOW = "rolling28Low"
-  
-  const [recordType, setRecordType] = useState(CONSECUTIVE_WINS)
-  
+
+  // Determine if competitive records should be available
+  const canShowCompetitiveRecords = !isPersonalScope && scopeMembers.length > 1
+
+  // Set default based on scope
+  const getDefaultRecordType = () => {
+    if (canShowCompetitiveRecords) {
+      return CONSECUTIVE_WINS
+    }
+    return CONSECUTIVE_ONE_BELOW
+  }
+
+  const [recordType, setRecordType] = useState(getDefaultRecordType())
+
+  // Reset record type if switching scopes and current type is no longer valid
+  useEffect(() => {
+    const isCompetitiveRecord = recordType === CONSECUTIVE_WINS || recordType === CONSECUTIVE_DAYS_UNBEATEN
+    if (isCompetitiveRecord && !canShowCompetitiveRecords) {
+      setRecordType(CONSECUTIVE_ONE_BELOW)
+    }
+  }, [isPersonalScope, scopeMembers.length, recordType, canShowCompetitiveRecords])
+
+  // Get list of usernames for calculation
+  const usernames = scopeMembers.map(m => m.username)
+
+  // Create user mapping for display (username -> forename)
+  const userMapping = {}
+  scopeMembers.forEach(m => userMapping[m.username] = m.forename || m.username)
+
   const getRecords = (recordType) => {
-    switch(recordType) {
-      // Existing cases...
+    switch (recordType) {
+      // Competitive records (only in group scope with 2+ members)
       case CONSECUTIVE_WINS:
-        return getWinStreaks(data)
+        return getWinStreaks(data, usernames)
       case CONSECUTIVE_DAYS_UNBEATEN:
-        return getUnbeatenStreaks(data)
+        return getUnbeatenStreaks(data, usernames)
+
+      // Personal achievement records (available in both scopes)
       case CONSECUTIVE_ONE_BELOW:
-        return getXOrBelowStreaks(data, 1)
+        return getXOrBelowStreaks(data, 1, usernames)
       case CONSECUTIVE_TWO_BELOW:
-        return getXOrBelowStreaks(data, 2)
+        return getXOrBelowStreaks(data, 2, usernames)
       case CONSECUTIVE_THREE_BELOW:
-        return getXOrBelowStreaks(data, 3)
+        return getXOrBelowStreaks(data, 3, usernames)
       case CONSECUTIVE_FOUR_BELOW:
-        return getXOrBelowStreaks(data, 4)
+        return getXOrBelowStreaks(data, 4, usernames)
       case CONSECUTIVE_FIVE_BELOW:
-        return getXOrBelowStreaks(data, 5)
-      
-      // New cases
+        return getXOrBelowStreaks(data, 5, usernames)
+
+      // Period records (available in both scopes)
       case WEEKLY_LOW:
-        return getWeeklyRecords(data)
+        return getWeeklyRecords(data, usernames)
       case ROLLING_7_LOW:
-        return getRollingPeriodRecords(data, 7)
+        return getRollingPeriodRecords(data, 7, usernames)
       case FORTNIGHT_LOW:
-        return getFortnightRecords(data)
+        return getFortnightRecords(data, usernames)
       case ROLLING_14_LOW:
-        return getRollingPeriodRecords(data, 14)
+        return getRollingPeriodRecords(data, 14, usernames)
       case MONTH_LOW:
-        return getMonthlyRecords(data)
+        return getMonthlyRecords(data, usernames)
       case ROLLING_28_LOW:
-        return getRollingPeriodRecords(data, 28)
+        return getRollingPeriodRecords(data, 28, usernames)
+      default:
+        return []
     }
   }
+
+  const records = getRecords(recordType)
+  const isStreakRecord = records.length > 0 && records[0].days !== undefined
 
   const headerRow = (
     <tr>
       <th>#</th>
       <th>User</th>
-      <th>Score</th>
+      <th>{isStreakRecord ? 'Days' : 'Score'}</th>
       <th>Period Start</th>
       <th>Period End</th>
     </tr>
   )
 
-  const userMapping = {
-    "kjem500": "Kate",
-    "wjrm500": "Will"
-  }
+  const rows = records.map((record, index) => {
+    const highlight = isPastPresentOrFuture(record.periodEnd) === PRESENT
 
-  const rows = getRecords(recordType).map((record, index) => {
-    const highlight = isPastPresentOrFuture(record.periodEnd) == PRESENT
-    
-    // Create a simplified version of the record for the click handler
     const handleClick = () => {
       const clickData = {
         user: record.user,
@@ -93,16 +121,16 @@ const RecordPage = ({data, onRecordClick}) => {
       }
       onRecordClick(clickData)
     }
-  
+
     return (
-      <tr 
-        key={index} 
-        style={{backgroundColor: highlight ? "var(--blue-3)" : "", color: highlight ? "white" : ""}} 
+      <tr
+        key={`${record.user}-${record.periodStart}-${record.periodEnd}-${index}`}
+        style={{ backgroundColor: highlight ? "var(--blue-3)" : "", color: highlight ? "white" : "" }}
         onClick={handleClick}
         className="clickableRow"
       >
         <td>{index + 1}</td>
-        <td>{userMapping[record.user]}</td>
+        <td>{userMapping[record.user] || record.user}</td>
         <td>{record.days || record.score}</td>
         <td>{record.periodStart || "-"}</td>
         <td>{record.periodEnd}</td>
@@ -111,14 +139,22 @@ const RecordPage = ({data, onRecordClick}) => {
   })
 
   return (
-    <div className="page" style={{alignItems: 'center', flexDirection: 'column'}}>
-      <select 
-        onChange={(event) => setRecordType(event.target.value)} 
-        style={{marginBottom: '10px', height: '30px'}}
+    <div id="recordPage" className="page">
+      <select
+        onChange={(event) => {
+          event.stopPropagation()
+          setRecordType(event.target.value)
+        }}
+        onClick={(event) => event.stopPropagation()}
+        value={recordType}
       >
-        <optgroup label="Streak Records">
-          <option value={CONSECUTIVE_WINS}>Consecutive wins</option>
-          <option value={CONSECUTIVE_DAYS_UNBEATEN}>Consecutive days unbeaten</option>
+        {canShowCompetitiveRecords && (
+          <optgroup label="Competitive Records">
+            <option value={CONSECUTIVE_WINS}>Consecutive wins</option>
+            <option value={CONSECUTIVE_DAYS_UNBEATEN}>Consecutive days unbeaten</option>
+          </optgroup>
+        )}
+        <optgroup label="Personal Achievement Records">
           <option value={CONSECUTIVE_ONE_BELOW}>Consecutive days scoring 1 or below</option>
           <option value={CONSECUTIVE_TWO_BELOW}>Consecutive days scoring 2 or below</option>
           <option value={CONSECUTIVE_THREE_BELOW}>Consecutive days scoring 3 or below</option>
@@ -134,13 +170,19 @@ const RecordPage = ({data, onRecordClick}) => {
           <option value={ROLLING_28_LOW}>Lowest score in any 28 days</option>
         </optgroup>
       </select>
-      <div className="tableContainer" style={{height: "200px"}}>
+      <div className="tableContainer">
         <table className="table">
           <thead>
             {headerRow}
           </thead>
           <tbody>
-            {rows}
+            {rows.length > 0 ? rows : (
+              <tr>
+                <td colSpan="5" style={{ textAlign: 'center', padding: '20px', color: '#999' }}>
+                  No records found
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
