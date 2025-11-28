@@ -1,6 +1,7 @@
 import PropTypes from "prop-types"
 import React, { useState } from "react"
 import SpinningLoader from "./SpinningLoader"
+import ErrorMessage from "./common/ErrorMessage"
 import api from "../utilities/api"
 
 const LoginBox = ({ onLogin }) => {
@@ -28,7 +29,7 @@ const LoginBox = ({ onLogin }) => {
       try {
         const { data } = await api.post("/register", { username, password, forename })
         if (data.success) {
-          onLogin(username, password, setIsLoading)
+          onLogin(username, password, setIsLoading, setError)
         } else {
           setError(data.error)
           setIsLoading(false)
@@ -38,7 +39,7 @@ const LoginBox = ({ onLogin }) => {
         setIsLoading(false)
       }
     } else {
-      onLogin(username, password, setIsLoading)
+      onLogin(username, password, setIsLoading, setError)
     }
   }
 
@@ -48,7 +49,7 @@ const LoginBox = ({ onLogin }) => {
         {isRegistering ? 'Create Account' : 'Login'}
       </h2>
 
-      {error && <div style={{ color: 'red', marginBottom: '10px' }}>{error}</div>}
+      <ErrorMessage message={error} onDismiss={() => setError(null)} />
 
       <form method="post" onSubmit={(e) => e.preventDefault()}>
         <div className="loginBoxField">
@@ -111,4 +112,4 @@ LoginBox.propTypes = {
   onLogin: PropTypes.func
 }
 
-export default LoginBox
+export default LoginBox;

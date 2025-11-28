@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react"
 import AuthContext from "../contexts/AuthContext"
 import ScopeContext from "../contexts/ScopeContext"
+import ErrorMessage from "./common/ErrorMessage"
 import api from "../utilities/api"
 
 const AdminUpdateScoreModal = ({ onClose }) => {
@@ -73,7 +74,7 @@ const AdminUpdateScoreModal = ({ onClose }) => {
     <div className="scoreModal">
       <h2 style={{ marginTop: 0 }}>Update Score (Admin)</h2>
 
-      {error && <div style={{ color: '#ff6b6b', marginBottom: '10px' }}>{error}</div>}
+      <ErrorMessage message={error} onDismiss={() => setError(null)} />
 
       <form onSubmit={handleSubmit}>
         <div className="formGroup">
@@ -143,4 +144,4 @@ const AdminUpdateScoreModal = ({ onClose }) => {
   )
 }
 
-export default AdminUpdateScoreModal
+export default AdminUpdateScoreModal;

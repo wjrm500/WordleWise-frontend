@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import api from '../../utilities/api';
 
-const InviteCodeDisplay = ({ group, isAdmin, onUpdate }) => {
+const InviteCodeDisplay = ({ group, isAdmin, onUpdate, onError }) => {
     const [isRegenerating, setIsRegenerating] = useState(false);
+    const [copySuccess, setCopySuccess] = useState(false);
 
     const handleRegenerate = async () => {
         if (!window.confirm('Are you sure? The old code will stop working.')) return;
@@ -14,8 +15,7 @@ const InviteCodeDisplay = ({ group, isAdmin, onUpdate }) => {
                 onUpdate(response.data.invite_code);
             }
         } catch (error) {
-            console.error("Failed to regenerate code", error);
-            alert("Failed to regenerate code");
+            onError(error.response?.data?.error || "Failed to regenerate code");
         } finally {
             setIsRegenerating(false);
         }
@@ -23,7 +23,8 @@ const InviteCodeDisplay = ({ group, isAdmin, onUpdate }) => {
 
     const copyToClipboard = () => {
         navigator.clipboard.writeText(group.invite_code);
-        alert("Copied to clipboard!");
+        setCopySuccess(true);
+        setTimeout(() => setCopySuccess(false), 2000);
     };
 
     return (
@@ -46,10 +47,18 @@ const InviteCodeDisplay = ({ group, isAdmin, onUpdate }) => {
                 </div>
                 <button
                     onClick={copyToClipboard}
-                    style={{ padding: '10px', cursor: 'pointer', background: 'var(--blue-2)', color: 'white', border: 'none', borderRadius: '4px' }}
-                    title="Copy to clipboard"
+                    style={{ 
+                        padding: '10px', 
+                        cursor: 'pointer', 
+                        background: copySuccess ? '#34a853' : 'var(--blue-2)', 
+                        color: 'white', 
+                        border: 'none', 
+                        borderRadius: '4px',
+                        transition: 'background 0.2s ease'
+                    }}
+                    title={copySuccess ? "Copied!" : "Copy to clipboard"}
                 >
-                    📋
+                    {copySuccess ? '✓' : '📋'}
                 </button>
             </div>
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from "react"
 import axios from "axios"
 import ServerAddrContext from "../contexts/ServerAddrContext"
+import ErrorMessage from "./common/ErrorMessage"
 
 const PlayWordleModal = ({ setShowPlayWordleModal }) => {
   const SERVER_ADDR = useContext(ServerAddrContext)
@@ -54,7 +55,7 @@ const PlayWordleModal = ({ setShowPlayWordleModal }) => {
 
     } catch (err) {
       console.error(err);
-      setError(`Error: ${err.response?.data?.error || err.message || 'Unknown error occurred'}`);
+      setError(err.response?.data?.error || err.message || 'Unknown error occurred');
     } finally {
       setIsLoading(false);
     }
@@ -68,10 +69,13 @@ const PlayWordleModal = ({ setShowPlayWordleModal }) => {
       <h2 style={{ marginTop: 0 }}>Play past Wordle</h2>
 
       {isFeatureDisabled && (
-        <div style={{ color: 'red', marginBottom: '10px' }}>
-          This feature may not work reliably due to source website changes.
-        </div>
+        <ErrorMessage 
+          message="This feature may not work reliably due to source website changes."
+          style={{ marginBottom: '15px' }}
+        />
       )}
+
+      <ErrorMessage message={error} onDismiss={() => setError(null)} />
 
       <form onSubmit={handleSubmit}>
         <div className="formFields">
@@ -85,12 +89,6 @@ const PlayWordleModal = ({ setShowPlayWordleModal }) => {
               max={new Date().toISOString().split('T')[0]}
             />
           </div>
-
-          {error && (
-            <div style={{ color: 'red', margin: '10px 0' }}>
-              {error}
-            </div>
-          )}
         </div>
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '20px' }}>
           <button
@@ -132,4 +130,4 @@ const PlayWordleModal = ({ setShowPlayWordleModal }) => {
   )
 }
 
-export default PlayWordleModal
+export default PlayWordleModal;

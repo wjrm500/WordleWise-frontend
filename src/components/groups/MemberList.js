@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import api from '../../utilities/api';
 import AuthContext from '../../contexts/AuthContext';
 
-const MemberList = ({ group, members, isAdmin, onUpdate }) => {
+const MemberList = ({ group, members, isAdmin, onUpdate, onError }) => {
     const { user: currentUser } = useContext(AuthContext);
 
     const handleRemove = async (memberId) => {
@@ -12,7 +12,7 @@ const MemberList = ({ group, members, isAdmin, onUpdate }) => {
             await api.delete(`/groups/${group.id}/members/${memberId}`);
             onUpdate();
         } catch (error) {
-            alert(error.response?.data?.error || "Failed to remove member");
+            onError(error.response?.data?.error || "Failed to remove member");
         }
     };
 
@@ -21,7 +21,7 @@ const MemberList = ({ group, members, isAdmin, onUpdate }) => {
             await api.put(`/groups/${group.id}/members/${memberId}`, { role: newRole });
             onUpdate();
         } catch (error) {
-            alert(error.response?.data?.error || "Failed to update role");
+            onError(error.response?.data?.error || "Failed to update role");
         }
     };
 

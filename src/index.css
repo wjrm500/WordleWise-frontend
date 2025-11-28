@@ -973,3 +973,101 @@ tr[style*="background-color: yellow"] {
     font-size: 0.8rem;
   }
 }
+
+/* ===== ERROR MESSAGE COMPONENT ===== */
+.error-message {
+  background: rgba(255, 107, 107, 0.15);
+  border: 1px solid rgba(255, 107, 107, 0.4);
+  border-left: 3px solid #ff6b6b;
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  animation: errorSlideIn 0.2s ease-out;
+}
+
+@keyframes errorSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.error-message-text {
+  color: #ff6b6b;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.error-message-dismiss {
+  background: none;
+  border: none;
+  color: #ff6b6b;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0 4px;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+  line-height: 1;
+}
+
+.error-message-dismiss:hover {
+  opacity: 1;
+}
+
+/* Light theme variant for login page */
+#loginBox .error-message {
+  background: rgba(255, 107, 107, 0.1);
+  border-color: rgba(255, 107, 107, 0.3);
+}
+
+/* ===== GROUP NAME COMPONENT ===== */
+.group-name {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.group-name-text {
+  /* Inherits parent styling */
+}
+
+.group-name-id {
+  font-size: 0.75em;
+  opacity: 0.6;
+  font-weight: normal;
+}
+
+/* Dropdown-specific styling */
+.dropdown-trigger .group-name-id {
+  font-size: 0.7em;
+  opacity: 0.5;
+}
+
+.dropdown-item .group-name-id {
+  font-size: 0.8em;
+  color: #999;
+}
+
+/* Modal title styling */
+.scoreModal h2 .group-name-id {
+  font-size: 0.65em;
+  opacity: 0.5;
+}
+
+/* ===== DROPDOWN TRIGGER TEXT ===== */
+.dropdown-trigger-text {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

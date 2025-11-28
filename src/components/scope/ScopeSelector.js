@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect, useRef } from 'react';
 import ScopeContext from '../../contexts/ScopeContext';
 import CreateGroupModal from '../groups/CreateGroupModal';
 import JoinGroupModal from '../groups/JoinGroupModal';
+import GroupName from '../common/GroupName';
 import { FaUser, FaUsers, FaPlus, FaChevronDown } from 'react-icons/fa';
 
 const ScopeSelector = () => {
@@ -17,10 +18,6 @@ const ScopeSelector = () => {
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [showJoinModal, setShowJoinModal] = useState(false);
     const dropdownRef = useRef(null);
-
-    const currentLabel = isPersonalScope
-        ? 'Personal'
-        : currentScope?.group?.name || 'Select...';
 
     // Click outside handler
     useEffect(() => {
@@ -43,7 +40,9 @@ const ScopeSelector = () => {
                 onClick={() => setIsOpen(!isOpen)}
             >
                 {isPersonalScope ? <FaUser size={12} /> : <FaUsers size={14} />}
-                <span>{currentLabel}</span>
+                <span className="dropdown-trigger-text">
+                    {isPersonalScope ? 'Personal' : <GroupName group={currentScope?.group} />}
+                </span>
                 <FaChevronDown size={10} style={{ opacity: 0.7 }} />
             </button>
 
@@ -70,7 +69,7 @@ const ScopeSelector = () => {
                             onClick={() => { selectGroupScope(group.id); setIsOpen(false); }}
                         >
                             <FaUsers size={14} style={{ opacity: 0.6 }} />
-                            {group.name}
+                            <GroupName group={group} />
                         </div>
                     ))}
 

@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import api from '../../utilities/api';
 import ScopeContext from '../../contexts/ScopeContext';
+import ErrorMessage from '../common/ErrorMessage';
 
 const CreateGroupModal = ({ onClose }) => {
     const [name, setName] = useState('');
@@ -38,7 +39,7 @@ const CreateGroupModal = ({ onClose }) => {
             <div className="scoreModal" style={{ minWidth: '300px', maxWidth: '400px', display: 'block' }}>
                 <h2 style={{ marginTop: 0 }}>Create Group</h2>
 
-                {error && <div style={{ color: '#ff6b6b', marginBottom: '10px' }}>{error}</div>}
+                <ErrorMessage message={error} onDismiss={() => setError(null)} />
 
                 <form onSubmit={handleSubmit}>
                     <div style={{ marginBottom: '15px' }}>

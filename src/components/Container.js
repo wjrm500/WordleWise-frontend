@@ -20,7 +20,7 @@ const Container = () => {
   const isAuthenticated = !!token;
   const isSiteAdmin = loggedInUser?.admin === 1;
 
-  const onLogin = async (username, password, setLoginIsLoading) => {
+  const onLogin = async (username, password, setLoginIsLoading, setLoginError) => {
     try {
       const { data } = await api.post("/login", { username, password });
       if (data.success) {
@@ -30,11 +30,11 @@ const Container = () => {
         setLoggedInUser(data.user)
       } else {
         setLoginIsLoading(false)
-        alert(data.error)
+        setLoginError(data.error)
       }
     } catch (error) {
       setLoginIsLoading(false)
-      alert("Something went wrong. Is the server running?")
+      setLoginError("Something went wrong. Is the server running?")
     }
   }
 
@@ -89,4 +89,4 @@ const Container = () => {
   )
 }
 
-export default Container
+export default Container;
