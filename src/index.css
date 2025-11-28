@@ -54,6 +54,10 @@ code {
   --radius-lg: 16px;
   
   --transition: all 0.2s ease;
+  
+  /* Winner styling */
+  --winner-color: #15803d;
+  --winner-bg: #dcfce7;
 }
 
 /* ===== LAYOUT ===== */
@@ -418,6 +422,13 @@ code {
 
 .scoreTable th.scoreColumn {
   text-align: center;
+}
+
+/* ===== WINNER STYLING (Weekly page) ===== */
+.scoreColumn.winner {
+  color: var(--winner-color) !important;
+  font-weight: 700 !important;
+  background-color: var(--winner-bg) !important;
 }
 
 /* Summary row */

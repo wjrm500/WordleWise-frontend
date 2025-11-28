@@ -75,9 +75,15 @@ const WeekScoreTable = ({ weekData, onWeekRowClick }) => {
         <td>{beautifyDate(week.start_of_week, false, true)}</td>
         {scopeMembers.map(member => {
           const total = memberTotals[member.username]
-          const isWinner = total === minTotal
-          const style = isWinner && !isTie ? { color: 'green', fontWeight: 'bold' } : {}
-          return <td key={member.username} className="scoreColumn" style={style}>{total}</td>
+          const isWinner = total === minTotal && !isTie
+          return (
+            <td
+              key={member.username}
+              className={`scoreColumn ${isWinner ? 'winner' : ''}`}
+            >
+              {total}
+            </td>
+          )
         })}
       </tr>
     )
@@ -163,4 +169,4 @@ const WeekScoreTable = ({ weekData, onWeekRowClick }) => {
   )
 }
 
-export default WeekScoreTable
+export default WeekScoreTable;
