@@ -34,6 +34,7 @@ const DayScoreTable = ({ loggedInUser, dayData, dayIndex, setDayIndex, selectedR
     if (canGoForward) setDayIndex(dayIndex + 1)
   }
 
+  // Use includeDay=false, includeYear=true for the week header
   const title = beautifyDate(weekData["start_of_week"], false, true)
 
   const headerRow1 = (
@@ -126,7 +127,8 @@ const DayScoreTable = ({ loggedInUser, dayData, dayIndex, setDayIndex, selectedR
 
     const row = (
       <tr key={date}>
-        <td>{beautifyDate(date)}</td>
+        {/* Use includeDay=true, includeYear=false for daily rows: "Mon, Nov 24" */}
+        <td>{beautifyDate(date, true, false)}</td>
         {memberCells}
       </tr>
     )

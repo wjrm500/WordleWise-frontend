@@ -1,5 +1,6 @@
 import React, { useContext } from "react"
 import ScopeContext from "../contexts/ScopeContext"
+import { beautifyDate } from "../utilities/dates"
 
 const WeekScoreTable = ({ weekData, onWeekRowClick }) => {
   const { scopeMembers } = useContext(ScopeContext)
@@ -70,7 +71,8 @@ const WeekScoreTable = ({ weekData, onWeekRowClick }) => {
     return (
       <tr key={week.start_of_week} onClick={() => onWeekRowClick(week.index)} className="clickableRow">
         <td>{week.index + 1}</td>
-        <td>{week.start_of_week}</td>
+        {/* Use includeDay=false, includeYear=true for Weekly: "Nov 24, 2025" */}
+        <td>{beautifyDate(week.start_of_week, false, true)}</td>
         {scopeMembers.map(member => {
           const total = memberTotals[member.username]
           const isWinner = total === minTotal
