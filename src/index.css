@@ -442,6 +442,24 @@ code {
   color: var(--blue-1);
 }
 
+/* ===== CURRENT RECORD ROWS (Records page) ===== */
+.currentRecordRow {
+  background: linear-gradient(135deg, var(--blue-2) 0%, var(--blue-3) 100%) !important;
+  color: white !important;
+}
+
+.currentRecordRow td {
+  color: white !important;
+}
+
+.currentRecordRow:hover {
+  background: linear-gradient(135deg, var(--blue-1) 0%, var(--blue-2) 100%) !important;
+}
+
+.currentRecordRow:hover td {
+  color: white !important;
+}
+
 /* ===== TABLE CONTAINER ===== */
 .tableContainer {
   overflow-y: auto;

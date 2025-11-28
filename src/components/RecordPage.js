@@ -109,7 +109,7 @@ const RecordPage = ({ data, onRecordClick }) => {
   )
 
   const rows = records.map((record, index) => {
-    const highlight = isPastPresentOrFuture(record.periodEnd) === PRESENT
+    const isCurrentRecord = isPastPresentOrFuture(record.periodEnd) === PRESENT
 
     const handleClick = () => {
       const clickData = {
@@ -125,9 +125,8 @@ const RecordPage = ({ data, onRecordClick }) => {
     return (
       <tr
         key={`${record.user}-${record.periodStart}-${record.periodEnd}-${index}`}
-        style={{ backgroundColor: highlight ? "var(--blue-3)" : "", color: highlight ? "white" : "" }}
+        className={`clickableRow ${isCurrentRecord ? 'currentRecordRow' : ''}`}
         onClick={handleClick}
-        className="clickableRow"
       >
         <td>{index + 1}</td>
         <td>{userMapping[record.user] || record.user}</td>
@@ -190,4 +189,4 @@ const RecordPage = ({ data, onRecordClick }) => {
   )
 }
 
-export default RecordPage
+export default RecordPage;
