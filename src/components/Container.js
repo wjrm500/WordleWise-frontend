@@ -18,7 +18,6 @@ const Container = () => {
   const [currentWeekStart, setCurrentWeekStart] = useState(null)
 
   const isAuthenticated = !!token;
-  const isSiteAdmin = loggedInUser?.admin === 1;
 
   const onLogin = async (username, password, setLoginIsLoading, setLoginError) => {
     try {
@@ -64,7 +63,6 @@ const Container = () => {
       login: onLogin,
       logout: onLogout,
       isAuthenticated,
-      isSiteAdmin
     }}>
       <ScopeProvider>
         <div id="container">

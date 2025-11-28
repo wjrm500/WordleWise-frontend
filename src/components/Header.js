@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react"
 import { FaPlus, FaGamepad, FaCog, FaSignOutAlt } from 'react-icons/fa'
 import PlayWordleModal from "./PlayWordleModal"
 import AddScoreModal from "./AddScoreModal"
-import AdminUpdateScoreModal from "./AdminUpdateScoreModal"
 import ModalOverlay from "./ModalOverlay"
 import ScopeContext from "../contexts/ScopeContext"
 import ScopeSelector from "./scope/ScopeSelector"
@@ -12,22 +11,15 @@ import logo from '../images/logo.png'
 const Header = ({ loggedInUser, onLogout }) => {
   const [showPlayWordleModal, setShowPlayWordleModal] = useState(false)
   const [showAddScoreModal, setShowAddScoreModal] = useState(false)
-  const [showAdminUpdateScoreModal, setShowAdminUpdateScoreModal] = useState(false)
   const [showGroupSettingsModal, setShowGroupSettingsModal] = useState(false)
-  const [showSettingsMenu, setShowSettingsMenu] = useState(false)
 
   const { isGroupScope, currentScope } = useContext(ScopeContext)
 
   const closeAllModals = () => {
     setShowPlayWordleModal(false)
     setShowAddScoreModal(false)
-    setShowAdminUpdateScoreModal(false)
     setShowGroupSettingsModal(false)
-    setShowSettingsMenu(false)
   }
-
-  // Only check admin status if logged in
-  const isSiteAdmin = loggedInUser ? loggedInUser.admin === 1 : false
 
   return (
     <div id="header">
@@ -41,12 +33,6 @@ const Header = ({ loggedInUser, onLogout }) => {
         <>
           <ModalOverlay onClick={closeAllModals} />
           <AddScoreModal onClose={() => setShowAddScoreModal(false)} />
-        </>
-      )}
-      {showAdminUpdateScoreModal && (
-        <>
-          <ModalOverlay onClick={closeAllModals} />
-          <AdminUpdateScoreModal onClose={() => setShowAdminUpdateScoreModal(false)} />
         </>
       )}
       {showGroupSettingsModal && isGroupScope && currentScope?.group && (
@@ -73,53 +59,17 @@ const Header = ({ loggedInUser, onLogout }) => {
             </button>
 
             {/* Settings button - opens group settings directly in group scope */}
-            {(isGroupScope || isSiteAdmin) && (
+            {isGroupScope && (
               <div style={{ position: 'relative' }}>
                 <button
                   className="headerButton"
                   onClick={() => {
-                    if (isGroupScope) {
-                      setShowGroupSettingsModal(true);
-                    } else {
-                      setShowSettingsMenu(!showSettingsMenu);
-                    }
+                    setShowGroupSettingsModal(true);
                   }}
-                  title={isGroupScope ? "Group Settings" : "Settings"}
+                  title="Group Settings"
                 >
                   <FaCog className="icon-20px" />
                 </button>
-
-                {/* Only show dropdown menu for site admins when not in group scope */}
-                {showSettingsMenu && isSiteAdmin && !isGroupScope && (
-                  <div
-                    style={{
-                      position: 'absolute',
-                      right: 0,
-                      top: 'calc(100% + 5px)',
-                      backgroundColor: 'white',
-                      border: '1px solid #ccc',
-                      borderRadius: '4px',
-                      boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-                      minWidth: '200px',
-                      zIndex: 1000,
-                      overflow: 'hidden',
-                      color: 'black'
-                    }}
-                  >
-                    <div
-                      style={{
-                        padding: '12px 16px',
-                        cursor: 'pointer',
-                        transition: 'background-color 0.2s'
-                      }}
-                      onClick={() => { setShowAdminUpdateScoreModal(true); setShowSettingsMenu(false); }}
-                      onMouseEnter={(e) => e.target.style.backgroundColor = '#f5f5f5'}
-                      onMouseLeave={(e) => e.target.style.backgroundColor = 'white'}
-                    >
-                      Update Any Score
-                    </div>
-                  </div>
-                )}
               </div>
             )}
 
