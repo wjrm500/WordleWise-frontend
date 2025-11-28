@@ -54,7 +54,9 @@ const InviteCodeDisplay = ({ group, isAdmin, onUpdate, onError }) => {
                         color: 'white', 
                         border: 'none', 
                         borderRadius: '4px',
-                        transition: 'background 0.2s ease'
+                        transition: 'background 0.2s ease',
+                        width: '40px',
+                        height: '40px',
                     }}
                     title={copySuccess ? "Copied!" : "Copy to clipboard"}
                 >
