@@ -1,32 +1,32 @@
-/* ===== LOGIN ===== */
-#loginContainer {
+/* ===== AUTHENTICATION ===== */
+#authContainer {
   background: white;
   border-radius: var(--radius-lg);
   padding: 32px;
   box-shadow: var(--shadow-lg);
 }
 
-#loginBox h2 {
+#authBox h2 {
   margin: 0 0 24px 0;
   color: var(--blue-1);
   font-size: 1.5rem;
   font-weight: 600;
 }
 
-.loginBoxField {
+.authBoxField {
   display: flex;
   flex-direction: column;
   margin-bottom: 16px;
 }
 
-.loginBoxField label {
+.authBoxField label {
   font-size: 0.875rem;
   font-weight: 500;
   color: #555;
   margin-bottom: 6px;
 }
 
-.loginBoxField input {
+.authBoxField input {
   padding: 12px 14px;
   border: 1px solid #dde3ec;
   border-radius: var(--radius-sm);
@@ -35,7 +35,7 @@
   background: #fafbfc;
 }
 
-.loginBoxField input:focus {
+.authBoxField input:focus {
   outline: none;
   border-color: var(--blue-2);
   background: white;

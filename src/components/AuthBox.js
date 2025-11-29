@@ -4,7 +4,7 @@ import SpinningLoader from "./SpinningLoader"
 import ErrorMessage from "./common/ErrorMessage"
 import api from "../utilities/api"
 
-const LoginBox = ({ onLogin }) => {
+const AuthBox = ({ onLogin }) => {
   const [isRegistering, setIsRegistering] = useState(false)
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
@@ -54,7 +54,7 @@ const LoginBox = ({ onLogin }) => {
   }
 
   return (
-    <div id="loginBox">
+    <div id="authBox">
       <h2 style={{ marginTop: 0, color: 'var(--blue-1)' }}>
         {isRegistering ? 'Create Account' : 'Login'}
       </h2>
@@ -76,7 +76,7 @@ const LoginBox = ({ onLogin }) => {
       <ErrorMessage message={error} onDismiss={() => setError(null)} />
 
       <form method="post" onSubmit={(e) => e.preventDefault()}>
-        <div className="loginBoxField">
+        <div className="authBoxField">
           <label>Username</label>
           <input type="text"
             autoComplete="username"
@@ -86,7 +86,7 @@ const LoginBox = ({ onLogin }) => {
         </div>
 
         {isRegistering && (
-          <div className="loginBoxField">
+          <div className="authBoxField">
             <label>Display Name</label>
             <input type="text"
               autoComplete="name"
@@ -97,7 +97,7 @@ const LoginBox = ({ onLogin }) => {
           </div>
         )}
 
-        <div className="loginBoxField">
+        <div className="authBoxField">
           <label>Password</label>
           <input type="password"
             autoComplete="current-password"
@@ -133,8 +133,8 @@ const LoginBox = ({ onLogin }) => {
   )
 }
 
-LoginBox.propTypes = {
+AuthBox.propTypes = {
   onLogin: PropTypes.func
 }
 
-export default LoginBox;
+export default AuthBox;
