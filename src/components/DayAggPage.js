@@ -1,22 +1,22 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useCallback } from "react"
 import DayScoreTable from "./DayScoreTable"
 
 const DayAggPage = ({ loggedInUser, data, dayIndex, setDayIndex, selectedRecordDate }) => {
 
-  const handleKeyPress = (event) => {
-    if (event.keyCode === 37 && dayIndex > 0) {
+  const handleKeyPress = useCallback((event) => {
+    if (event.key === 'ArrowLeft' && dayIndex > 0) {
       setDayIndex(dayIndex - 1)
-    } else if (event.keyCode === 39 && dayIndex < data.length - 1) {
+    } else if (event.key === 'ArrowRight' && dayIndex < data.length - 1) {
       setDayIndex(dayIndex + 1)
     }
-  }
+  }, [dayIndex, data.length, setDayIndex])
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyPress)
     return () => {
       window.removeEventListener("keydown", handleKeyPress)
     }
-  }, [dayIndex, data.length, setDayIndex])
+  }, [handleKeyPress])
 
   return (
     <div id="dayAggPage" className="page">
