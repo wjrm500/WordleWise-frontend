@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect } from "react"
 import api from "../utilities/api"
 import ErrorMessage from "./common/ErrorMessage"
 
@@ -7,7 +7,7 @@ const PlayWordleModal = ({ setShowPlayWordleModal }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isFormValid, setIsFormValid] = useState(false);
-  const linkRef = useRef(null);
+  const [manualUrl, setManualUrl] = useState(null); // Fallback if popup is blocked
 
   // Check if the form is valid whenever the date changes
   useEffect(() => {
@@ -23,18 +23,31 @@ const PlayWordleModal = ({ setShowPlayWordleModal }) => {
 
     setIsLoading(true);
     setError(null);
+    setManualUrl(null);
+
+    // Open window IMMEDIATELY (user-initiated) to avoid popup blocker on iOS Safari
+    // This must happen synchronously in the click handler, before any async operations
+    const newWindow = window.open('about:blank', '_blank');
 
     try {
       const response = await api.post("/getWordleAnswer", { date });
 
       if (response.data.success) {
-        // Update hidden link and click it
-        if (linkRef.current) {
-          linkRef.current.href = response.data.playable_url;
-          linkRef.current.click();
+        const url = response.data.playable_url;
+        
+        if (newWindow && !newWindow.closed) {
+          // Redirect the pre-opened window to the Wordle URL
+          newWindow.location.href = url;
+          setShowPlayWordleModal(false);
+        } else {
+          // Popup was blocked - show link for manual click
+          setManualUrl(url);
         }
-        setShowPlayWordleModal(false);
       } else {
+        // Close the blank window if there was an error
+        if (newWindow && !newWindow.closed) {
+          newWindow.close();
+        }
         setError(response.data.error);
 
         if (response.data.error.includes("format may have changed")) {
@@ -43,6 +56,10 @@ const PlayWordleModal = ({ setShowPlayWordleModal }) => {
       }
 
     } catch (err) {
+      // Close the blank window if there was an error
+      if (newWindow && !newWindow.closed) {
+        newWindow.close();
+      }
       console.error(err);
       setError(err.response?.data?.error || err.message || 'Unknown error occurred');
     } finally {
@@ -65,6 +82,31 @@ const PlayWordleModal = ({ setShowPlayWordleModal }) => {
       )}
 
       <ErrorMessage message={error} onDismiss={() => setError(null)} />
+
+      {/* Fallback link if popup was blocked */}
+      {manualUrl && (
+        <div style={{ 
+          background: 'rgba(255,255,255,0.1)', 
+          padding: '15px', 
+          borderRadius: '8px', 
+          marginBottom: '15px',
+          textAlign: 'center'
+        }}>
+          <p style={{ margin: '0 0 10px 0' }}>Tap the link below to play:</p>
+          <a 
+            href={manualUrl} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            style={{ 
+              color: '#4fc3f7', 
+              fontWeight: 'bold',
+              fontSize: '1.1em'
+            }}
+          >
+            Open Wordle Game
+          </a>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit}>
         <div className="formFields">
@@ -103,17 +145,6 @@ const PlayWordleModal = ({ setShowPlayWordleModal }) => {
             {isLoading ? 'Loading...' : 'Play'}
           </button>
         </div>
-
-        {/* Hidden link that will be programmatically clicked */}
-        <a
-          ref={linkRef}
-          href="#"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ display: 'none' }}
-        >
-          hidden link
-        </a>
       </form>
     </div>
   )
