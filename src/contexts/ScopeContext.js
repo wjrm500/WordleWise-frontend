@@ -1,12 +1,11 @@
 import { createContext } from 'react';
 
 const ScopeContext = createContext({
-    // Data
     groups: [],
     currentScope: null,
     scores: null,
+    defaultGroupId: null,
 
-    // Derived
     isPersonalScope: false,
     isGroupScope: false,
     hasGroups: false,
@@ -14,15 +13,14 @@ const ScopeContext = createContext({
     currentGroupRole: null,
     isGroupAdmin: false,
 
-    // Actions
     selectScope: (scope) => { },
     selectPersonalScope: () => { },
     selectGroupScope: (groupId) => { },
     refreshGroups: async () => { },
     refreshScores: async () => { },
     addScore: async (date, score) => { },
+    setDefaultScope: async (type, groupId) => { },
 
-    // Loading states
     isLoading: false,
     isScoresLoading: false
 });

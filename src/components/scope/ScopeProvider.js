@@ -1,58 +1,169 @@
-import React, { useState, useEffect, useContext, useMemo } from 'react';
+import React, { useState, useEffect, useContext, useMemo, useCallback } from 'react';
 import ScopeContext from '../../contexts/ScopeContext';
 import AuthContext from '../../contexts/AuthContext';
 import api from '../../utilities/api';
 
 const ScopeProvider = ({ children }) => {
-    const { user, isAuthenticated } = useContext(AuthContext);
+    const { user, isAuthenticated, updateUser } = useContext(AuthContext);
     const [groups, setGroups] = useState([]);
     const [currentScope, setCurrentScope] = useState(null);
-    const [scores, setScores] = useState(null);  // Changed from [] to null for clearer loading state
+    const [scores, setScores] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [isScoresLoading, setIsScoresLoading] = useState(false);  // New: track score loading separately
+    const [isScoresLoading, setIsScoresLoading] = useState(false);
+    const [defaultGroupId, setDefaultGroupId] = useState(null);
+    const [groupsLoaded, setGroupsLoaded] = useState(false);
+    const [scopeInitialized, setScopeInitialized] = useState(false);
 
-    // Fetch groups on mount / auth change
+    // Reset everything on logout
     useEffect(() => {
-        if (isAuthenticated) {
-            fetchGroups();
-        } else {
+        if (!isAuthenticated) {
             setGroups([]);
             setCurrentScope(null);
             setScores(null);
+            setDefaultGroupId(null);
+            setGroupsLoaded(false);
+            setScopeInitialized(false);
             setIsLoading(false);
         }
     }, [isAuthenticated]);
 
-    // Initialize scope after groups loaded
+    // Fetch groups when authenticated
     useEffect(() => {
-        if (isAuthenticated && groups !== null && currentScope === null) {
-            initializeScope();
+        if (isAuthenticated && !groupsLoaded) {
+            const fetchGroups = async () => {
+                setIsLoading(true);
+                try {
+                    const response = await api.get('/groups');
+                    setGroups(response.data);
+                    if (user?.default_group_id !== undefined) {
+                        setDefaultGroupId(user.default_group_id);
+                    }
+                } catch (error) {
+                    console.error("Failed to fetch groups:", error);
+                    setGroups([]);
+                } finally {
+                    setIsLoading(false);
+                    setGroupsLoaded(true);
+                }
+            };
+            fetchGroups();
         }
-    }, [groups, isAuthenticated]);
+    }, [isAuthenticated, groupsLoaded, user?.default_group_id]);
+
+    // Initialize scope AFTER groups are loaded
+    useEffect(() => {
+        if (!isAuthenticated || !groupsLoaded || scopeInitialized) return;
+
+        const initializeScope = async () => {
+            // Priority 1: User's default scope from database
+            if (user?.default_group_id) {
+                const defaultGroup = groups.find(g => g.id === user.default_group_id);
+                if (defaultGroup) {
+                    try {
+                        const response = await api.get(`/groups/${defaultGroup.id}`);
+                        setCurrentScope({ type: 'group', group: response.data });
+                        localStorage.setItem('lastScopeType', 'group');
+                        localStorage.setItem('lastGroupId', defaultGroup.id.toString());
+                        setScopeInitialized(true);
+                        return;
+                    } catch (error) {
+                        console.error("Failed to load default group:", error);
+                    }
+                }
+            }
+
+            // Priority 2: localStorage fallback (for backward compatibility)
+            const lastScopeType = localStorage.getItem('lastScopeType');
+            const lastGroupId = localStorage.getItem('lastGroupId');
+            if (lastScopeType === 'group' && lastGroupId) {
+                const group = groups.find(g => g.id === parseInt(lastGroupId));
+                if (group) {
+                    try {
+                        const response = await api.get(`/groups/${group.id}`);
+                        setCurrentScope({ type: 'group', group: response.data });
+                        localStorage.setItem('lastScopeType', 'group');
+                        localStorage.setItem('lastGroupId', group.id.toString());
+                        setScopeInitialized(true);
+                        return;
+                    } catch (error) {
+                        console.error("Failed to load group from localStorage:", error);
+                    }
+                }
+            }
+
+            // Priority 3: Personal scope (default fallback)
+            setCurrentScope({ type: 'personal' });
+            localStorage.setItem('lastScopeType', 'personal');
+            localStorage.removeItem('lastGroupId');
+            setScopeInitialized(true);
+        };
+
+        initializeScope();
+    }, [isAuthenticated, groupsLoaded, scopeInitialized, groups, user?.default_group_id]);
 
     // Fetch scores when scope changes
     useEffect(() => {
-        if (isAuthenticated && currentScope) {
-            fetchScores();
-        }
-    }, [currentScope, isAuthenticated]);
+        if (!currentScope || !scopeInitialized) return;
 
-    const fetchGroups = async () => {
-        setIsLoading(true);
+        const fetchScores = async () => {
+            setIsScoresLoading(true);
+            setScores(null);
+
+            try {
+                const payload = {
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                    scope: currentScope.type === 'personal' ? 'personal' : {
+                        type: 'group',
+                        groupId: currentScope.group.id
+                    }
+                };
+
+                const response = await api.post('/getScores', payload);
+                setScores(response.data);
+            } catch (error) {
+                console.error("Failed to fetch scores:", error);
+                setScores([]);
+            } finally {
+                setIsScoresLoading(false);
+            }
+        };
+
+        fetchScores();
+    }, [currentScope, scopeInitialized]);
+
+    const selectPersonalScope = useCallback(() => {
+        setScores(null);
+        setCurrentScope({ type: 'personal' });
+        localStorage.setItem('lastScopeType', 'personal');
+        localStorage.removeItem('lastGroupId');
+    }, []);
+
+    const selectGroupScope = useCallback(async (groupId) => {
+        setScores(null);
+        
+        try {
+            const response = await api.get(`/groups/${groupId}`);
+            setCurrentScope({ type: 'group', group: response.data });
+            localStorage.setItem('lastScopeType', 'group');
+            localStorage.setItem('lastGroupId', groupId.toString());
+        } catch (error) {
+            console.error("Failed to select group scope:", error);
+            selectPersonalScope();
+        }
+    }, [selectPersonalScope]);
+
+    const refreshGroups = useCallback(async () => {
         try {
             const response = await api.get('/groups');
             setGroups(response.data);
         } catch (error) {
             console.error("Failed to fetch groups:", error);
-        } finally {
-            setIsLoading(false);
         }
-    };
+    }, []);
 
-    const fetchScores = async () => {
+    const refreshScores = useCallback(async () => {
         if (!currentScope) return;
 
-        // Set loading state and clear old scores to prevent flash
         setIsScoresLoading(true);
         setScores(null);
 
@@ -69,63 +180,58 @@ const ScopeProvider = ({ children }) => {
             setScores(response.data);
         } catch (error) {
             console.error("Failed to fetch scores:", error);
-            setScores([]);  // Set empty array on error so UI doesn't hang
+            setScores([]);
         } finally {
             setIsScoresLoading(false);
         }
-    };
+    }, [currentScope]);
 
-    const addScore = async (date, score) => {
+    const addScore = useCallback(async (date, score) => {
         try {
             await api.post("/addScore", {
                 date,
                 score,
                 timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
             });
-            await fetchScores();
+            await refreshScores();
         } catch (error) {
             console.error("Failed to add score:", error);
             throw error;
         }
-    };
+    }, [refreshScores]);
 
-    const initializeScope = () => {
-        const lastScopeType = localStorage.getItem('lastScopeType');
-        const lastGroupId = localStorage.getItem('lastGroupId');
-
-        if (lastScopeType === 'group' && lastGroupId) {
-            const group = groups.find(g => g.id === parseInt(lastGroupId));
-            if (group) {
-                selectGroupScope(group.id);
-                return;
-            }
-        }
-
-        selectPersonalScope();
-    };
-
-    const selectPersonalScope = () => {
-        // Clear scores immediately to prevent showing stale data
-        setScores(null);
-        setCurrentScope({ type: 'personal' });
-        localStorage.setItem('lastScopeType', 'personal');
-        localStorage.removeItem('lastGroupId');
-    };
-
-    const selectGroupScope = async (groupId) => {
-        // Clear scores immediately to prevent showing stale data
-        setScores(null);
-        
+    const setDefaultScopeHandler = useCallback(async (type, groupId = null) => {
         try {
-            const response = await api.get(`/groups/${groupId}`);
-            setCurrentScope({ type: 'group', group: response.data });
-            localStorage.setItem('lastScopeType', 'group');
-            localStorage.setItem('lastGroupId', groupId.toString());
+            const payload = type === 'personal' 
+                ? { type: 'personal' }
+                : { type: 'group', groupId };
+            
+            await api.put('/user/default-scope', payload);
+            
+            const newDefaultGroupId = type === 'personal' ? null : groupId;
+            setDefaultGroupId(newDefaultGroupId);
+            
+            // Update user in AuthContext and localStorage
+            updateUser({ default_group_id: newDefaultGroupId });
+            
+            // Also update localStorage fallback to match
+            if (type === 'personal') {
+                localStorage.setItem('lastScopeType', 'personal');
+                localStorage.removeItem('lastGroupId');
+            } else {
+                localStorage.setItem('lastScopeType', 'group');
+                localStorage.setItem('lastGroupId', groupId.toString());
+            }
+            
+            // Refresh groups to update is_default flags
+            await refreshGroups();
+            
+            return true;
         } catch (error) {
-            console.error("Failed to select group scope:", error);
-            selectPersonalScope();
+            console.error("Failed to set default scope:", error);
+            return false;
         }
-    };
+    }, [updateUser, refreshGroups]);
 
     // Derived values
     const isPersonalScope = currentScope?.type === 'personal';
@@ -156,6 +262,7 @@ const ScopeProvider = ({ children }) => {
             groups,
             currentScope,
             scores,
+            defaultGroupId,
             isPersonalScope,
             isGroupScope,
             hasGroups,
@@ -165,11 +272,12 @@ const ScopeProvider = ({ children }) => {
             selectScope: (scope) => scope.type === 'personal' ? selectPersonalScope() : selectGroupScope(scope.groupId),
             selectPersonalScope,
             selectGroupScope,
-            refreshGroups: fetchGroups,
-            refreshScores: fetchScores,
+            refreshGroups,
+            refreshScores,
             addScore,
+            setDefaultScope: setDefaultScopeHandler,
             isLoading,
-            isScoresLoading  // Expose this so components know when scores are loading
+            isScoresLoading
         }}>
             {children}
         </ScopeContext.Provider>

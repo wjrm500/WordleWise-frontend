@@ -22,7 +22,6 @@ const Container = () => {
     setCurrentWeekStart(null)
   }, []);
 
-  // Listen for auth logout events from API interceptor
   useEffect(() => {
     window.addEventListener('auth:logout', onLogout);
     return () => window.removeEventListener('auth:logout', onLogout);
@@ -46,12 +45,19 @@ const Container = () => {
     }
   }
 
+  const updateUser = useCallback((updates) => {
+    setLoggedInUser(prevUser => {
+      const updatedUser = { ...prevUser, ...updates };
+      localStorage.setItem("loggedInUser", JSON.stringify(updatedUser));
+      return updatedUser;
+    });
+  }, []);
+
   const getUsers = () => {
     api.get("/getUsers")
       .then(({ data }) => {
         setUsers(data)
       }).catch(() => {
-        // 401 handled globally by interceptor
       })
   }
 
@@ -61,6 +67,7 @@ const Container = () => {
       token,
       login: onLogin,
       logout: onLogout,
+      updateUser,
       isAuthenticated,
     }}>
       <ScopeProvider>
