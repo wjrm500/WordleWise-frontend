@@ -221,11 +221,23 @@ const ScopeProvider = ({ children }) => {
             return [{ id: user.id, username: user.username, forename: user.forename }];
         }
         if (isGroupScope && currentScope.group) {
-            return currentScope.group.members.map(m => ({
+            const members = currentScope.group.members.map(m => ({
                 id: m.id,
                 username: m.username,
                 forename: m.forename
             }));
+
+            // Reorder: logged in user first, then alphabetically by display name
+            const loggedInMember = members.find(m => m.username === user.username);
+            const otherMembers = members
+                .filter(m => m.username !== user.username)
+                .sort((a, b) => {
+                    const nameA = (a.forename || a.username).toLowerCase();
+                    const nameB = (b.forename || b.username).toLowerCase();
+                    return nameA.localeCompare(nameB);
+                });
+
+            return loggedInMember ? [loggedInMember, ...otherMembers] : members;
         }
         return [];
     }, [currentScope, user, isPersonalScope, isGroupScope]);

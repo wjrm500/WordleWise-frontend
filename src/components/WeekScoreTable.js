@@ -57,8 +57,13 @@ const WeekScoreTable = ({ weekData, onWeekRowClick }) => {
     <tr>
       <th>#</th>
       <th>Week starting</th>
-      {scopeMembers.map(member => (
-        <th key={member.username}>{member.forename || member.username}</th>
+      {scopeMembers.map((member, index) => (
+        <th
+          key={member.username}
+          className={index === 0 && scopeMembers.length > 2 ? 'loggedInUserColumn' : ''}
+        >
+          {member.forename || member.username}
+        </th>
       ))}
     </tr>
   )
@@ -81,13 +86,14 @@ const WeekScoreTable = ({ weekData, onWeekRowClick }) => {
         <td>{week.index + 1}</td>
         {/* Use includeDay=false, includeYear=true for Weekly: "Nov 24, 2025" */}
         <td>{beautifyDate(week.start_of_week, false, true)}</td>
-        {scopeMembers.map(member => {
+        {scopeMembers.map((member, index) => {
           const total = memberTotals[member.username]
           const isWinner = hasMultiplePlayers && total === minTotal && !isTie
+          const className = `scoreColumn ${isWinner ? 'winner' : ''} ${index === 0 && scopeMembers.length > 2 ? 'loggedInUserColumn' : ''}`
           return (
             <td
               key={member.username}
-              className={`scoreColumn ${isWinner ? 'winner' : ''}`}
+              className={className}
             >
               {total}
             </td>
@@ -109,8 +115,13 @@ const WeekScoreTable = ({ weekData, onWeekRowClick }) => {
     <tr style={{ backgroundColor: "var(--blue-3)", color: "white" }}>
       <td></td>
       <td></td>
-      {scopeMembers.map(member => (
-        <td key={member.username} className="scoreColumn">{grandTotals[member.username]}</td>
+      {scopeMembers.map((member, index) => (
+        <td
+          key={member.username}
+          className={`scoreColumn ${index === 0 && scopeMembers.length > 2 ? 'loggedInUserColumn' : ''}`}
+        >
+          {grandTotals[member.username]}
+        </td>
       ))}
     </tr>
   )
