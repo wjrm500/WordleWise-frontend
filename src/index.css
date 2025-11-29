@@ -13,8 +13,8 @@
 /* 4. Header - Header and header buttons */
 @import './styles/header.css';
 
-/* 5. Login - Login page styles */
-@import './styles/login.css';
+/* 5. Authentication - Login and signup page styles */
+@import './styles/auth.css';
 
 /* 6. Navigation - Page menu/tabs */
 @import './styles/navigation.css';

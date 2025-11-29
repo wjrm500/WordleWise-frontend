@@ -1,10 +1,10 @@
 import React from "react"
-import LoginBox from "./LoginBox"
+import AuthBox from "./AuthBox"
 
 const LoginContainer = ({onLogin}) => {
   return (
     <div id="loginContainer">
-      <LoginBox onLogin={onLogin} />
+      <AuthBox onLogin={onLogin} />
     </div>
   )
 }
