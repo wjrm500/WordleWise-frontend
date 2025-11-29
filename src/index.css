@@ -1073,25 +1073,21 @@ code {
 }
 
 .group-name-id {
-  font-size: 0.75em;
   opacity: 0.6;
   font-weight: normal;
 }
 
 /* Dropdown-specific styling */
 .dropdown-trigger .group-name-id {
-  font-size: 0.7em;
   opacity: 0.5;
 }
 
 .dropdown-item .group-name-id {
-  font-size: 0.8em;
   color: #999;
 }
 
 /* Modal title styling */
 .scoreModal h2 .group-name-id {
-  font-size: 0.65em;
   opacity: 0.5;
 }
 

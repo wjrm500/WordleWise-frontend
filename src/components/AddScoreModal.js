@@ -40,7 +40,7 @@ const AddScoreModal = ({ onClose }) => {
     setError(null)
 
     try {
-      await addScore(date, parseInt(score))
+      await addScore(date, score === "delete" ? null : parseInt(score))
       onClose()
     } catch (err) {
       setError(err.response?.data?.error || "Failed to add score. Please try again.")
@@ -57,8 +57,8 @@ const AddScoreModal = ({ onClose }) => {
     { value: 4, label: "4" },
     { value: 5, label: "5" },
     { value: 6, label: "6" },
-    { value: 7, label: "Not completed" },
-    { value: 8, label: "Failed" }
+    { value: 8, label: "Failed" },
+    { value: "delete", label: "Not completed" },
   ]
 
   return (
