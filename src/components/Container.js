@@ -1,6 +1,6 @@
 import Header from "./Header"
 import React, { useState, useEffect, useCallback } from "react"
-import LoginContainer from "./LoginContainer"
+import AuthContainer from "./AuthContainer"
 import HomeContainer from "./HomeContainer"
 import AuthContext from "../contexts/AuthContext"
 import ScopeProvider from "./scope/ScopeProvider"
@@ -74,7 +74,7 @@ const Container = () => {
                 currentWeekStart={currentWeekStart}
                 setCurrentWeekStart={setCurrentWeekStart}
               /> :
-              <LoginContainer onLogin={onLogin} />
+              <AuthContainer onLogin={onLogin} />
           }
         </div>
       </ScopeProvider>

@@ -1,12 +1,12 @@
 import React from "react"
 import AuthBox from "./AuthBox"
 
-const LoginContainer = ({onLogin}) => {
+const AuthContainer = ({onLogin}) => {
   return (
-    <div id="loginContainer">
+    <div id="authContainer">
       <AuthBox onLogin={onLogin} />
     </div>
   )
 }
 
-export default LoginContainer
+export default AuthContainer
