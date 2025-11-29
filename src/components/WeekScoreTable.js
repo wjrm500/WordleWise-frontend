@@ -67,6 +67,7 @@ const WeekScoreTable = ({ weekData, onWeekRowClick }) => {
     })
 
     const isTie = Object.values(memberTotals).filter(t => t === minTotal).length > 1
+    const hasMultiplePlayers = scopeMembers.length > 1
 
     return (
       <tr key={week.start_of_week} onClick={() => onWeekRowClick(week.index)} className="clickableRow">
@@ -75,7 +76,7 @@ const WeekScoreTable = ({ weekData, onWeekRowClick }) => {
         <td>{beautifyDate(week.start_of_week, false, true)}</td>
         {scopeMembers.map(member => {
           const total = memberTotals[member.username]
-          const isWinner = total === minTotal && !isTie
+          const isWinner = hasMultiplePlayers && total === minTotal && !isTie
           return (
             <td
               key={member.username}

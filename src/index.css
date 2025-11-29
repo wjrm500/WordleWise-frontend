@@ -431,6 +431,11 @@ code {
   background-color: var(--winner-bg) !important;
 }
 
+/* Winner cell hover state */
+.clickableRow:hover .scoreColumn.winner {
+  background-color: #bbf7d0 !important;
+}
+
 /* Summary row */
 .table + .table {
   margin-top: 8px;
