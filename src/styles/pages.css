@@ -1,0 +1,203 @@
+/* ===== PAGES ===== */
+.page {
+  background: white;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ===== DAILY PAGE ===== */
+#dayAggPage {
+  width: 100%;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* ===== RECORDS PAGE ===== */
+#recordPage {
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  overflow: hidden;
+}
+
+#recordPage .tableContainer {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  width: 100%;
+}
+
+/* ===== WEEKLY PAGE ===== */
+#weekAggPage {
+  flex-direction: column;
+  width: 100%;
+}
+
+#weekAggPage > div {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+}
+
+#weekAggPage .tableContainer {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+#weekAggPage .tableContainer + .tableContainer {
+  flex: none;
+  margin-top: 8px;
+}
+
+.page select {
+  padding: 12px 16px;
+  border: 1px solid #dde3ec;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  background: white;
+  color: #333;
+  cursor: pointer;
+  transition: var(--transition);
+  width: 100%;
+  max-width: 320px;
+  margin-bottom: 16px;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+  position: relative;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.page select:focus {
+  outline: none;
+  border-color: var(--blue-2);
+  box-shadow: 0 0 0 3px rgba(68, 114, 196, 0.15);
+}
+
+.page select optgroup {
+  font-weight: 600;
+  color: var(--blue-1);
+}
+
+/* ===== CHART PAGE ===== */
+#chartPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+#chartPage .chart {
+  width: 100%;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+
+.controls label {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 140px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #666;
+}
+
+.controls select,
+.controls input {
+  margin-top: 6px;
+  width: 100%;
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid #dde3ec;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  background: white;
+  transition: var(--transition);
+}
+
+.controls select:focus,
+.controls input:focus {
+  outline: none;
+  border-color: var(--blue-2);
+  box-shadow: 0 0 0 3px rgba(68, 114, 196, 0.15);
+}
+
+.date-picker-container {
+  display: flex;
+  width: 100%;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.date-picker-container label {
+  flex: 1;
+}
+
+.date-input {
+  width: 100% !important;
+}
+
+.chart {
+  width: 100%;
+  max-width: 100%;
+}
+
+.average-score {
+  width: 100%;
+  background: var(--blue-5);
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+  flex-shrink: 0;
+}
+
+.player-average {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+}
+
+.player-average:not(:last-child) {
+  border-bottom: 1px solid rgba(47, 85, 151, 0.15);
+}
+
+.player-name {
+  font-size: 0.9rem;
+}
+
+.player-name strong {
+  font-weight: 600;
+}
+
+.player-name span {
+  color: #666;
+  font-weight: normal;
+}
+
+.average-value {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--blue-1);
+}

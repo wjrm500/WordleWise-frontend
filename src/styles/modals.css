@@ -1,0 +1,154 @@
+/* ===== MODAL ===== */
+#modalOverlay {
+  background: rgba(26, 45, 77, 0.6);
+  backdrop-filter: blur(4px);
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+.scoreModal {
+  background: linear-gradient(180deg, var(--blue-0) 0%, #152238 100%);
+  color: white;
+  left: 50%;
+  padding: 28px;
+  position: fixed;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 101;
+  width: 90%;
+  max-width: 400px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.scoreModal h2 {
+  margin: 0 0 20px 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.scoreModal *:not(button):not(h2):not(h3):not(label):not(input):not(select):not(option):not(span):not(ul):not(li) {
+  padding: 0;
+}
+
+.formGroup {
+  margin-bottom: 18px;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.formGroup input,
+.formGroup select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  transition: var(--transition);
+}
+
+.formGroup input:focus,
+.formGroup select:focus {
+  outline: none;
+  border-color: var(--blue-3);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.formGroup input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.formGroup select option {
+  background: var(--blue-0);
+  color: white;
+}
+
+/* Modal buttons */
+.scoreModal button[type="button"],
+.scoreModal button[type="submit"] {
+  padding: 10px 20px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.scoreModal button[type="button"] {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+.scoreModal button[type="button"]:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.scoreModal button[type="submit"] {
+  background: linear-gradient(135deg, var(--blue-2) 0%, var(--blue-3) 100%);
+  color: white;
+}
+
+.scoreModal button[type="submit"]:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(68, 114, 196, 0.4);
+}
+
+.scoreModal button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* ===== GROUP SETTINGS MODAL ===== */
+.scoreModal h3 {
+  margin: 16px 0 12px 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.scoreModal ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.scoreModal li {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.scoreModal li:last-child {
+  border-bottom: none;
+}
+
+/* ===== UTILITY ===== */
+.formFields {
+  margin: 8px 0;
+}
+
+/* Date picker overrides */
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.react-datepicker__input-container input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #dde3ec;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+}

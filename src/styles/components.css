@@ -1,0 +1,74 @@
+/* ===== SPINNER ===== */
+#spinningLoader {
+  opacity: 0.7;
+}
+
+/* ===== ERROR MESSAGE COMPONENT ===== */
+.error-message {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-left: 3px solid #ef4444;
+  border-radius: var(--radius-sm);
+  padding: 10px 14px !important;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  animation: errorSlideIn 0.2s ease-out;
+}
+
+.error-message-text {
+  color: #dc2626;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.error-message-dismiss {
+  background: none !important;
+  border: none !important;
+  color: #dc2626 !important;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0 4px !important;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+  line-height: 1;
+  border-radius: 0 !important;
+  font-weight: normal !important;
+}
+
+.error-message-dismiss:hover {
+  opacity: 1;
+  background: none !important;
+}
+
+/* ===== GROUP NAME COMPONENT ===== */
+.group-name {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.group-name-text {
+  /* Inherits parent styling */
+}
+
+.group-name-id {
+  opacity: 0.6;
+  font-weight: normal;
+}
+
+/* Dropdown-specific styling */
+.dropdown-trigger .group-name-id {
+  opacity: 0.5;
+}
+
+.dropdown-item .group-name-id {
+  color: #999;
+}
+
+/* Modal title styling */
+.scoreModal h2 .group-name-id {
+  opacity: 0.5;
+}
