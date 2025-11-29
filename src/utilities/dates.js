@@ -16,7 +16,7 @@ const beautifyDate = (date, includeDay = true, includeYear = false) => {
   ).toLocaleString(undefined, options)
 }
 
-const getDateFromStr = (dateStr) => new Date(...dateStr.split("-").map(x => parseInt(x, 10)).map((x, i) => i == 1 ? x - 1 : x))
+const getDateFromStr = (dateStr) => new Date(...dateStr.split("-").map(x => parseInt(x, 10)).map((x, i) => i === 1 ? x - 1 : x))
 
 const getTodayDate = () => {
   const now = new Date()
@@ -32,7 +32,7 @@ const isPastPresentOrFuture = (dateStr) => {
   const today = getTodayDate()
   if (date.getTime() < today.getTime()) {
     return PAST
-  } else if (date.getTime() == today.getTime()) {
+  } else if (date.getTime() === today.getTime()) {
     return PRESENT
   } else {
     return FUTURE

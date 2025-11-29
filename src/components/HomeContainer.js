@@ -8,7 +8,7 @@ import ScopeContext from "../contexts/ScopeContext"
 import SpinningLoader from "./SpinningLoader"
 import PageMenu from "./PageMenu"
 
-const HomeContainer = ({ loggedInUser, getUsers, users, currentWeekStart, setCurrentWeekStart }) => {
+const HomeContainer = ({ loggedInUser, currentWeekStart, setCurrentWeekStart }) => {
   const { DAILY_PAGE, WEEKLY_PAGE, RECORD_PAGE, CHART_PAGE } = useContext(PageConstsContext)
   const { scores, isScoresLoading } = useContext(ScopeContext)
   const [pageType, setPageType] = useState(DAILY_PAGE)
@@ -48,8 +48,6 @@ const HomeContainer = ({ loggedInUser, getUsers, users, currentWeekStart, setCur
       setDayIndex(weekIndex)
     }
   }
-
-  useEffect(getUsers, [])
 
   // Initialize to current week if not set
   useEffect(() => {

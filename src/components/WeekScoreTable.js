@@ -2,6 +2,54 @@ import React, { useContext } from "react"
 import ScopeContext from "../contexts/ScopeContext"
 import { beautifyDate } from "../utilities/dates"
 
+// Helper function to calculate a member's total score for a given week
+const calculateMemberWeekTotal = (member, week) => {
+  let weekTotal = 0
+  const groupCreatedAt = week.group_created_at || null
+
+  if (week.data) {
+    Object.entries(week.data).forEach(([dateStr, dayScores]) => {
+      // Skip days before group creation
+      if (groupCreatedAt && dateStr < groupCreatedAt) {
+        return
+      }
+
+      const score = dayScores[member.username]
+      const dayDate = new Date(dateStr)
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+
+      if (score !== undefined) {
+        weekTotal += score
+      } else if (dayDate < today) {
+        // Past day with no score = 8 (failed)
+        weekTotal += 8
+      }
+      // Future days with no score = 0 (not counted)
+    })
+  } else {
+    // Count only days from group creation onwards
+    if (groupCreatedAt) {
+      const weekStart = new Date(week.start_of_week)
+      const createdDate = new Date(groupCreatedAt)
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+
+      for (let i = 0; i < 7; i++) {
+        const currentDay = new Date(weekStart)
+        currentDay.setDate(weekStart.getDate() + i)
+        if (currentDay >= createdDate && currentDay < today) {
+          weekTotal += 8
+        }
+      }
+    } else {
+      weekTotal = 8 * 7
+    }
+  }
+
+  return weekTotal
+}
+
 const WeekScoreTable = ({ weekData, onWeekRowClick }) => {
   const { scopeMembers } = useContext(ScopeContext)
 
@@ -18,50 +66,9 @@ const WeekScoreTable = ({ weekData, onWeekRowClick }) => {
   const dataRows = weekData.map(week => {
     const memberTotals = {}
     let minTotal = Infinity
-    const groupCreatedAt = week.group_created_at || null
 
     scopeMembers.forEach(member => {
-      let memberTotal = 0
-      if (week.data) {
-        Object.entries(week.data).forEach(([dateStr, dayScores]) => {
-          // Skip days before group creation
-          if (groupCreatedAt && dateStr < groupCreatedAt) {
-            return
-          }
-
-          const score = dayScores[member.username]
-          const dayDate = new Date(dateStr)
-          const today = new Date()
-          today.setHours(0, 0, 0, 0)
-
-          if (score !== undefined) {
-            memberTotal += score
-          } else if (dayDate < today) {
-            // Past day with no score = 8 (failed)
-            memberTotal += 8
-          }
-          // Future days with no score = 0 (not counted)
-        })
-      } else {
-        // Count only days from group creation onwards
-        if (groupCreatedAt) {
-          const weekStart = new Date(week.start_of_week)
-          const createdDate = new Date(groupCreatedAt)
-          const today = new Date()
-          today.setHours(0, 0, 0, 0)
-          
-          for (let i = 0; i < 7; i++) {
-            const currentDay = new Date(weekStart)
-            currentDay.setDate(weekStart.getDate() + i)
-            if (currentDay >= createdDate && currentDay < today) {
-              memberTotal += 8
-            }
-          }
-        } else {
-          memberTotal = 8 * 7
-        }
-      }
-
+      const memberTotal = calculateMemberWeekTotal(member, week)
       memberTotals[member.username] = memberTotal
       if (memberTotal < minTotal) minTotal = memberTotal
     })
@@ -94,46 +101,7 @@ const WeekScoreTable = ({ weekData, onWeekRowClick }) => {
   const grandTotals = {}
   scopeMembers.forEach(member => {
     grandTotals[member.username] = weekData.reduce((acc, week) => {
-      let weekTotal = 0
-      const groupCreatedAt = week.group_created_at || null
-
-      if (week.data) {
-        Object.entries(week.data).forEach(([dateStr, dayScores]) => {
-          // Skip days before group creation
-          if (groupCreatedAt && dateStr < groupCreatedAt) {
-            return
-          }
-
-          const score = dayScores[member.username]
-          const dayDate = new Date(dateStr)
-          const today = new Date()
-          today.setHours(0, 0, 0, 0)
-
-          if (score !== undefined) {
-            weekTotal += score
-          } else if (dayDate < today) {
-            weekTotal += 8
-          }
-        })
-      } else {
-        if (groupCreatedAt) {
-          const weekStart = new Date(week.start_of_week)
-          const createdDate = new Date(groupCreatedAt)
-          const today = new Date()
-          today.setHours(0, 0, 0, 0)
-          
-          for (let i = 0; i < 7; i++) {
-            const currentDay = new Date(weekStart)
-            currentDay.setDate(weekStart.getDate() + i)
-            if (currentDay >= createdDate && currentDay < today) {
-              weekTotal += 8
-            }
-          }
-        } else {
-          weekTotal = 8 * 7
-        }
-      }
-      return acc + weekTotal
+      return acc + calculateMemberWeekTotal(member, week)
     }, 0)
   })
 

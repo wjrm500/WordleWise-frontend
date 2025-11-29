@@ -6,16 +6,16 @@ const PageMenu = ({ pageType, setPageType }) => {
   const onClick = (pageType) => setPageType(pageType)
   return (
     <div id="pageMenu">
-      <div className={"pageMenuItem " + (pageType == DAILY_PAGE ? "selected" : "")} onClick={() => onClick(DAILY_PAGE)}>
+      <div className={"pageMenuItem " + (pageType === DAILY_PAGE ? "selected" : "")} onClick={() => onClick(DAILY_PAGE)}>
         Daily
       </div>
-      <div className={"pageMenuItem " + (pageType == WEEKLY_PAGE ? "selected" : "")} onClick={() => onClick(WEEKLY_PAGE)}>
+      <div className={"pageMenuItem " + (pageType === WEEKLY_PAGE ? "selected" : "")} onClick={() => onClick(WEEKLY_PAGE)}>
         Weekly
       </div>
-      <div className={"pageMenuItem " + (pageType == RECORD_PAGE ? "selected" : "")} onClick={() => onClick(RECORD_PAGE)}>
+      <div className={"pageMenuItem " + (pageType === RECORD_PAGE ? "selected" : "")} onClick={() => onClick(RECORD_PAGE)}>
         Records
       </div>
-      <div className={"pageMenuItem " + (pageType == CHART_PAGE ? "selected" : "")} onClick={() => onClick(CHART_PAGE)}>
+      <div className={"pageMenuItem " + (pageType === CHART_PAGE ? "selected" : "")} onClick={() => onClick(CHART_PAGE)}>
         Chart
       </div>
     </div>

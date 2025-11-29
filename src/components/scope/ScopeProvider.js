@@ -101,35 +101,36 @@ const ScopeProvider = ({ children }) => {
         initializeScope();
     }, [isAuthenticated, groupsLoaded, scopeInitialized, groups, user?.default_group_id]);
 
+    const refreshScores = useCallback(async () => {
+        if (!currentScope) return;
+
+        setIsScoresLoading(true);
+        setScores(null);
+
+        try {
+            const payload = {
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                scope: currentScope.type === 'personal' ? 'personal' : {
+                    type: 'group',
+                    groupId: currentScope.group.id
+                }
+            };
+
+            const response = await api.post('/getScores', payload);
+            setScores(response.data);
+        } catch (error) {
+            console.error("Failed to fetch scores:", error);
+            setScores([]);
+        } finally {
+            setIsScoresLoading(false);
+        }
+    }, [currentScope]);
+
     // Fetch scores when scope changes
     useEffect(() => {
         if (!currentScope || !scopeInitialized) return;
-
-        const fetchScores = async () => {
-            setIsScoresLoading(true);
-            setScores(null);
-
-            try {
-                const payload = {
-                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                    scope: currentScope.type === 'personal' ? 'personal' : {
-                        type: 'group',
-                        groupId: currentScope.group.id
-                    }
-                };
-
-                const response = await api.post('/getScores', payload);
-                setScores(response.data);
-            } catch (error) {
-                console.error("Failed to fetch scores:", error);
-                setScores([]);
-            } finally {
-                setIsScoresLoading(false);
-            }
-        };
-
-        fetchScores();
-    }, [currentScope, scopeInitialized]);
+        refreshScores();
+    }, [currentScope, scopeInitialized, refreshScores]);
 
     const selectPersonalScope = useCallback(() => {
         setScores(null);
@@ -160,31 +161,6 @@ const ScopeProvider = ({ children }) => {
             console.error("Failed to fetch groups:", error);
         }
     }, []);
-
-    const refreshScores = useCallback(async () => {
-        if (!currentScope) return;
-
-        setIsScoresLoading(true);
-        setScores(null);
-
-        try {
-            const payload = {
-                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                scope: currentScope.type === 'personal' ? 'personal' : {
-                    type: 'group',
-                    groupId: currentScope.group.id
-                }
-            };
-
-            const response = await api.post('/getScores', payload);
-            setScores(response.data);
-        } catch (error) {
-            console.error("Failed to fetch scores:", error);
-            setScores([]);
-        } finally {
-            setIsScoresLoading(false);
-        }
-    }, [currentScope]);
 
     const addScore = useCallback(async (date, score) => {
         try {

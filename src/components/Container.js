@@ -9,7 +9,6 @@ import api from "../utilities/api"
 const Container = () => {
   const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem("loggedInUser")))
   const [token, setToken] = useState(localStorage.getItem("token"))
-  const [users, setUsers] = useState({})
   const [currentWeekStart, setCurrentWeekStart] = useState(null)
 
   const isAuthenticated = !!token;
@@ -53,14 +52,6 @@ const Container = () => {
     });
   }, []);
 
-  const getUsers = () => {
-    api.get("/getUsers")
-      .then(({ data }) => {
-        setUsers(data)
-      }).catch(() => {
-      })
-  }
-
   return (
     <AuthContext.Provider value={{
       user: loggedInUser,
@@ -80,8 +71,6 @@ const Container = () => {
             isAuthenticated ?
               <HomeContainer
                 loggedInUser={loggedInUser}
-                getUsers={getUsers}
-                users={users}
                 currentWeekStart={currentWeekStart}
                 setCurrentWeekStart={setCurrentWeekStart}
               /> :
