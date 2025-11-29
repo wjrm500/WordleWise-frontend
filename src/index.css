@@ -958,14 +958,13 @@ code {
 
 /* Highlight animation for records */
 @keyframes highlightPulse {
-  0% { background-color: #fff3cd; }
+  0%, 30% { background-color: #fff3cd; }
   100% { background-color: transparent; }
 }
 
-tr[style*="backgroundColor: yellow"],
-tr[style*="background-color: yellow"] {
-  animation: highlightPulse 1s ease-out !important;
-  background-color: transparent !important;
+.table tbody tr.highlightedRow {
+  animation: highlightPulse 1s ease-out forwards;
+  background: #fff3cd !important;
 }
 
 /* ===== RESPONSIVE ADJUSTMENTS ===== */

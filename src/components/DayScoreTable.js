@@ -137,9 +137,8 @@ const DayScoreTable = ({ loggedInUser, dayData, dayIndex, setDayIndex, selectedR
 
   dataRows = dataRows.map(row => {
     const isHighlighted = highlightDate && row.key === highlightDate
-    const rowStyle = isHighlighted ? { backgroundColor: "yellow" } : {}
     return (
-      <tr key={row.key} style={rowStyle}>
+      <tr key={row.key} className={isHighlighted ? 'highlightedRow' : ''}>
         {row.props.children}
       </tr>
     )
