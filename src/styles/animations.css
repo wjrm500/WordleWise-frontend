@@ -1,0 +1,36 @@
+/* ===== ANIMATIONS ===== */
+
+/* Dropdown fade in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Error message slide in animation */
+@keyframes errorSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Highlight animation for records */
+@keyframes highlightPulse {
+  0%, 30% { background-color: #fff3cd; }
+  100% { background-color: transparent; }
+}
+
+.table tbody tr.highlightedRow {
+  animation: highlightPulse 1s ease-out forwards;
+  background: #fff3cd !important;
+}
