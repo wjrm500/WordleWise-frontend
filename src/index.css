@@ -1009,11 +1009,11 @@ code {
 
 /* ===== ERROR MESSAGE COMPONENT ===== */
 .error-message {
-  background: rgba(255, 107, 107, 0.15);
-  border: 1px solid rgba(255, 107, 107, 0.4);
-  border-left: 3px solid #ff6b6b;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-left: 3px solid #ef4444;
   border-radius: var(--radius-sm);
-  padding: 10px 14px;
+  padding: 10px 14px !important;
   margin-bottom: 16px;
   display: flex;
   align-items: center;
@@ -1034,31 +1034,28 @@ code {
 }
 
 .error-message-text {
-  color: #ff6b6b;
+  color: #dc2626;
   font-size: 0.9rem;
   line-height: 1.4;
 }
 
 .error-message-dismiss {
-  background: none;
-  border: none;
-  color: #ff6b6b;
+  background: none !important;
+  border: none !important;
+  color: #dc2626 !important;
   font-size: 1.2rem;
   cursor: pointer;
-  padding: 0 4px;
+  padding: 0 4px !important;
   opacity: 0.7;
   transition: opacity 0.2s ease;
   line-height: 1;
+  border-radius: 0 !important;
+  font-weight: normal !important;
 }
 
 .error-message-dismiss:hover {
   opacity: 1;
-}
-
-/* Light theme variant for login page */
-#loginBox .error-message {
-  background: rgba(255, 107, 107, 0.1);
-  border-color: rgba(255, 107, 107, 0.3);
+  background: none !important;
 }
 
 /* ===== GROUP NAME COMPONENT ===== */
