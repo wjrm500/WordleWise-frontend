@@ -59,6 +59,11 @@
   text-align: center;
 }
 
+/* ===== LOGGED IN USER DIVIDER ===== */
+.loggedInUserColumn {
+  border-right: 1px solid rgba(47, 85, 151, 0.2) !important;
+}
+
 /* ===== WINNER STYLING (Weekly page) ===== */
 .scoreColumn.winner {
   color: var(--winner-color) !important;

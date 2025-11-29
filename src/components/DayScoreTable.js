@@ -64,8 +64,13 @@ const DayScoreTable = ({ loggedInUser, dayData, dayIndex, setDayIndex, selectedR
   const headerRow2 = (
     <tr>
       <th>Date</th>
-      {scopeMembers.map(member => (
-        <th key={member.username} className="scoreColumn">{member.forename || member.username}</th>
+      {scopeMembers.map((member, index) => (
+        <th
+          key={member.username}
+          className={`scoreColumn ${index === 0 && scopeMembers.length > 2 ? 'loggedInUserColumn' : ''}`}
+        >
+          {member.forename || member.username}
+        </th>
       ))}
     </tr>
   )
@@ -86,41 +91,42 @@ const DayScoreTable = ({ loggedInUser, dayData, dayIndex, setDayIndex, selectedR
     const isToday = date === todayStr
     const isBeforeGroupCreation = groupCreatedAt && date < groupCreatedAt
 
-    const memberCells = scopeMembers.map(member => {
+    const memberCells = scopeMembers.map((member, index) => {
       const isCurrentUser = member.username === loggedInUser.username
       const score = day[member.username]
+      const className = `scoreColumn ${index === 0 && scopeMembers.length > 2 ? 'loggedInUserColumn' : ''}`
 
       // Future days - empty
       if (pastPresentFuture === FUTURE) {
-        return <td key={member.username} className="scoreColumn"></td>
+        return <td key={member.username} className={className}></td>
       }
 
       // Days before group creation - show as N/A (dash)
       if (isBeforeGroupCreation) {
-        return <td key={member.username} className="scoreColumn" style={{ color: '#999' }}>-</td>
+        return <td key={member.username} className={className} style={{ color: '#999' }}>-</td>
       }
 
       if (isCurrentUser) {
         // Current user's cell
         if (pastPresentFuture === PRESENT && score == null) {
-          return <td key={member.username} className="scoreColumn">-</td>
+          return <td key={member.username} className={className}>-</td>
         }
         const displayScore = score || (pastPresentFuture === PAST ? 8 : "")
         const style = score == null && pastPresentFuture === PAST ? { color: "darkgrey" } : {}
-        return <td key={member.username} className="scoreColumn" style={style}>{displayScore}</td>
+        return <td key={member.username} className={className} style={style}>{displayScore}</td>
       } else {
         // Other users - spoiler protection for today only
         if (isToday && !loggedInUserPlayedToday) {
           if (score != null) {
             memberHiddenStatus[member.username] = true
-            return <td key={member.username} className="scoreColumn">?</td>
+            return <td key={member.username} className={className}>?</td>
           } else {
-            return <td key={member.username} className="scoreColumn">-</td>
+            return <td key={member.username} className={className}>-</td>
           }
         } else {
           const displayScore = score || (pastPresentFuture === PAST ? 8 : "")
           const style = score == null && pastPresentFuture === PAST ? { color: "darkgrey" } : {}
-          return <td key={member.username} className="scoreColumn" style={style}>{displayScore}</td>
+          return <td key={member.username} className={className} style={style}>{displayScore}</td>
         }
       }
     })
@@ -145,12 +151,13 @@ const DayScoreTable = ({ loggedInUser, dayData, dayIndex, setDayIndex, selectedR
   })
 
   // Calculate totals (respecting group_created_at)
-  const summaryCells = scopeMembers.map(member => {
+  const summaryCells = scopeMembers.map((member, index) => {
+    const className = `scoreColumn ${index === 0 && scopeMembers.length > 2 ? 'loggedInUserColumn' : ''}`
     if (memberHiddenStatus[member.username]) {
-      return <td key={member.username} className="scoreColumn">?</td>
+      return <td key={member.username} className={className}>?</td>
     }
     const total = calculateTotal(weekData["data"], member.username, groupCreatedAt)
-    return <td key={member.username} className="scoreColumn">{total}</td>
+    return <td key={member.username} className={className}>{total}</td>
   })
 
   const summaryRow = (
