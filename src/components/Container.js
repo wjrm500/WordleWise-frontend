@@ -1,23 +1,32 @@
 import Header from "./Header"
-import React, { useState } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import LoginContainer from "./LoginContainer"
 import HomeContainer from "./HomeContainer"
 import AuthContext from "../contexts/AuthContext"
 import ScopeProvider from "./scope/ScopeProvider"
 import api from "../utilities/api"
-import StatusCodes from "http-status-codes"
 
 const Container = () => {
-  // Auth State
   const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem("loggedInUser")))
   const [token, setToken] = useState(localStorage.getItem("token"))
-
-  // Data State
   const [users, setUsers] = useState({})
-  // Track by week start date instead of index
   const [currentWeekStart, setCurrentWeekStart] = useState(null)
 
   const isAuthenticated = !!token;
+
+  const onLogout = useCallback(() => {
+    localStorage.removeItem("token")
+    localStorage.removeItem("loggedInUser")
+    setToken(null)
+    setLoggedInUser(null)
+    setCurrentWeekStart(null)
+  }, []);
+
+  // Listen for auth logout events from API interceptor
+  useEffect(() => {
+    window.addEventListener('auth:logout', onLogout);
+    return () => window.removeEventListener('auth:logout', onLogout);
+  }, [onLogout]);
 
   const onLogin = async (username, password, setLoginIsLoading, setLoginError) => {
     try {
@@ -37,22 +46,12 @@ const Container = () => {
     }
   }
 
-  const onLogout = () => {
-    localStorage.removeItem("token")
-    localStorage.removeItem("loggedInUser")
-    setToken(null)
-    setLoggedInUser(null)
-    setCurrentWeekStart(null)
-  }
-
   const getUsers = () => {
     api.get("/getUsers")
       .then(({ data }) => {
         setUsers(data)
-      }).catch((error) => {
-        if (error.response && error.response.status === StatusCodes.UNAUTHORIZED) {
-          onLogout()
-        }
+      }).catch(() => {
+        // 401 handled globally by interceptor
       })
   }
 

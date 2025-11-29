@@ -1,5 +1,5 @@
 import PropTypes from "prop-types"
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import SpinningLoader from "./SpinningLoader"
 import ErrorMessage from "./common/ErrorMessage"
 import api from "../utilities/api"
@@ -11,9 +11,19 @@ const LoginBox = ({ onLogin }) => {
   const [forename, setForename] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
+  const [sessionExpired, setSessionExpired] = useState(false)
+
+  // Check for session expiry message on mount
+  useEffect(() => {
+    if (sessionStorage.getItem('session_expired') === 'true') {
+      setSessionExpired(true)
+      sessionStorage.removeItem('session_expired')
+    }
+  }, [])
 
   const onSubmit = async () => {
     setError(null)
+    setSessionExpired(false)
     if (username === "" || password === "") {
       setError("Please enter both a username and a password")
       return
@@ -48,6 +58,20 @@ const LoginBox = ({ onLogin }) => {
       <h2 style={{ marginTop: 0, color: 'var(--blue-1)' }}>
         {isRegistering ? 'Create Account' : 'Login'}
       </h2>
+
+      {sessionExpired && (
+        <div style={{
+          background: 'rgba(47, 85, 151, 0.1)',
+          border: '1px solid var(--blue-2)',
+          borderRadius: '6px',
+          padding: '10px 14px',
+          marginBottom: '16px',
+          color: 'var(--blue-1)',
+          fontSize: '0.9rem'
+        }}>
+          Your session has expired. Please log in again.
+        </div>
+      )}
 
       <ErrorMessage message={error} onDismiss={() => setError(null)} />
 
@@ -92,6 +116,7 @@ const LoginBox = ({ onLogin }) => {
             onClick={() => {
               setIsRegistering(!isRegistering)
               setError(null)
+              setSessionExpired(false)
             }}
             style={{
               color: 'var(--blue-1)',

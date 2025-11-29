@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react"
+import React, { useState, useContext, useEffect } from "react"
 import { FaPlus, FaGamepad, FaCog, FaSignOutAlt } from 'react-icons/fa'
 import PlayWordleModal from "./PlayWordleModal"
 import AddScoreModal from "./AddScoreModal"
@@ -14,6 +14,17 @@ const Header = ({ loggedInUser, onLogout }) => {
   const [showGroupSettingsModal, setShowGroupSettingsModal] = useState(false)
 
   const { isGroupScope, currentScope } = useContext(ScopeContext)
+
+  // Close all modals on auth logout
+  useEffect(() => {
+    const handleLogout = () => {
+      setShowPlayWordleModal(false)
+      setShowAddScoreModal(false)
+      setShowGroupSettingsModal(false)
+    }
+    window.addEventListener('auth:logout', handleLogout)
+    return () => window.removeEventListener('auth:logout', handleLogout)
+  }, [])
 
   const closeAllModals = () => {
     setShowPlayWordleModal(false)
@@ -58,7 +69,6 @@ const Header = ({ loggedInUser, onLogout }) => {
               <FaGamepad className="icon-20px" />
             </button>
 
-            {/* Settings button - opens group settings directly in group scope */}
             {isGroupScope && (
               <div style={{ position: 'relative' }}>
                 <button
@@ -83,4 +93,4 @@ const Header = ({ loggedInUser, onLogout }) => {
   )
 }
 
-export default Header
+export default Header;

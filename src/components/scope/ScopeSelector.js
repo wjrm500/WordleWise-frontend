@@ -19,6 +19,17 @@ const ScopeSelector = () => {
     const [showJoinModal, setShowJoinModal] = useState(false);
     const dropdownRef = useRef(null);
 
+    // Close modals on auth logout
+    useEffect(() => {
+        const handleLogout = () => {
+            setIsOpen(false);
+            setShowCreateModal(false);
+            setShowJoinModal(false);
+        };
+        window.addEventListener('auth:logout', handleLogout);
+        return () => window.removeEventListener('auth:logout', handleLogout);
+    }, []);
+
     // Click outside handler
     useEffect(() => {
         const handleClickOutside = (event) => {
