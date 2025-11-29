@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useContext, useRef } from "react"
-import axios from "axios"
-import ServerAddrContext from "../contexts/ServerAddrContext"
+import React, { useState, useEffect, useRef } from "react"
+import api from "../utilities/api"
 import ErrorMessage from "./common/ErrorMessage"
 
 const PlayWordleModal = ({ setShowPlayWordleModal }) => {
-  const SERVER_ADDR = useContext(ServerAddrContext)
   const [date, setDate] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -27,16 +25,7 @@ const PlayWordleModal = ({ setShowPlayWordleModal }) => {
     setError(null);
 
     try {
-      const response = await axios.post(
-        `${SERVER_ADDR}/getWordleAnswer`,
-        { date },
-        {
-          headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("token"),
-            "Content-Type": "application/json"
-          }
-        }
-      );
+      const response = await api.post("/getWordleAnswer", { date });
 
       if (response.data.success) {
         // Update hidden link and click it
