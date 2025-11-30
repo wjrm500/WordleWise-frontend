@@ -301,9 +301,18 @@ const ChartPage = ({ scores, loggedInUser }) => {
               datalabels: {
                 display: selectedUser !== 'all',
                 anchor: 'end',
-                align: 'end',
+                align: (context) => {
+                  const value = context.dataset.data[context.dataIndex]
+                  const threshold = maxCount * 0.85
+                  // Inside bar: align left (start), outside: align right (end)
+                  return value > threshold ? 'start' : 'end'
+                },
                 offset: 5,
-                color: 'rgba(0, 0, 0, 0.8)',
+                color: (context) => {
+                  const value = context.dataset.data[context.dataIndex]
+                  const threshold = maxCount * 0.85
+                  return value > threshold ? 'rgba(255, 255, 255, 0.95)' : 'rgba(0, 0, 0, 0.8)'
+                },
                 font: {
                   weight: 'bold',
                   size: 12
