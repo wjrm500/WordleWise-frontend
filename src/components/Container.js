@@ -16,6 +16,8 @@ const Container = () => {
   const onLogout = useCallback(() => {
     localStorage.removeItem("token")
     localStorage.removeItem("loggedInUser")
+    localStorage.removeItem("lastScopeType")
+    localStorage.removeItem("lastGroupId")
     setToken(null)
     setLoggedInUser(null)
     setCurrentWeekStart(null)
