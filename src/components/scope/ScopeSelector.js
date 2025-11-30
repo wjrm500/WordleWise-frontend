@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect, useRef } from 'react';
 import ScopeContext from '../../contexts/ScopeContext';
 import CreateGroupModal from '../groups/CreateGroupModal';
 import JoinGroupModal from '../groups/JoinGroupModal';
+import ModalOverlay from '../ModalOverlay';
 import GroupName from '../common/GroupName';
 import { FaUser, FaUsers, FaPlus, FaChevronDown, FaStar, FaRegStar } from 'react-icons/fa';
 
@@ -149,10 +150,16 @@ const ScopeSelector = () => {
             )}
 
             {showCreateModal && (
-                <CreateGroupModal onClose={() => setShowCreateModal(false)} />
+                <>
+                    <ModalOverlay onClick={() => setShowCreateModal(false)} />
+                    <CreateGroupModal onClose={() => setShowCreateModal(false)} />
+                </>
             )}
             {showJoinModal && (
-                <JoinGroupModal onClose={() => setShowJoinModal(false)} />
+                <>
+                    <ModalOverlay onClick={() => setShowJoinModal(false)} />
+                    <JoinGroupModal onClose={() => setShowJoinModal(false)} />
+                </>
             )}
         </div>
     );

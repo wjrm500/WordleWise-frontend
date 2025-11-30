@@ -35,9 +35,8 @@ const CreateGroupModal = ({ onClose }) => {
     };
 
     return (
-        <div id="modalOverlay">
-            <div className="scoreModal" style={{ minWidth: '300px', maxWidth: '400px', display: 'block' }}>
-                <h2 style={{ marginTop: 0 }}>Create Group</h2>
+        <div className="scoreModal" style={{ minWidth: '300px', maxWidth: '400px', display: 'block' }}>
+            <h2 style={{ marginTop: 0 }}>Create Group</h2>
 
                 <ErrorMessage message={error} onDismiss={() => setError(null)} />
 
@@ -85,7 +84,6 @@ const CreateGroupModal = ({ onClose }) => {
                         </button>
                     </div>
                 </form>
-            </div>
         </div>
     );
 };
