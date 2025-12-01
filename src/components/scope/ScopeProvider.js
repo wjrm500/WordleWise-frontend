@@ -108,15 +108,16 @@ const ScopeProvider = ({ children }) => {
         setScores(null);
 
         try {
-            const payload = {
+            const params = {
                 timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                scope: currentScope.type === 'personal' ? 'personal' : {
-                    type: 'group',
-                    groupId: currentScope.group.id
-                }
+                scope: currentScope.type === 'personal' ? 'personal' : 'group'
             };
 
-            const response = await api.post('/getScores', payload);
+            if (currentScope.type === 'group') {
+                params.groupId = currentScope.group.id;
+            }
+
+            const response = await api.get('/scores', { params });
             setScores(response.data);
         } catch (error) {
             console.error("Failed to fetch scores:", error);
@@ -141,7 +142,7 @@ const ScopeProvider = ({ children }) => {
 
     const selectGroupScope = useCallback(async (groupId) => {
         setScores(null);
-        
+
         try {
             const response = await api.get(`/groups/${groupId}`);
             setCurrentScope({ type: 'group', group: response.data });
@@ -164,7 +165,7 @@ const ScopeProvider = ({ children }) => {
 
     const addScore = useCallback(async (date, score) => {
         try {
-            await api.post("/addScore", {
+            await api.post("/scores", {
                 date,
                 score,
                 timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -178,18 +179,18 @@ const ScopeProvider = ({ children }) => {
 
     const setDefaultScopeHandler = useCallback(async (type, groupId = null) => {
         try {
-            const payload = type === 'personal' 
+            const payload = type === 'personal'
                 ? { type: 'personal' }
                 : { type: 'group', groupId };
-            
+
             await api.put('/user/default-scope', payload);
-            
+
             const newDefaultGroupId = type === 'personal' ? null : groupId;
             setDefaultGroupId(newDefaultGroupId);
-            
+
             // Update user in AuthContext and localStorage
             updateUser({ default_group_id: newDefaultGroupId });
-            
+
             // Also update localStorage fallback to match
             if (type === 'personal') {
                 localStorage.setItem('lastScopeType', 'personal');
@@ -198,10 +199,10 @@ const ScopeProvider = ({ children }) => {
                 localStorage.setItem('lastScopeType', 'group');
                 localStorage.setItem('lastGroupId', groupId.toString());
             }
-            
+
             // Refresh groups to update is_default flags
             await refreshGroups();
-            
+
             return true;
         } catch (error) {
             console.error("Failed to set default scope:", error);

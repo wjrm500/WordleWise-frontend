@@ -30,11 +30,11 @@ const PlayWordleModal = ({ setShowPlayWordleModal }) => {
     const newWindow = window.open('about:blank', '_blank');
 
     try {
-      const response = await api.post("/getWordleAnswer", { date });
+      const response = await api.get("/wordle/answer", { params: { date } });
 
       if (response.data.success) {
         const url = response.data.playable_url;
-        
+
         if (newWindow && !newWindow.closed) {
           // Redirect the pre-opened window to the Wordle URL
           newWindow.location.href = url;
@@ -75,7 +75,7 @@ const PlayWordleModal = ({ setShowPlayWordleModal }) => {
       <h2 style={{ marginTop: 0 }}>Play past Wordle</h2>
 
       {isFeatureDisabled && (
-        <ErrorMessage 
+        <ErrorMessage
           message="This feature may not work reliably due to source website changes."
           style={{ marginBottom: '15px' }}
         />
@@ -85,20 +85,20 @@ const PlayWordleModal = ({ setShowPlayWordleModal }) => {
 
       {/* Fallback link if popup was blocked */}
       {manualUrl && (
-        <div style={{ 
-          background: 'rgba(255,255,255,0.1)', 
-          padding: '15px', 
-          borderRadius: '8px', 
+        <div style={{
+          background: 'rgba(255,255,255,0.1)',
+          padding: '15px',
+          borderRadius: '8px',
           marginBottom: '15px',
           textAlign: 'center'
         }}>
           <p style={{ margin: '0 0 10px 0' }}>Tap the link below to play:</p>
-          <a 
-            href={manualUrl} 
-            target="_blank" 
+          <a
+            href={manualUrl}
+            target="_blank"
             rel="noopener noreferrer"
-            style={{ 
-              color: '#4fc3f7', 
+            style={{
+              color: '#4fc3f7',
               fontWeight: 'bold',
               fontSize: '1.1em'
             }}
