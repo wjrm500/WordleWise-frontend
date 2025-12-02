@@ -1,6 +1,6 @@
 const users = [
-    { id: 1, username: 'kjem500' },
-    { id: 2, username: 'wjrm500' }
+    { id: 1, username: 'wjrm500', forename: 'Will', password: 'password' },
+    { id: 2, username: 'kjem500', forename: 'Kate', password: 'password' }
 ]
 
 const scores = [
@@ -30,4 +30,18 @@ const scores = [
     }
 ]
 
-module.exports = { users, scores }
+const groups = [
+    {
+        id: 1,
+        name: 'Test Group',
+        invite_code: 'TESTCODE',
+        include_historical_data: true,
+        created_at: '2023-01-01T00:00:00.000Z',
+        members: [
+            { id: 1, username: 'wjrm500', forename: 'Will', role: 'admin', joined_at: '2023-01-01T00:00:00.000Z' },
+            { id: 2, username: 'kjem500', forename: 'Kate', role: 'member', joined_at: '2023-01-01T00:00:00.000Z' }
+        ]
+    }
+]
+
+module.exports = { users, scores, groups }
