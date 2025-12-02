@@ -73,6 +73,7 @@ const AuthBox = ({ onLogin }) => {
           <input type="text"
             autoComplete="username"
             value={username}
+            maxLength={12}
             onChange={(e) => setUsername(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" ? onSubmit() : ""} />
         </div>
@@ -83,6 +84,7 @@ const AuthBox = ({ onLogin }) => {
             <input type="text"
               autoComplete="name"
               value={forename}
+              maxLength={10}
               onChange={(e) => setForename(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" ? onSubmit() : ""}
               placeholder="e.g. Will" />

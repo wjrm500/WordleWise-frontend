@@ -48,6 +48,7 @@ const CreateGroupModal = ({ onClose }) => {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         required
+                        maxLength={15}
                         placeholder="e.g. Office Wordlers"
                     />
                 </div>
