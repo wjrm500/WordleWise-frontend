@@ -77,7 +77,6 @@ const PlayWordleModal = ({ setShowPlayWordleModal }) => {
       {isFeatureDisabled && (
         <ErrorMessage
           message="This feature may not work reliably due to source website changes."
-          style={{ marginBottom: '15px' }}
         />
       )}
 
@@ -85,23 +84,12 @@ const PlayWordleModal = ({ setShowPlayWordleModal }) => {
 
       {/* Fallback link if popup was blocked */}
       {manualUrl && (
-        <div style={{
-          background: 'rgba(255,255,255,0.1)',
-          padding: '15px',
-          borderRadius: '8px',
-          marginBottom: '15px',
-          textAlign: 'center'
-        }}>
-          <p style={{ margin: '0 0 10px 0' }}>Tap the link below to play:</p>
+        <div className="wordle-fallback-link">
+          <p>Tap the link below to play:</p>
           <a
             href={manualUrl}
             target="_blank"
             rel="noopener noreferrer"
-            style={{
-              color: '#4fc3f7',
-              fontWeight: 'bold',
-              fontSize: '1.1em'
-            }}
           >
             Open Wordle Game
           </a>
@@ -121,26 +109,17 @@ const PlayWordleModal = ({ setShowPlayWordleModal }) => {
             />
           </div>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '20px' }}>
+        <div className="modal-button-row">
           <button
             type="button"
             onClick={() => setShowPlayWordleModal(false)}
             disabled={isLoading}
-            style={{ padding: '8px 16px', cursor: 'pointer', background: '#666', color: 'white', border: 'none', borderRadius: '4px' }}
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={!isFormValid || isLoading}
-            style={{
-              padding: '8px 16px',
-              cursor: !isFormValid || isLoading ? 'not-allowed' : 'pointer',
-              background: !isFormValid || isLoading ? '#ccc' : 'var(--blue-1)',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px'
-            }}
           >
             {isLoading ? 'Loading...' : 'Play'}
           </button>

@@ -1,49 +1,45 @@
 /* ===== PAGE MENU ===== */
 #pageMenu {
   display: flex;
-  background: var(--blue-5);
-  border-radius: var(--radius-md) var(--radius-md) 0 0;
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
   flex-shrink: 0;
 }
 
 .pageMenuItem {
   flex: 1;
   text-align: center;
-  padding: 12px 8px;
+  padding: 10px 8px;
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--blue-1);
-  background: var(--blue-5);
+  background: var(--blue-tab);
   border: none;
   cursor: pointer;
   transition: var(--transition);
   position: relative;
+  /* White separator on right side */
+  border-right: 2px solid white;
+  /* White separator at bottom for unselected tabs */
+  border-bottom: 2px solid white;
 }
 
-.pageMenuItem:hover {
-  background: var(--blue-4);
+.pageMenuItem:last-child {
+  border-right: none;
 }
 
+.pageMenuItem:hover:not(.selected) {
+  background: var(--blue-tab-hover);
+}
+
+/* Selected tab flows into main content - no bottom border */
 .pageMenuItem.selected {
-  background: white;
-  color: var(--blue-1);
+  background: var(--blue-main);
+  color: white;
   font-weight: 600;
+  border-bottom: none;
 }
 
+/* Remove any pseudo-element indicators */
 .pageMenuItem.selected::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 40%;
-  height: 3px;
-  background: var(--blue-2);
-  border-radius: 0 0 3px 3px;
-}
-
-.pageMenuItem:not(:last-child) {
-  border-right: 1px solid var(--blue-4);
+  display: none;
 }

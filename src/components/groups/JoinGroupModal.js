@@ -33,41 +33,33 @@ const JoinGroupModal = ({ onClose }) => {
     };
 
     return (
-        <div className="scoreModal" style={{ minWidth: '300px', maxWidth: '400px', display: 'block' }}>
+        <div className="scoreModal join-group-modal">
             <h2 style={{ marginTop: 0 }}>Join Group</h2>
 
-                <ErrorMessage message={error} onDismiss={() => setError(null)} />
+            <ErrorMessage message={error} onDismiss={() => setError(null)} />
 
-                <form onSubmit={handleSubmit}>
-                    <div style={{ marginBottom: '20px' }}>
-                        <label style={{ display: 'block', marginBottom: '5px' }}>Invite Code</label>
-                        <input
-                            type="text"
-                            value={inviteCode}
-                            onChange={(e) => setInviteCode(e.target.value.toUpperCase())}
-                            required
-                            style={{ width: '100%', padding: '8px', boxSizing: 'border-box', textTransform: 'uppercase', letterSpacing: '2px', textAlign: 'center' }}
-                            placeholder="ENTER CODE"
-                        />
-                    </div>
+            <form onSubmit={handleSubmit}>
+                <div className="formGroup">
+                    <label>Invite Code</label>
+                    <input
+                        type="text"
+                        value={inviteCode}
+                        onChange={(e) => setInviteCode(e.target.value.toUpperCase())}
+                        required
+                        className="join-code-input"
+                        placeholder="ENTER CODE"
+                    />
+                </div>
 
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
-                        <button
-                            type="button"
-                            onClick={onClose}
-                            style={{ padding: '8px 16px', cursor: 'pointer', background: '#666', color: 'white', border: 'none', borderRadius: '4px' }}
-                        >
-                            Cancel
-                        </button>
-                        <button
-                            type="submit"
-                            disabled={isLoading}
-                            style={{ padding: '8px 16px', cursor: 'pointer', background: 'var(--blue-1)', color: 'white', border: 'none', borderRadius: '4px' }}
-                        >
-                            {isLoading ? 'Joining...' : 'Join'}
-                        </button>
-                    </div>
-                </form>
+                <div className="modal-button-row">
+                    <button type="button" onClick={onClose}>
+                        Cancel
+                    </button>
+                    <button type="submit" disabled={isLoading}>
+                        {isLoading ? 'Joining...' : 'Join'}
+                    </button>
+                </div>
+            </form>
         </div>
     );
 };

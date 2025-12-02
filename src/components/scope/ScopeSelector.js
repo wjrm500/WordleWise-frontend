@@ -98,10 +98,6 @@ const ScopeSelector = () => {
                         </button>
                     </div>
 
-                    {groups.length > 0 && <div className="dropdown-divider" />}
-
-                    {groups.length > 0 && <div className="dropdown-header">Groups</div>}
-
                     {groups.map(group => {
                         const isDefault = defaultGroupId === group.id;
                         return (

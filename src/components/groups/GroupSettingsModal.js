@@ -100,37 +100,21 @@ const GroupSettingsModal = ({ group: initialGroup, onClose }) => {
                 <h2 style={{ margin: 0 }}>
                     <GroupName group={group} />
                 </h2>
-                <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: 'white' }}>×</button>
+                <button onClick={onClose} className="modal-close-btn">×</button>
             </div>
 
             <ErrorMessage message={error} onDismiss={clearError} />
 
-            <div style={{ display: 'flex', borderBottom: '1px solid var(--blue-2)', marginBottom: '20px' }}>
+            <div className="modal-tabs">
                 <button
                     onClick={() => setActiveTab('members')}
-                    style={{
-                        padding: '10px 20px',
-                        background: 'none',
-                        border: 'none',
-                        borderBottom: activeTab === 'members' ? '2px solid white' : 'none',
-                        fontWeight: activeTab === 'members' ? 'bold' : 'normal',
-                        cursor: 'pointer',
-                        color: 'white'
-                    }}
+                    className={`modal-tab-btn ${activeTab === 'members' ? 'active' : ''}`}
                 >
                     Members
                 </button>
                 <button
                     onClick={() => setActiveTab('settings')}
-                    style={{
-                        padding: '10px 20px',
-                        background: 'none',
-                        border: 'none',
-                        borderBottom: activeTab === 'settings' ? '2px solid white' : 'none',
-                        fontWeight: activeTab === 'settings' ? 'bold' : 'normal',
-                        cursor: 'pointer',
-                        color: 'white'
-                    }}
+                    className={`modal-tab-btn ${activeTab === 'settings' ? 'active' : ''}`}
                 >
                     Settings
                 </button>
@@ -157,24 +141,15 @@ const GroupSettingsModal = ({ group: initialGroup, onClose }) => {
             {activeTab === 'settings' && (
                 <div>
                     {/* Group Info */}
-                    <div style={{ 
-                        background: 'rgba(255,255,255,0.1)', 
-                        padding: '12px 16px', 
-                        borderRadius: '8px', 
-                        marginBottom: '20px' 
-                    }}>
-                        <div style={{ fontSize: '0.85em', color: '#ccc', marginBottom: '4px' }}>
-                            Group created
-                        </div>
-                        <div style={{ fontWeight: '500' }}>
-                            {formatCreationDate(group.created_at)}
-                        </div>
+                    <div className="modal-info-box">
+                        <div className="modal-info-label">Group created</div>
+                        <div className="modal-info-value">{formatCreationDate(group.created_at)}</div>
                     </div>
 
                     {isAdmin ? (
                         <div style={{ marginBottom: '20px' }}>
-                            <div style={{ marginBottom: '15px' }}>
-                                <label style={{ display: 'block', marginBottom: '5px' }}>Group Name</label>
+                            <div className="formGroup">
+                                <label>Group Name</label>
                                 <input
                                     type="text"
                                     defaultValue={group.name}
@@ -183,12 +158,11 @@ const GroupSettingsModal = ({ group: initialGroup, onClose }) => {
                                             handleUpdateGroup({ name: e.target.value });
                                         }
                                     }}
-                                    style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
                                 />
                             </div>
 
-                            <div style={{ marginBottom: '20px' }}>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                            <div className="checkbox-group">
+                                <label className="checkbox-label">
                                     <input
                                         type="checkbox"
                                         checked={group.include_historical_data}
@@ -196,7 +170,7 @@ const GroupSettingsModal = ({ group: initialGroup, onClose }) => {
                                     />
                                     Include historical data
                                 </label>
-                                <div style={{ fontSize: '0.8em', color: '#ccc', marginTop: '4px', marginLeft: '24px' }}>
+                                <div className="checkbox-help">
                                     When disabled, only scores from {formatCreationDate(group.created_at)} onwards will be shown.
                                 </div>
                             </div>
@@ -205,36 +179,13 @@ const GroupSettingsModal = ({ group: initialGroup, onClose }) => {
                         <p style={{ color: '#ccc', fontStyle: 'italic' }}>Only admins can change group settings.</p>
                     )}
 
-                    <div style={{ borderTop: '1px solid var(--blue-2)', paddingTop: '20px', marginTop: '20px' }}>
-                        <button
-                            onClick={handleLeave}
-                            style={{
-                                width: '100%',
-                                padding: '10px',
-                                background: 'transparent',
-                                border: '1px solid #ff6b6b',
-                                color: '#ff6b6b',
-                                borderRadius: '4px',
-                                cursor: 'pointer',
-                                marginBottom: '10px'
-                            }}
-                        >
+                    <div className="modal-danger-zone">
+                        <button onClick={handleLeave} className="btn-danger-outline">
                             Leave Group
                         </button>
 
                         {isAdmin && (
-                            <button
-                                onClick={handleDelete}
-                                style={{
-                                    width: '100%',
-                                    padding: '10px',
-                                    background: '#ff6b6b',
-                                    border: 'none',
-                                    color: 'white',
-                                    borderRadius: '4px',
-                                    cursor: 'pointer'
-                                }}
-                            >
+                            <button onClick={handleDelete} className="btn-danger">
                                 Delete Group
                             </button>
                         )}

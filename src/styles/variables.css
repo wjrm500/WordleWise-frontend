@@ -1,21 +1,37 @@
 /* ===== CSS VARIABLES ===== */
 :root {
+  /* Retro blue palette - softer, muted tones */
+  --blue-header: #2F5597;        /* Dark blue for header */
+  --blue-main: #8aaed5;          /* Soft medium blue for main content/selected tab */
+  --blue-tab: #d8e4f0;           /* Light blue-grey for unselected tabs */
+  --blue-tab-hover: #c8d8e8;     /* Hover state for tabs */
+  --blue-button: #6b9bc9;        /* Header button blue */
+  --blue-button-hover: #5889b9;  /* Header button hover */
+  --blue-table-header: #4a7cb8;  /* Table header - slightly muted */
+  --blue-table-row-odd: #eaf1f8; /* Light blue for odd rows */
+  --blue-table-row-even: #dae6f2;/* Medium-light blue for even rows */
+  --blue-summary: #5a8ac7;       /* Summary row blue */
+  --blue-average-box: #ccdcec;   /* Average score box background */
+  
+  /* Legacy color names (for compatibility) */
   --blue-0: #1a2d4d;
   --blue-1: #2F5597;
   --blue-2: #4472C4;
   --blue-3: #6b8cce;
-  --blue-4: #a8bee0;
-  --blue-5: #e8eef7;
+  --blue-4: #b8cce4;
+  --blue-5: #dce6f2;
 
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  /* No shadows for retro look */
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: 0 2px 6px rgba(0, 0, 0, 0.15);
 
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
+  /* Square edges throughout */
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
 
-  --transition: all 0.2s ease;
+  --transition: all 0.15s ease;
 
   /* Winner styling */
   --winner-color: #15803d;

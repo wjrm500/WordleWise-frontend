@@ -28,30 +28,24 @@ const MemberList = ({ group, members, isAdmin, onUpdate, onError }) => {
     return (
         <div>
             <h3 style={{ fontSize: '1rem' }}>Members ({members.length}/4)</h3>
-            <ul style={{ listStyle: 'none', padding: 0 }}>
+            <ul className="member-list">
                 {members.map(member => (
-                    <li key={member.id} style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        padding: '10px',
-                        borderBottom: '1px solid var(--blue-2)'
-                    }}>
+                    <li key={member.id} className="member-list-item">
                         <div>
-                            <span style={{ fontWeight: 'bold' }}>{member.username}</span>
-                            {member.id === currentUser.id && <span style={{ color: '#ccc', fontSize: '0.8em', marginLeft: '5px' }}>(You)</span>}
-                            <div style={{ fontSize: '0.8em', color: '#ccc' }}>
+                            <span className="member-username">{member.username}</span>
+                            {member.id === currentUser.id && <span className="member-you-label">(You)</span>}
+                            <div className="member-joined">
                                 Joined: {new Date(member.joined_at).toLocaleDateString('en-GB')}
                             </div>
                         </div>
 
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <div className="member-actions">
                             {isAdmin && member.id !== currentUser.id ? (
                                 <>
                                     <select
                                         value={member.role}
                                         onChange={(e) => handleRoleChange(member.id, e.target.value)}
-                                        style={{ padding: '4px', borderRadius: '4px' }}
+                                        className="member-role-select"
                                     >
                                         <option value="member">Member</option>
                                         <option value="admin">Admin</option>
@@ -59,20 +53,14 @@ const MemberList = ({ group, members, isAdmin, onUpdate, onError }) => {
 
                                     <button
                                         onClick={() => handleRemove(member.id)}
-                                        style={{ color: '#ff6b6b', background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2em' }}
+                                        className="member-remove-btn"
                                         title="Remove member"
                                     >
                                         ✕
                                     </button>
                                 </>
                             ) : (
-                                <span style={{
-                                    background: member.role === 'admin' ? 'var(--blue-2)' : 'var(--blue-1)',
-                                    color: 'white',
-                                    padding: '2px 8px',
-                                    borderRadius: '10px',
-                                    fontSize: '0.8em'
-                                }}>
+                                <span className={`member-role-badge ${member.role === 'admin' ? 'admin' : 'member'}`}>
                                     {member.role}
                                 </span>
                             )}

@@ -28,36 +28,15 @@ const InviteCodeDisplay = ({ group, isAdmin, onUpdate, onError }) => {
     };
 
     return (
-        <div style={{ background: 'var(--blue-1)', padding: '15px', borderRadius: '8px', marginBottom: '20px' }}>
-            <h3 style={{ marginTop: 0, fontSize: '1rem' }}>Invite Code</h3>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <div style={{
-                    fontSize: '1.5rem',
-                    fontWeight: 'bold',
-                    letterSpacing: '2px',
-                    background: 'white',
-                    color: 'black',
-                    padding: '10px',
-                    borderRadius: '4px',
-                    border: '1px solid var(--blue-2)',
-                    flex: 1,
-                    textAlign: 'center'
-                }}>
+        <div className="invite-code-section">
+            <h3 className="invite-code-title">Invite Code</h3>
+            <div className="invite-code-row">
+                <div className="invite-code-display">
                     {group.invite_code}
                 </div>
                 <button
                     onClick={copyToClipboard}
-                    style={{ 
-                        padding: '10px', 
-                        cursor: 'pointer', 
-                        background: copySuccess ? '#34a853' : 'var(--blue-2)', 
-                        color: 'white', 
-                        border: 'none', 
-                        borderRadius: '4px',
-                        transition: 'background 0.2s ease',
-                        width: '40px',
-                        height: '40px',
-                    }}
+                    className={`invite-code-copy-btn ${copySuccess ? 'success' : ''}`}
                     title={copySuccess ? "Copied!" : "Copy to clipboard"}
                 >
                     {copySuccess ? '✓' : '📋'}
@@ -68,15 +47,7 @@ const InviteCodeDisplay = ({ group, isAdmin, onUpdate, onError }) => {
                 <button
                     onClick={handleRegenerate}
                     disabled={isRegenerating}
-                    style={{
-                        marginTop: '10px',
-                        background: 'none',
-                        border: 'none',
-                        color: '#ccc',
-                        textDecoration: 'underline',
-                        cursor: 'pointer',
-                        fontSize: '0.8rem'
-                    }}
+                    className="invite-code-regen-btn"
                 >
                     {isRegenerating ? 'Regenerating...' : 'Regenerate Code'}
                 </button>

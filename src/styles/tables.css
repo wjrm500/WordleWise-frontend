@@ -1,25 +1,22 @@
 /* ===== TABLES ===== */
 .table {
   background: white;
-  border: none;
+  border: 2px solid white;
   border-spacing: 0;
   width: 100%;
-  border-radius: var(--radius-sm);
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
   text-align: center;
 }
 
 .table thead {
-  background: var(--blue-1);
+  background: var(--blue-table-header);
   color: white;
 }
 
 .table th {
   padding: 10px 12px;
   font-weight: 600;
-  font-size: 0.8rem;
-  /* REMOVED: text-transform: uppercase; */
+  font-size: 0.85rem;
   letter-spacing: 0.3px;
 }
 
@@ -27,23 +24,19 @@
   padding: 10px 12px;
   font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
   font-size: 0.875rem;
-  border-bottom: 1px solid #f0f0f0;
 }
 
 .table tbody tr {
   transition: var(--transition);
 }
 
+/* Alternating light blue / medium-light blue rows */
 .table tbody tr:nth-child(odd) {
-  background: #fafbfc;
+  background: var(--blue-table-row-odd);
 }
 
 .table tbody tr:nth-child(even) {
-  background: white;
-}
-
-.table tbody tr:last-child td {
-  border-bottom: none;
+  background: var(--blue-table-row-even);
 }
 
 .scoreTable td.dateColumn {
@@ -61,7 +54,7 @@
 
 /* ===== LOGGED IN USER DIVIDER ===== */
 .loggedInUserColumn {
-  border-right: 1px solid rgba(47, 85, 151, 0.2) !important;
+  border-right: 1px solid rgba(47, 85, 151, 0.15) !important;
 }
 
 /* ===== WINNER STYLING (Weekly page) ===== */
@@ -71,7 +64,6 @@
   background-color: var(--winner-bg) !important;
 }
 
-/* Winner cell hover state */
 .clickableRow:hover .scoreColumn.winner {
   background-color: #bbf7d0 !important;
 }
@@ -79,10 +71,6 @@
 /* Summary row */
 .table + .table {
   margin-top: 8px;
-}
-
-.table tbody tr[style*="var(--blue-3)"] {
-  background: linear-gradient(135deg, var(--blue-2) 0%, var(--blue-1) 100%) !important;
 }
 
 /* Week header styling */
@@ -121,13 +109,19 @@
   cursor: default;
 }
 
+/* Summary row */
 .summaryRow {
-  background: linear-gradient(135deg, var(--blue-2) 0%, var(--blue-1) 100%) !important;
+  background: var(--blue-summary) !important;
   color: white;
 }
 
 .summaryRow td {
-  border-bottom: none !important;
+  font-weight: 600;
+}
+
+/* Legacy gradient overwrite */
+.table tbody tr[style*="var(--blue-3)"] {
+  background: var(--blue-summary) !important;
 }
 
 /* ===== CLICKABLE ROWS ===== */
@@ -136,7 +130,7 @@
 }
 
 .clickableRow:hover {
-  background: var(--blue-5) !important;
+  background: #c8dae9 !important;
 }
 
 .clickableRow:hover td {
@@ -145,7 +139,7 @@
 
 /* ===== CURRENT RECORD ROWS (Records page) ===== */
 .currentRecordRow {
-  background: linear-gradient(135deg, var(--blue-2) 0%, var(--blue-3) 100%) !important;
+  background: var(--blue-summary) !important;
   color: white !important;
 }
 
@@ -154,7 +148,7 @@
 }
 
 .currentRecordRow:hover {
-  background: linear-gradient(135deg, var(--blue-1) 0%, var(--blue-2) 100%) !important;
+  background: var(--blue-header) !important;
 }
 
 .currentRecordRow:hover td {
@@ -167,7 +161,6 @@
   overflow-x: auto;
   scrollbar-gutter: stable;
   width: 100%;
-  border-radius: var(--radius-sm);
 }
 
 .tableContainer .table {
@@ -179,16 +172,14 @@
 }
 
 .tableContainer::-webkit-scrollbar-track {
-  background: #f0f0f0;
-  border-radius: 3px;
+  background: #e0e8f0;
 }
 
 .tableContainer::-webkit-scrollbar-thumb {
   background: var(--blue-3);
-  border-radius: 3px;
 }
 
-/* ===== ARROWS (legacy, kept for compatibility) ===== */
+/* ===== ARROWS (legacy) ===== */
 .arrowContainer {
   display: none;
 }
@@ -201,4 +192,12 @@
 
 .dayScoreTableWrapper .summaryTable {
   margin-top: 8px;
+}
+
+.summaryTable {
+  border: 2px solid white;
+}
+
+.summaryTable .summaryRow {
+  background: var(--blue-summary) !important;
 }

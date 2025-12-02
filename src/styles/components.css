@@ -5,10 +5,8 @@
 
 /* ===== ERROR MESSAGE COMPONENT ===== */
 .error-message {
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  border-left: 3px solid #ef4444;
-  border-radius: var(--radius-sm);
+  background: #ffe8e8;
+  border-left: 4px solid #e05555;
   padding: 10px 14px !important;
   margin-bottom: 16px;
   display: flex;
@@ -19,7 +17,7 @@
 }
 
 .error-message-text {
-  color: #dc2626;
+  color: #c33;
   font-size: 0.9rem;
   line-height: 1.4;
 }
@@ -27,15 +25,15 @@
 .error-message-dismiss {
   background: none !important;
   border: none !important;
-  color: #dc2626 !important;
+  color: #c33 !important;
   font-size: 1.2rem;
   cursor: pointer;
   padding: 0 4px !important;
   opacity: 0.7;
   transition: opacity 0.2s ease;
   line-height: 1;
-  border-radius: 0 !important;
   font-weight: normal !important;
+  border-radius: 0 !important;
 }
 
 .error-message-dismiss:hover {

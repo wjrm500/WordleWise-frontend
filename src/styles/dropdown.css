@@ -5,11 +5,11 @@
 }
 
 .dropdown-trigger {
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: var(--blue-button);
+  border: none;
+  border-radius: 0 !important;
   color: white;
   padding: 8px 14px;
-  border-radius: 20px;
   cursor: pointer;
   font-size: 0.875rem;
   display: flex;
@@ -17,26 +17,25 @@
   gap: 8px;
   transition: var(--transition);
   min-width: 120px;
+  height: 36px;
 }
 
 .dropdown-trigger:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.4);
+  background: var(--blue-button-hover);
 }
 
 .dropdown-menu {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 2px);
   left: 0;
   background: white;
   color: #333;
   min-width: 220px;
-  box-shadow: var(--shadow-lg);
-  border-radius: var(--radius-md);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   z-index: 1000;
   overflow: hidden;
   animation: fadeIn 0.15s ease-out;
-  border: 1px solid #eee;
+  border-radius: 0 !important;
 }
 
 .dropdown-item {
@@ -47,31 +46,33 @@
   gap: 10px;
   transition: var(--transition);
   font-size: 0.9rem;
+  border-radius: 0 !important;
 }
 
 .dropdown-item:hover {
-  background: var(--blue-5);
+  background: var(--blue-table-row-even);
 }
 
 .dropdown-item.selected {
-  background: var(--blue-5);
+  background: var(--blue-table-row-even);
   color: var(--blue-1);
   font-weight: 600;
 }
 
 .dropdown-divider {
   height: 1px;
-  background: #eee;
-  margin: 6px 0;
+  background: #ddd;
+  margin: 0;
 }
 
 .dropdown-header {
-  padding: 10px 16px 6px;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  color: #999;
+  padding: 8px 16px 4px;
+  font-size: 0.75rem;
+  text-transform: none;
+  color: #888;
   font-weight: 600;
-  letter-spacing: 0.5px;
+  letter-spacing: 0;
+  background: transparent;
 }
 
 .dropdown-action {
@@ -80,7 +81,7 @@
 }
 
 .dropdown-action:hover {
-  background: #f0f7ff;
+  background: var(--blue-table-row-odd);
 }
 
 /* ===== DEFAULT SCOPE STAR ===== */
@@ -101,9 +102,9 @@
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-  border-radius: 4px;
   margin-left: auto;
   flex-shrink: 0;
+  border-radius: 0 !important;
 }
 
 .default-star-btn:hover:not(:disabled) {

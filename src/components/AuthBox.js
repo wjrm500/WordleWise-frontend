@@ -55,20 +55,12 @@ const AuthBox = ({ onLogin }) => {
 
   return (
     <div id="authBox">
-      <h2 style={{ marginTop: 0, color: 'var(--blue-1)' }}>
+      <h2 style={{ marginTop: 0 }}>
         {isRegistering ? 'Create Account' : 'Login'}
       </h2>
 
       {sessionExpired && (
-        <div style={{
-          background: 'rgba(47, 85, 151, 0.1)',
-          border: '1px solid var(--blue-2)',
-          borderRadius: '6px',
-          padding: '10px 14px',
-          marginBottom: '16px',
-          color: 'var(--blue-1)',
-          fontSize: '0.9rem'
-        }}>
+        <div className="session-expired-message">
           Your session has expired. Please log in again.
         </div>
       )}
@@ -110,7 +102,7 @@ const AuthBox = ({ onLogin }) => {
           {isLoading ? <SpinningLoader /> : (isRegistering ? "Sign Up" : "Login")}
         </button>
 
-        <div style={{ marginTop: '15px', fontSize: '0.9em' }}>
+        <div className="auth-switch-text">
           {isRegistering ? "Already have an account? " : "New here? "}
           <span
             onClick={() => {
@@ -118,12 +110,7 @@ const AuthBox = ({ onLogin }) => {
               setError(null)
               setSessionExpired(false)
             }}
-            style={{
-              color: 'var(--blue-1)',
-              cursor: 'pointer',
-              textDecoration: 'underline',
-              fontWeight: 'bold'
-            }}
+            className="auth-switch-link"
           >
             {isRegistering ? "Login" : "Create Account"}
           </span>

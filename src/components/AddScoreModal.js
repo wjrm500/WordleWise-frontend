@@ -94,26 +94,17 @@ const AddScoreModal = ({ onClose }) => {
           </select>
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+        <div className="modal-button-row">
           <button
             type="button"
             onClick={onClose}
             disabled={isLoading}
-            style={{ padding: '8px 16px', cursor: 'pointer', background: '#666', color: 'white', border: 'none', borderRadius: '4px' }}
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={!date || !score || isLoading}
-            style={{
-              padding: '8px 16px',
-              cursor: !date || !score || isLoading ? 'not-allowed' : 'pointer',
-              background: !date || !score || isLoading ? '#ccc' : 'var(--blue-1)',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px'
-            }}
           >
             {isLoading ? 'Saving...' : 'Save'}
           </button>

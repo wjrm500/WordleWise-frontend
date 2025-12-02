@@ -1,16 +1,14 @@
 /* ===== HEADER ===== */
 #header {
   align-items: center;
-  background: linear-gradient(135deg, var(--blue-1) 0%, var(--blue-0) 100%);
-  border-radius: var(--radius-md);
+  background: var(--blue-header);
   color: white;
   display: flex;
   font-size: 16px;
   min-height: 56px;
   justify-content: space-between;
-  margin-bottom: 8px;
+  margin-bottom: 0;
   padding: 8px 12px;
-  box-shadow: var(--shadow-md);
   flex-shrink: 0;
 }
 
@@ -32,12 +30,15 @@
   gap: 6px;
 }
 
+/* Square header buttons - fixed size */
 .headerButton {
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: var(--blue-button);
   border: none;
-  border-radius: var(--radius-sm);
+  border-radius: 0;
   color: white;
-  padding: 8px;
+  padding: 0;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -46,17 +47,16 @@
 }
 
 .headerButton:hover {
-  background-color: rgba(255, 255, 255, 0.25);
-  transform: translateY(-1px);
+  background-color: var(--blue-button-hover);
 }
 
 .headerButton:active {
-  transform: translateY(0);
+  background-color: #4879a9;
 }
 
 .headerButton:disabled {
-  background-color: rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(107, 155, 201, 0.5);
+  color: rgba(255, 255, 255, 0.7);
   cursor: not-allowed;
 }
 
