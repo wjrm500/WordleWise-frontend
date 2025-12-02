@@ -1,27 +1,9 @@
 /* ===== RESPONSIVE ADJUSTMENTS ===== */
-@media (max-width: 400px) {
+
+/* Tablet and smaller */
+@media (max-width: 480px) {
   #container {
     padding: 8px;
-  }
-
-  #header {
-    padding: 6px 10px;
-  }
-
-  .header-left img {
-    height: 32px;
-  }
-
-  .dropdown-trigger {
-    padding: 6px 10px;
-    min-width: 100px;
-    font-size: 0.8rem;
-    height: 32px;
-  }
-
-  .headerButton {
-    width: 32px;
-    height: 32px;
   }
 
   .page {
@@ -37,5 +19,28 @@
   .pageMenuItem {
     padding: 8px 6px;
     font-size: 0.8rem;
+  }
+
+  /* Dropdown can use more space when buttons are hidden */
+  .dropdown-trigger {
+    max-width: none;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 360px) {
+  #container {
+    padding: 6px;
+  }
+
+  .dropdown-trigger {
+    padding: 6px 10px;
+    min-width: 80px;
+    font-size: 0.8rem;
+    height: 32px;
+  }
+
+  .dropdown-menu {
+    max-width: calc(100vw - 16px);
   }
 }

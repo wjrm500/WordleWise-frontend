@@ -103,12 +103,12 @@
 }
 
 .scoreModal button[type="button"] {
-  background: #555 !important;
+  background: #555;
   color: white;
 }
 
 .scoreModal button[type="button"]:hover {
-  background: #666 !important;
+  background: #666;
 }
 
 .scoreModal button[type="submit"] {
@@ -123,6 +123,30 @@
 .scoreModal button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* Error message dismiss button in modals - override modal button styles */
+.scoreModal .error-message-dismiss {
+  background: none !important;
+  border: none !important;
+  color: #c33 !important;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0 4px !important;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+  line-height: 1.4;
+  font-weight: normal !important;
+  border-radius: 0 !important;
+  display: flex;
+  align-items: center;
+  width: auto !important;
+  min-width: auto !important;
+}
+
+.scoreModal .error-message-dismiss:hover {
+  opacity: 1;
+  background: none !important;
 }
 
 /* ===== GROUP SETTINGS MODAL ===== */
@@ -269,7 +293,7 @@
 
 .modal-info-box {
   background: rgba(180, 200, 225, 0.35);
-  padding: 16px 20px;
+  padding: 16px 20px !important;
   margin-bottom: 20px;
 }
 
@@ -324,7 +348,7 @@
 /* ===== INVITE CODE DISPLAY ===== */
 .invite-code-section {
   background: rgba(180, 200, 225, 0.35);
-  padding: 18px;
+  padding: 18px !important;
   margin-bottom: 20px;
 }
 

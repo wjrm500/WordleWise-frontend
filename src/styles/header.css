@@ -1,33 +1,72 @@
 /* ===== HEADER ===== */
 #header {
-  align-items: center;
   background: var(--blue-header);
   color: white;
-  display: flex;
   font-size: 16px;
-  min-height: 56px;
-  justify-content: space-between;
   margin-bottom: 0;
-  padding: 8px 12px;
   flex-shrink: 0;
+}
+
+.header-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 56px;
+  padding: 8px 12px;
+  gap: 12px;
 }
 
 .header-left {
   display: flex;
   align-items: center;
   gap: 12px;
+  min-width: 0;
   flex: 1;
 }
 
 .header-left img {
   height: 40px;
   width: auto;
+  flex-shrink: 0;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
 }
 
 .header-buttons {
   display: flex;
   align-items: center;
   gap: 6px;
+}
+
+/* Hide button labels on desktop - icon only */
+.header-button-label {
+  display: none;
+}
+
+/* Burger button - hidden by default on desktop */
+.burger-button {
+  display: none;
+  background-color: var(--blue-button);
+  border: none;
+  border-radius: 0;
+  color: white;
+  padding: 0;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.burger-button:hover {
+  background-color: var(--blue-button-hover);
 }
 
 /* Square header buttons - fixed size */
@@ -44,6 +83,7 @@
   justify-content: center;
   transition: var(--transition);
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .headerButton:hover {
@@ -63,4 +103,69 @@
 .icon-20px {
   height: 18px;
   width: 18px;
+  flex-shrink: 0;
+}
+
+/* ===== MOBILE MENU (Push-down style) ===== */
+.mobile-menu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease-out;
+  background: var(--blue-header);
+}
+
+.mobile-menu.open {
+  max-height: 250px;
+  transition: max-height 0.3s ease-in;
+}
+
+.mobile-menu-content {
+  display: flex;
+  flex-direction: column;
+  padding: 0 12px 12px 12px;
+  gap: 4px;
+}
+
+.mobile-menu .headerButton {
+  width: 100%;
+  height: 44px;
+  justify-content: flex-start;
+  padding: 0 16px;
+  gap: 12px;
+}
+
+.mobile-menu .header-button-label {
+  display: inline;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* ===== RESPONSIVE - SHOW BURGER MENU ===== */
+@media (max-width: 480px) {
+  .burger-button {
+    display: flex;
+  }
+
+  .header-buttons {
+    display: none;
+  }
+
+  .header-left img {
+    height: 32px;
+  }
+}
+
+@media (max-width: 360px) {
+  .header-left {
+    gap: 8px;
+  }
+
+  .header-left img {
+    height: 28px;
+  }
+
+  .burger-button {
+    width: 32px;
+    height: 32px;
+  }
 }
