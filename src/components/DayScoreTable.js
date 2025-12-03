@@ -3,9 +3,12 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import { calculateTotal } from "../utilities/arrays"
 import { beautifyDate, PAST, PRESENT, FUTURE, isPastPresentOrFuture } from "../utilities/dates"
 import ScopeContext from "../contexts/ScopeContext"
+import ModalOverlay from "./ModalOverlay"
+import AddScoreModal from "./AddScoreModal"
 
 const DayScoreTable = ({ loggedInUser, dayData, dayIndex, setDayIndex, selectedRecordDate }) => {
   const [highlightDate, setHighlightDate] = useState(null)
+  const [isQuickAddModalOpen, setIsQuickAddModalOpen] = useState(false)
   const { scopeMembers } = useContext(ScopeContext)
 
   useEffect(() => {
@@ -109,7 +112,17 @@ const DayScoreTable = ({ loggedInUser, dayData, dayIndex, setDayIndex, selectedR
       if (isCurrentUser) {
         // Current user's cell
         if (pastPresentFuture === PRESENT && score == null) {
-          return <td key={member.username} className={className}>-</td>
+          return (
+            <td key={member.username} className={className}>
+              <button
+                className="quickAddButton"
+                onClick={() => setIsQuickAddModalOpen(true)}
+                title="Add score for today"
+              >
+                +
+              </button>
+            </td>
+          )
         }
         const displayScore = score || (pastPresentFuture === PAST ? 8 : "")
         const style = score == null && pastPresentFuture === PAST ? { color: "darkgrey" } : {}
@@ -183,6 +196,16 @@ const DayScoreTable = ({ loggedInUser, dayData, dayIndex, setDayIndex, selectedR
           {summaryRow}
         </tbody>
       </table>
+      {isQuickAddModalOpen && (
+        <>
+          <ModalOverlay onClick={() => setIsQuickAddModalOpen(false)} />
+          <AddScoreModal
+            onClose={() => setIsQuickAddModalOpen(false)}
+            quickAdd={true}
+            presetDate={todayStr}
+          />
+        </>
+      )}
     </div>
   )
 }
