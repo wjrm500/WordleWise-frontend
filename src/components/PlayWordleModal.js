@@ -72,7 +72,7 @@ const PlayWordleModal = ({ setShowPlayWordleModal }) => {
 
   return (
     <div className="scoreModal">
-      <h2 style={{ marginTop: 0 }}>Play past Wordle</h2>
+      <h2 style={{ marginTop: 0 }}>Play Wordle</h2>
 
       {isFeatureDisabled && (
         <ErrorMessage
