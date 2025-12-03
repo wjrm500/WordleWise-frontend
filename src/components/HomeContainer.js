@@ -49,6 +49,10 @@ const HomeContainer = ({ loggedInUser, currentWeekStart, setCurrentWeekStart }) 
     }
   }
 
+  const clearSelectedRecordDate = () => {
+    setSelectedRecordDate(null)
+  }
+
   // Initialize to current week if not set
   useEffect(() => {
     if (scores && scores.length > 0 && !currentWeekStart) {
@@ -59,7 +63,7 @@ const HomeContainer = ({ loggedInUser, currentWeekStart, setCurrentWeekStart }) 
   let page
   switch (pageType) {
     case DAILY_PAGE:
-      page = <DayAggPage loggedInUser={loggedInUser} data={scores} dayIndex={dayIndex} setDayIndex={setDayIndex} selectedRecordDate={selectedRecordDate} />
+      page = <DayAggPage loggedInUser={loggedInUser} data={scores} dayIndex={dayIndex} setDayIndex={setDayIndex} selectedRecordDate={selectedRecordDate} clearSelectedRecordDate={clearSelectedRecordDate} />
       break
     case WEEKLY_PAGE:
       page = <WeekAggPage data={scores} onWeekRowClick={onWeekRowClick} />

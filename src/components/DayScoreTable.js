@@ -6,7 +6,7 @@ import ScopeContext from "../contexts/ScopeContext"
 import ModalOverlay from "./ModalOverlay"
 import AddScoreModal from "./AddScoreModal"
 
-const DayScoreTable = ({ loggedInUser, dayData, dayIndex, setDayIndex, selectedRecordDate }) => {
+const DayScoreTable = ({ loggedInUser, dayData, dayIndex, setDayIndex, selectedRecordDate, clearSelectedRecordDate }) => {
   const [highlightDate, setHighlightDate] = useState(null)
   const [isQuickAddModalOpen, setIsQuickAddModalOpen] = useState(false)
   const { scopeMembers } = useContext(ScopeContext)
@@ -14,9 +14,12 @@ const DayScoreTable = ({ loggedInUser, dayData, dayIndex, setDayIndex, selectedR
   useEffect(() => {
     if (selectedRecordDate != null) {
       setHighlightDate(selectedRecordDate)
-      setTimeout(() => setHighlightDate(null), 1000)
+      setTimeout(() => {
+        setHighlightDate(null)
+        clearSelectedRecordDate()
+      }, 1000)
     }
-  }, [selectedRecordDate])
+  }, [selectedRecordDate, clearSelectedRecordDate])
 
   // Guard against undefined/null data
   if (!dayData || dayIndex === null || !dayData[dayIndex]) {
