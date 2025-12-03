@@ -103,8 +103,8 @@ const RecordPage = ({ data, onRecordClick }) => {
       <th>#</th>
       <th>User</th>
       <th>{isStreakRecord ? 'Days' : 'Score'}</th>
-      <th>Period Start</th>
-      <th>Period End</th>
+      <th>Period start</th>
+      <th>Period end</th>
     </tr>
   )
 
@@ -148,19 +148,19 @@ const RecordPage = ({ data, onRecordClick }) => {
         value={recordType}
       >
         {canShowCompetitiveRecords && (
-          <optgroup label="Competitive Records">
+          <optgroup label="Competitive records">
             <option value={CONSECUTIVE_WINS}>Consecutive wins</option>
             <option value={CONSECUTIVE_DAYS_UNBEATEN}>Consecutive days unbeaten</option>
           </optgroup>
         )}
-        <optgroup label="Personal Achievement Records">
+        <optgroup label="Personal achievement records">
           <option value={CONSECUTIVE_ONE_BELOW}>Consecutive days scoring 1 or below</option>
           <option value={CONSECUTIVE_TWO_BELOW}>Consecutive days scoring 2 or below</option>
           <option value={CONSECUTIVE_THREE_BELOW}>Consecutive days scoring 3 or below</option>
           <option value={CONSECUTIVE_FOUR_BELOW}>Consecutive days scoring 4 or below</option>
           <option value={CONSECUTIVE_FIVE_BELOW}>Consecutive days scoring 5 or below</option>
         </optgroup>
-        <optgroup label="Period Records">
+        <optgroup label="Period records">
           <option value={WEEKLY_LOW}>Lowest score in week (Mon-Sun)</option>
           <option value={ROLLING_7_LOW}>Lowest score in any 7 days</option>
           <option value={FORTNIGHT_LOW}>Lowest score in fortnight (Mon-Sun)</option>

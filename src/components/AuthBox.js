@@ -56,7 +56,7 @@ const AuthBox = ({ onLogin }) => {
   return (
     <div id="authBox">
       <h2 style={{ marginTop: 0 }}>
-        {isRegistering ? 'Create Account' : 'Login'}
+        {isRegistering ? 'Create account' : 'Login'}
       </h2>
 
       {sessionExpired && (
@@ -80,7 +80,7 @@ const AuthBox = ({ onLogin }) => {
 
         {isRegistering && (
           <div className="authBoxField">
-            <label>Display Name</label>
+            <label>Display name</label>
             <input type="text"
               autoComplete="name"
               value={forename}
@@ -101,7 +101,7 @@ const AuthBox = ({ onLogin }) => {
         </div>
 
         <button id="loginButton" onClick={onSubmit} disabled={isLoading}>
-          {isLoading ? <SpinningLoader /> : (isRegistering ? "Sign Up" : "Login")}
+          {isLoading ? <SpinningLoader /> : (isRegistering ? "Sign up" : "Login")}
         </button>
 
         <div className="auth-switch-text">
@@ -114,7 +114,7 @@ const AuthBox = ({ onLogin }) => {
             }}
             className="auth-switch-link"
           >
-            {isRegistering ? "Login" : "Create Account"}
+            {isRegistering ? "Login" : "Create account"}
           </span>
         </div>
       </form>

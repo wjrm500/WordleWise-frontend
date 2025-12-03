@@ -133,14 +133,14 @@ const ScopeSelector = () => {
                         onClick={() => { setShowCreateModal(true); setIsOpen(false); }}
                     >
                         <FaPlus size={12} />
-                        Create Group
+                        Create group
                     </div>
                     <div
                         className="dropdown-item dropdown-action"
                         onClick={() => { setShowJoinModal(true); setIsOpen(false); }}
                     >
                         <FaPlus size={12} />
-                        Join Group
+                        Join group
                     </div>
                 </div>
             )}
