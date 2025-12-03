@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useContext } from "react"
-import AuthContext from "../contexts/AuthContext"
 import ScopeContext from "../contexts/ScopeContext"
 import ErrorMessage from "./common/ErrorMessage"
+import { beautifyDate } from "../utilities/dates"
 
-const AddScoreModal = ({ onClose }) => {
-  const { user } = useContext(AuthContext)
+const AddScoreModal = ({ onClose, quickAdd = false, presetDate = null }) => {
   const { addScore } = useContext(ScopeContext)
 
   const [date, setDate] = useState("")
@@ -12,11 +11,11 @@ const AddScoreModal = ({ onClose }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
 
-  // Set default date to today
+  // Set default date to today or use preset date
   useEffect(() => {
-    const today = new Date().toISOString().split('T')[0]
-    setDate(today)
-  }, [])
+    const defaultDate = presetDate || new Date().toISOString().split('T')[0]
+    setDate(defaultDate)
+  }, [presetDate])
 
   const handleDateChange = (event) => {
     const inputDate = new Date(event.target.value)
@@ -61,22 +60,28 @@ const AddScoreModal = ({ onClose }) => {
     { value: "delete", label: "Not completed" },
   ]
 
+  const modalTitle = quickAdd && date
+    ? `Add score for ${beautifyDate(date, true, false)}`
+    : "Add Score"
+
   return (
     <div className="scoreModal">
-      <h2 style={{ marginTop: 0 }}>Add Score</h2>
+      <h2 style={{ marginTop: 0 }}>{modalTitle}</h2>
 
       <ErrorMessage message={error} onDismiss={() => setError(null)} />
 
       <form onSubmit={handleSubmit}>
-        <div className="formGroup">
-          <label>Date</label>
-          <input
-            type="date"
-            value={date}
-            onChange={handleDateChange}
-            max={new Date().toISOString().split('T')[0]}
-          />
-        </div>
+        {!quickAdd && (
+          <div className="formGroup">
+            <label>Date</label>
+            <input
+              type="date"
+              value={date}
+              onChange={handleDateChange}
+              max={new Date().toISOString().split('T')[0]}
+            />
+          </div>
+        )}
 
         <div className="formGroup">
           <label>Score</label>
