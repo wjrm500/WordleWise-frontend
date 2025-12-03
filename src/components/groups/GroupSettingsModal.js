@@ -149,7 +149,7 @@ const GroupSettingsModal = ({ group: initialGroup, onClose }) => {
                     {isAdmin ? (
                         <div style={{ marginBottom: '20px' }}>
                             <div className="formGroup">
-                                <label>Group Name</label>
+                                <label>Group name</label>
                                 <input
                                     type="text"
                                     defaultValue={group.name}
@@ -181,12 +181,12 @@ const GroupSettingsModal = ({ group: initialGroup, onClose }) => {
 
                     <div className="modal-danger-zone">
                         <button onClick={handleLeave} className="btn-danger-outline">
-                            Leave Group
+                            Leave group
                         </button>
 
                         {isAdmin && (
                             <button onClick={handleDelete} className="btn-danger">
-                                Delete Group
+                                Delete group
                             </button>
                         )}
                     </div>

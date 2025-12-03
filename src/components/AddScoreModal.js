@@ -62,7 +62,7 @@ const AddScoreModal = ({ onClose, quickAdd = false, presetDate = null }) => {
 
   const modalTitle = quickAdd && date
     ? `Add score for ${beautifyDate(date, true, false)}`
-    : "Add Score"
+    : "Add score"
 
   return (
     <div className="scoreModal">

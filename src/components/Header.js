@@ -55,16 +55,16 @@ const Header = ({ loggedInUser, onLogout }) => {
       <button 
         className="headerButton" 
         onClick={() => handleButtonClick(() => setShowAddScoreModal(true))} 
-        title="Add Score"
+        title="Add score"
       >
         <FaPlus className="icon-20px" />
-        {isMobile && <span className="header-button-label">Add Score</span>}
+        {isMobile && <span className="header-button-label">Add score</span>}
       </button>
 
       <button 
         className="headerButton" 
         onClick={() => handleButtonClick(() => setShowPlayWordleModal(true))} 
-        title="Play past Wordle"
+        title="Play Wordle"
       >
         <FaGamepad className="icon-20px" />
         {isMobile && <span className="header-button-label">Play Wordle</span>}
@@ -74,10 +74,10 @@ const Header = ({ loggedInUser, onLogout }) => {
         <button
           className="headerButton"
           onClick={() => handleButtonClick(() => setShowGroupSettingsModal(true))}
-          title="Group Settings"
+          title="Group settings"
         >
           <FaCog className="icon-20px" />
-          {isMobile && <span className="header-button-label">Group Settings</span>}
+          {isMobile && <span className="header-button-label">Group settings</span>}
         </button>
       )}
 

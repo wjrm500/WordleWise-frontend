@@ -34,13 +34,13 @@ const JoinGroupModal = ({ onClose }) => {
 
     return (
         <div className="scoreModal join-group-modal">
-            <h2 style={{ marginTop: 0 }}>Join Group</h2>
+            <h2 style={{ marginTop: 0 }}>Join group</h2>
 
             <ErrorMessage message={error} onDismiss={() => setError(null)} />
 
             <form onSubmit={handleSubmit}>
                 <div className="formGroup">
-                    <label>Invite Code</label>
+                    <label>Invite code</label>
                     <input
                         type="text"
                         value={inviteCode}

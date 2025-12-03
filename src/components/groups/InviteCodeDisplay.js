@@ -29,7 +29,7 @@ const InviteCodeDisplay = ({ group, isAdmin, onUpdate, onError }) => {
 
     return (
         <div className="invite-code-section">
-            <h3 className="invite-code-title">Invite Code</h3>
+            <h3 className="invite-code-title">Invite code</h3>
             <div className="invite-code-row">
                 <div className="invite-code-display">
                     {group.invite_code}
@@ -49,7 +49,7 @@ const InviteCodeDisplay = ({ group, isAdmin, onUpdate, onError }) => {
                     disabled={isRegenerating}
                     className="invite-code-regen-btn"
                 >
-                    {isRegenerating ? 'Regenerating...' : 'Regenerate Code'}
+                    {isRegenerating ? 'Regenerating...' : 'Regenerate code'}
                 </button>
             )}
         </div>

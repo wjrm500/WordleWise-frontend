@@ -225,7 +225,7 @@ const ChartPage = ({ scores, loggedInUser }) => {
           </select>
         </label>
         <label>
-          Time Period
+          Time period
           <select value={timePeriod} onChange={handleTimePeriodChange}>
             <option value="all-time">All-time</option>
             <option value="last-week">Last week</option>
@@ -242,7 +242,7 @@ const ChartPage = ({ scores, loggedInUser }) => {
         {timePeriod === 'custom' && (
           <div className="date-picker-container">
             <label>
-              Start Date
+              Start date
               <DatePicker
                 selected={dateRange.start}
                 onChange={date => setDateRange(prev => ({ ...prev, start: date }))}
@@ -251,7 +251,7 @@ const ChartPage = ({ scores, loggedInUser }) => {
               />
             </label>
             <label>
-              End Date
+              End date
               <DatePicker
                 selected={dateRange.end}
                 onChange={date => setDateRange(prev => ({ ...prev, end: date }))}
