@@ -6,7 +6,7 @@ import ScopeContext from "../contexts/ScopeContext"
 import ModalOverlay from "./ModalOverlay"
 import AddScoreModal from "./AddScoreModal"
 
-const DayScoreTable = ({ loggedInUser, dayData, dayIndex, setDayIndex, selectedRecordDate, clearSelectedRecordDate }) => {
+const DayScoreTable = ({ loggedInUser, dayData, dayIndex, setDayIndex, selectedRecordDate, clearSelectedRecordDate, swipeDirection }) => {
   const [highlightDate, setHighlightDate] = useState(null)
   const [isQuickAddModalOpen, setIsQuickAddModalOpen] = useState(false)
   const { scopeMembers } = useContext(ScopeContext)
@@ -184,7 +184,7 @@ const DayScoreTable = ({ loggedInUser, dayData, dayIndex, setDayIndex, selectedR
   )
 
   return (
-    <div className="dayScoreTableWrapper">
+    <div className={`dayScoreTableWrapper ${swipeDirection ? `slide-${swipeDirection}` : ''}`}>
       <table id="dayScoreTable" className="scoreTable table">
         <thead>
           {headerRow1}
