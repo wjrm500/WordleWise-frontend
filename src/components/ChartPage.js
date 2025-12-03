@@ -291,6 +291,8 @@ const ChartPage = ({ scores, loggedInUser }) => {
             }))
           } : chartData}
           options={{
+            responsive: true,
+            maintainAspectRatio: false,
             indexAxis: 'y',
             scales: { x: { max: maxCount } },
             plugins: {

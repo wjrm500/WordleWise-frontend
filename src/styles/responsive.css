@@ -25,15 +25,6 @@
   .dropdown-trigger {
     max-width: none;
   }
-
-  /* Ensure chart page elements fit properly */
-  #chartPage .average-score {
-    padding: 10px 12px;
-  }
-
-  #chartPage .chart {
-    padding: 8px;
-  }
 }
 
 /* Very small screens */
