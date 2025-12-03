@@ -25,6 +25,15 @@
   .dropdown-trigger {
     max-width: none;
   }
+
+  /* Ensure chart page elements fit properly */
+  #chartPage .average-score {
+    padding: 10px 12px;
+  }
+
+  #chartPage .chart {
+    padding: 8px;
+  }
 }
 
 /* Very small screens */
@@ -42,5 +51,23 @@
 
   .dropdown-menu {
     max-width: calc(100vw - 16px);
+  }
+
+  .page {
+    padding: 10px 6px;
+  }
+}
+
+/* iOS Safari safe area support */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  #container {
+    /* Account for notch/home indicator on modern iPhones */
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+  
+  @media (max-width: 480px) {
+    #container {
+      padding-bottom: max(8px, env(safe-area-inset-bottom));
+    }
   }
 }

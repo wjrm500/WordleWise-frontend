@@ -7,10 +7,13 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
+  /* Prevent page-level scrolling on ALL viewports */
+  overflow: hidden;
 }
 
 #root {
   height: 100%;
+  overflow: hidden;
 }
 
 body {
@@ -23,12 +26,6 @@ body {
   color: #333;
   font-size: 14px;
   line-height: 1.5;
-}
-
-@media (min-width: 500px) {
-  body {
-    overflow: hidden;
-  }
 }
 
 code {
