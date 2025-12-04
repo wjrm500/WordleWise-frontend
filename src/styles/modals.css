@@ -69,7 +69,8 @@
 }
 
 /* On mobile/touch devices, apply custom arrow to date input to match select styling */
-@media (pointer: coarse) {
+/* Using both hover detection (real devices) and max-width (works in Dev Tools too) */
+@media (hover: none) and (pointer: coarse), (max-width: 768px) {
   .formGroup input[type="date"] {
     /* Apply same custom arrow styling as select to ensure consistency on mobile */
     padding-right: 36px;
