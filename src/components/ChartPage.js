@@ -28,7 +28,7 @@ const DEFAULT_CHART_DATA = {
 }
 
 const ChartPage = ({ scores, loggedInUser }) => {
-  const { scopeMembers } = useContext(ScopeContext)
+  const { scopeMembers, isPersonalScope } = useContext(ScopeContext)
   const users = scopeMembers
 
   const [selectedUser, setSelectedUser] = useState('all')
@@ -214,16 +214,18 @@ const ChartPage = ({ scores, loggedInUser }) => {
 
   return (
     <div id="chartPage" className="page">
-      <div className="controls">
-        <label>
-          Player
-          <select value={selectedUser} onChange={e => setSelectedUser(e.target.value)}>
-            <option value="all">All players</option>
-            {users.map(user => (
-              <option key={user.id} value={user.username}>{user.forename || user.username}</option>
-            ))}
-          </select>
-        </label>
+      <div className={`controls ${isPersonalScope ? 'controls-centered' : ''}`}>
+        {!isPersonalScope && (
+          <label>
+            Player
+            <select value={selectedUser} onChange={e => setSelectedUser(e.target.value)}>
+              <option value="all">All players</option>
+              {users.map(user => (
+                <option key={user.id} value={user.username}>{user.forename || user.username}</option>
+              ))}
+            </select>
+          </label>
+        )}
         <label>
           Time period
           <select value={timePeriod} onChange={handleTimePeriodChange}>
@@ -270,10 +272,16 @@ const ChartPage = ({ scores, loggedInUser }) => {
           return (
             <div key={username} className="player-average">
               <span className="player-name">
-                <strong style={{ color: CHART_COLORS[index % CHART_COLORS.length] }}>
-                  {displayName}
-                </strong>
-                <span>'s average score:</span>
+                {isPersonalScope ? (
+                  <span>Average score:</span>
+                ) : (
+                  <>
+                    <strong style={{ color: CHART_COLORS[index % CHART_COLORS.length] }}>
+                      {displayName}
+                    </strong>
+                    <span>'s average score:</span>
+                  </>
+                )}
               </span>
               <span className="average-value">{average}</span>
             </div>
@@ -297,11 +305,11 @@ const ChartPage = ({ scores, loggedInUser }) => {
             scales: { x: { max: maxCount } },
             plugins: {
               legend: {
-                display: selectedUser === 'all',
+                display: !isPersonalScope && selectedUser === 'all',
                 position: 'top'
               },
               datalabels: {
-                display: selectedUser !== 'all',
+                display: isPersonalScope || selectedUser !== 'all',
                 anchor: 'end',
                 align: (context) => {
                   const value = context.dataset.data[context.dataIndex]

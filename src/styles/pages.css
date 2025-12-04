@@ -123,6 +123,14 @@
   flex-shrink: 0;
 }
 
+.controls-centered {
+  justify-content: center;
+}
+
+.controls-centered label {
+  max-width: 320px;
+}
+
 .controls label {
   display: flex;
   flex-direction: column;
