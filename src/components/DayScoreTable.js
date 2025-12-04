@@ -122,7 +122,7 @@ const DayScoreTable = ({ loggedInUser, dayData, dayIndex, setDayIndex, selectedR
                 onClick={() => setIsQuickAddModalOpen(true)}
                 title="Add score for today"
               >
-                +
+                Add
               </button>
             </td>
           )
