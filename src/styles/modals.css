@@ -69,8 +69,8 @@
 }
 
 /* On mobile/touch devices only, apply custom arrow to date input to match select styling */
-/* Note: This won't show in Dev Tools (which has pointer: fine), but will work on real devices */
-@media (hover: none) and (pointer: coarse) {
+/* Uses pointer: coarse to detect touch as primary input (works on real devices, not Dev Tools) */
+@media (pointer: coarse) {
   .formGroup input[type="date"] {
     /* Apply same custom arrow styling as select to ensure consistency on mobile */
     padding-right: 36px;
