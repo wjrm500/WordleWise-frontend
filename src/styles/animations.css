@@ -34,3 +34,34 @@
   animation: highlightPulse 1s ease-out forwards;
   background: #fff3cd !important;
 }
+
+/* Swipe navigation animations */
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.dayScoreTableWrapper.slide-left {
+  animation: slideInFromRight 300ms ease-out;
+}
+
+.dayScoreTableWrapper.slide-right {
+  animation: slideInFromLeft 300ms ease-out;
+}
