@@ -2,6 +2,24 @@
 #authContainer {
   background: var(--blue-header);
   padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  gap: 20px;
+}
+
+.auth-logo {
+  height: 120px;
+  width: auto;
+}
+
+#authBox {
+  width: 100%;
+  max-width: 400px;
 }
 
 /* Force heading to be white - override inline styles */
