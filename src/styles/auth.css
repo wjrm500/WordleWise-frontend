@@ -4,17 +4,17 @@
   padding: 28px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   flex: 1;
   min-height: 0;
   overflow: hidden;
+  gap: 20px;
 }
 
 .auth-logo {
-  height: 80px;
+  height: 120px;
   width: auto;
-  margin-bottom: 32px;
 }
 
 #authBox {

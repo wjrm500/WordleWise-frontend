@@ -1,6 +1,6 @@
 import React from "react"
 import AuthBox from "./AuthBox"
-import logo from '../images/logo.png'
+import logo from '../images/big-logo.png'
 
 const AuthContainer = ({onLogin}) => {
   return (
