@@ -48,6 +48,26 @@ const AddScoreModal = ({ onClose, quickAdd = false, presetDate = null }) => {
     }
   }
 
+  const handleScoreChange = async (event) => {
+    const selectedScore = event.target.value
+    setScore(selectedScore)
+
+    // Auto-submit only for quick add modal
+    if (quickAdd && selectedScore && date) {
+      setIsLoading(true)
+      setError(null)
+
+      try {
+        await addScore(date, selectedScore === "delete" ? null : parseInt(selectedScore))
+        onClose()
+      } catch (err) {
+        setError(err.response?.data?.error || "Failed to add score. Please try again.")
+      } finally {
+        setIsLoading(false)
+      }
+    }
+  }
+
   // Score options: 1-6 for guesses, 7 for not completed, 8 for failed
   const scoreOptions = [
     { value: 1, label: "1" },
@@ -87,8 +107,9 @@ const AddScoreModal = ({ onClose, quickAdd = false, presetDate = null }) => {
           <label>Score</label>
           <select
             value={score}
-            onChange={event => setScore(event.target.value)}
+            onChange={handleScoreChange}
             required
+            disabled={isLoading}
           >
             <option value="" disabled>Select a score</option>
             {scoreOptions.map(option => (
@@ -99,21 +120,23 @@ const AddScoreModal = ({ onClose, quickAdd = false, presetDate = null }) => {
           </select>
         </div>
 
-        <div className="modal-button-row">
-          <button
-            type="button"
-            onClick={onClose}
-            disabled={isLoading}
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            disabled={!date || !score || isLoading}
-          >
-            {isLoading ? 'Saving...' : 'Save'}
-          </button>
-        </div>
+        {!quickAdd && (
+          <div className="modal-button-row">
+            <button
+              type="button"
+              onClick={onClose}
+              disabled={isLoading}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={!date || !score || isLoading}
+            >
+              {isLoading ? 'Saving...' : 'Save'}
+            </button>
+          </div>
+        )}
       </form>
     </div>
   )
