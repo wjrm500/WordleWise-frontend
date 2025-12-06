@@ -11,6 +11,12 @@
   overflow: hidden;
 }
 
+.auth-logo {
+  height: 80px;
+  width: auto;
+  margin-bottom: 32px;
+}
+
 #authBox {
   width: 100%;
   max-width: 400px;

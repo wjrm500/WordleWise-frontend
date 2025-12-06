@@ -65,10 +65,12 @@ const Container = () => {
     }}>
       <ScopeProvider>
         <div id="container">
-          <Header
-            loggedInUser={loggedInUser}
-            onLogout={onLogout}
-          />
+          {isAuthenticated && (
+            <Header
+              loggedInUser={loggedInUser}
+              onLogout={onLogout}
+            />
+          )}
           {
             isAuthenticated ?
               <HomeContainer
