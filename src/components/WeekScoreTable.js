@@ -51,7 +51,7 @@ const calculateMemberWeekTotal = (member, week) => {
 }
 
 const WeekScoreTable = ({ weekData, onWeekRowClick }) => {
-  const { scopeMembers } = useContext(ScopeContext)
+  const { scopeMembers, isPersonalScope } = useContext(ScopeContext)
 
   const headerRow = (
     <tr>
@@ -62,7 +62,7 @@ const WeekScoreTable = ({ weekData, onWeekRowClick }) => {
           key={member.username}
           className={index === 0 && scopeMembers.length > 2 ? 'loggedInUserColumn' : ''}
         >
-          {member.forename || member.username}
+          {isPersonalScope ? 'Score' : (member.forename || member.username)}
         </th>
       ))}
     </tr>

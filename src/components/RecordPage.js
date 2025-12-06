@@ -101,7 +101,7 @@ const RecordPage = ({ data, onRecordClick }) => {
   const headerRow = (
     <tr>
       <th>#</th>
-      <th>User</th>
+      {!isPersonalScope && <th>User</th>}
       <th>{isStreakRecord ? 'Days' : 'Score'}</th>
       <th>Period start</th>
       <th>Period end</th>
@@ -129,7 +129,7 @@ const RecordPage = ({ data, onRecordClick }) => {
         onClick={handleClick}
       >
         <td>{index + 1}</td>
-        <td>{userMapping[record.user] || record.user}</td>
+        {!isPersonalScope && <td>{userMapping[record.user] || record.user}</td>}
         <td>{record.days || record.score}</td>
         <td>{record.periodStart || "-"}</td>
         <td>{record.periodEnd}</td>
@@ -177,7 +177,7 @@ const RecordPage = ({ data, onRecordClick }) => {
           <tbody>
             {rows.length > 0 ? rows : (
               <tr>
-                <td colSpan="5" style={{ textAlign: 'center', padding: '20px', color: '#999' }}>
+                <td colSpan={isPersonalScope ? "4" : "5"} style={{ textAlign: 'center', padding: '20px', color: '#999' }}>
                   No records found
                 </td>
               </tr>

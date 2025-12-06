@@ -9,7 +9,7 @@ import AddScoreModal from "./AddScoreModal"
 const DayScoreTable = ({ loggedInUser, dayData, dayIndex, setDayIndex, selectedRecordDate, clearSelectedRecordDate, swipeDirection }) => {
   const [highlightDate, setHighlightDate] = useState(null)
   const [isQuickAddModalOpen, setIsQuickAddModalOpen] = useState(false)
-  const { scopeMembers } = useContext(ScopeContext)
+  const { scopeMembers, isPersonalScope } = useContext(ScopeContext)
 
   useEffect(() => {
     if (selectedRecordDate != null) {
@@ -75,7 +75,7 @@ const DayScoreTable = ({ loggedInUser, dayData, dayIndex, setDayIndex, selectedR
           key={member.username}
           className={`scoreColumn ${index === 0 && scopeMembers.length > 2 ? 'loggedInUserColumn' : ''}`}
         >
-          {member.forename || member.username}
+          {isPersonalScope ? 'Score' : (member.forename || member.username)}
         </th>
       ))}
     </tr>
